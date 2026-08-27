@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
 
@@ -7,24 +7,26 @@
 
     <meta
         name="description"
-        content="Salva — Software Developer building automation systems, internal tools and software for real-world problems."
+        content="Salva — Gerçek problemlere yönelik otomasyon sistemleri, iç araçlar ve yazılımlar geliştiren yazılım geliştirici."
     >
 
     <meta
         name="keywords"
-        content="Salva, software developer, C#, .NET, automation, SQL, JavaScript, desktop applications"
+        content="Salva, yazılım geliştirici, C#, .NET, otomasyon, SQL, JavaScript, masaüstü uygulamaları"
     >
 
     <meta name="author" content="Salva">
 
-    <meta property="og:title" content="Salva — Software Developer">
+    <meta property="og:title" content="Salva — Yazılım Geliştirici">
+
     <meta
         property="og:description"
-        content="Software developer focused on automation, internal tools and real-world systems."
+        content="Otomasyon, iç sistemler ve gerçek problemlere yönelik yazılımlar geliştiren yazılım geliştirici."
     >
+
     <meta property="og:type" content="website">
 
-    <title>Salva — Software Developer</title>
+    <title>Salva — Yazılım Geliştirici</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,13 +46,23 @@
     ========================================================== -->
 
     <div class="page-loader" id="pageLoader">
+
         <div class="loader-content">
-            <div class="loader-logo">S</div>
+
+            <div class="loader-logo">
+                S
+            </div>
+
             <div class="loader-line">
                 <span></span>
             </div>
-            <p>INITIALIZING PORTFOLIO</p>
+
+            <p data-i18n="loader">
+                PORTFOLYO BAŞLATILIYOR
+            </p>
+
         </div>
+
     </div>
 
 
@@ -59,9 +71,13 @@
     ========================================================== -->
 
     <div class="background">
+
         <div class="background-grid"></div>
+
         <div class="background-glow glow-one"></div>
+
         <div class="background-glow glow-two"></div>
+
     </div>
 
     <div class="mouse-glow" id="mouseGlow"></div>
@@ -76,18 +92,84 @@
         <div class="container nav-container">
 
             <a href="#home" class="brand">
-                <span class="brand-mark">S</span>
-                <span class="brand-name">SALVA</span>
+
+                <span class="brand-mark">
+                    S
+                </span>
+
+                <span class="brand-name">
+                    SALVA
+                </span>
+
             </a>
 
+
             <nav class="desktop-nav">
-                <a href="#work">Work</a>
-                <a href="#engineering">Engineering</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
+
+                <a
+                    href="#work"
+                    data-i18n="nav.work"
+                >
+                    Çalışmalar
+                </a>
+
+                <a
+                    href="#engineering"
+                    data-i18n="nav.engineering"
+                >
+                    Mühendislik
+                </a>
+
+                <a
+                    href="#about"
+                    data-i18n="nav.about"
+                >
+                    Hakkımda
+                </a>
+
+                <a
+                    href="#contact"
+                    data-i18n="nav.contact"
+                >
+                    İletişim
+                </a>
+
             </nav>
 
+
             <div class="nav-actions">
+
+                <!-- LANGUAGE -->
+
+                <button
+                    class="language-switcher"
+                    id="languageSwitcher"
+                    type="button"
+                    aria-label="Dil değiştir"
+                >
+
+                    <span
+                        class="lang-option active"
+                        data-lang="tr"
+                    >
+                        TR
+                    </span>
+
+                    <span class="language-divider">
+                        /
+                    </span>
+
+                    <span
+                        class="lang-option"
+                        data-lang="en"
+                    >
+                        EN
+                    </span>
+
+                </button>
+
+
+                <!-- GITHUB -->
 
                 <a
                     href="https://github.com/Salvadoo-tr"
@@ -95,37 +177,105 @@
                     rel="noopener noreferrer"
                     class="nav-github"
                 >
-                    GitHub
-                    <span>↗</span>
+
+                    <span data-i18n="nav.github">
+                        GitHub
+                    </span>
+
+                    <span>
+                        ↗
+                    </span>
+
                 </a>
+
+
+                <!-- MOBILE MENU -->
 
                 <button
                     class="mobile-menu-button"
                     id="mobileMenuButton"
-                    aria-label="Open menu"
+                    aria-label="Menüyü aç"
+                    type="button"
                 >
+
                     <span></span>
+
                     <span></span>
+
                 </button>
 
             </div>
 
         </div>
 
+
+        <!-- MOBILE MENU -->
+
         <div class="mobile-menu" id="mobileMenu">
 
-            <a href="#work">Work</a>
-            <a href="#engineering">Engineering</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
+            <a
+                href="#work"
+                data-i18n="nav.work"
+            >
+                Çalışmalar
+            </a>
+
+            <a
+                href="#engineering"
+                data-i18n="nav.engineering"
+            >
+                Mühendislik
+            </a>
+
+            <a
+                href="#about"
+                data-i18n="nav.about"
+            >
+                Hakkımda
+            </a>
+
+            <a
+                href="#contact"
+                data-i18n="nav.contact"
+            >
+                İletişim
+            </a>
 
             <a
                 href="https://github.com/Salvadoo-tr"
                 target="_blank"
                 rel="noopener noreferrer"
+                data-i18n="nav.github"
             >
                 GitHub ↗
             </a>
+
+
+            <button
+                class="mobile-language-switcher"
+                id="mobileLanguageSwitcher"
+                type="button"
+            >
+
+                <span
+                    class="lang-option active"
+                    data-lang="tr"
+                >
+                    TR
+                </span>
+
+                <span>
+                    /
+                </span>
+
+                <span
+                    class="lang-option"
+                    data-lang="en"
+                >
+                    EN
+                </span>
+
+            </button>
 
         </div>
 
@@ -134,38 +284,78 @@
 
     <main>
 
+
         <!-- =====================================================
              HERO
         ====================================================== -->
 
-        <section class="hero section" id="home">
+        <section
+            class="hero section"
+            id="home"
+        >
 
             <div class="container hero-container">
 
+
+                <!-- HERO CONTENT -->
+
                 <div class="hero-content reveal">
 
+
                     <div class="availability">
+
                         <span class="status-dot"></span>
-                        <span>BUILDING SOFTWARE</span>
+
+                        <span data-i18n="hero.status">
+                            YAZILIM GELİŞTİRİYORUM
+                        </span>
+
                     </div>
 
+
                     <h1>
-                        I build software
-                        <span class="gradient-text">for real problems.</span>
+
+                        <span data-i18n="hero.title">
+                            Gerçek problemlere
+                        </span>
+
+                        <span
+                            class="gradient-text"
+                            data-i18n="hero.titleHighlight"
+                        >
+                            yazılım geliştiriyorum.
+                        </span>
+
                     </h1>
 
-                    <p class="hero-description">
-                        Software developer focused on automation, internal tools,
-                        desktop applications and systems that turn repetitive
-                        workflows into reliable software.
+
+                    <p
+                        class="hero-description"
+                        data-i18n="hero.description"
+                    >
+                        Otomasyon, iç sistemler, masaüstü uygulamaları ve
+                        tekrarlayan iş süreçlerini güvenilir yazılımlara
+                        dönüştürmeye odaklanan bir yazılım geliştiriciyim.
                     </p>
+
 
                     <div class="hero-buttons">
 
-                        <a href="#work" class="button button-primary">
-                            View my work
-                            <span>↓</span>
+                        <a
+                            href="#work"
+                            class="button button-primary"
+                        >
+
+                            <span data-i18n="hero.workButton">
+                                Çalışmalarımı Gör
+                            </span>
+
+                            <span>
+                                ↓
+                            </span>
+
                         </a>
+
 
                         <a
                             href="https://github.com/Salvadoo-tr"
@@ -173,35 +363,65 @@
                             rel="noopener noreferrer"
                             class="button button-secondary"
                         >
-                            GitHub
-                            <span>↗</span>
+
+                            <span data-i18n="hero.githubButton">
+                                GitHub
+                            </span>
+
+                            <span>
+                                ↗
+                            </span>
+
                         </a>
 
                     </div>
 
+
                     <div class="hero-stack">
 
-                        <span>C#</span>
-                        <span>.NET</span>
-                        <span>SQL</span>
-                        <span>Automation</span>
-                        <span>JavaScript</span>
+                        <span>
+                            C#
+                        </span>
+
+                        <span>
+                            .NET
+                        </span>
+
+                        <span>
+                            SQL
+                        </span>
+
+                        <span data-i18n="stack.automation">
+                            Otomasyon
+                        </span>
+
+                        <span>
+                            JavaScript
+                        </span>
 
                     </div>
 
                 </div>
 
 
+                <!-- HERO VISUAL -->
+
                 <div class="hero-visual reveal reveal-delay">
 
+
                     <div class="system-card">
+
 
                         <div class="system-header">
 
                             <div class="window-dots">
+
                                 <span></span>
+
                                 <span></span>
+
                                 <span></span>
+
                             </div>
 
                             <span class="system-title">
@@ -210,30 +430,48 @@
 
                         </div>
 
+
                         <div class="system-body">
 
+
                             <div class="code-line">
-                                <span class="code-number">01</span>
+
+                                <span class="code-number">
+                                    01
+                                </span>
+
                                 <span>
                                     <i>const</i>
                                     <b>developer</b>
                                     =
                                     <strong>"Salva"</strong>;
                                 </span>
+
                             </div>
 
+
                             <div class="code-line">
-                                <span class="code-number">02</span>
+
+                                <span class="code-number">
+                                    02
+                                </span>
+
                                 <span>
                                     <i>const</i>
                                     <b>focus</b>
                                     =
                                     <strong>"automation"</strong>;
                                 </span>
+
                             </div>
 
+
                             <div class="code-line">
-                                <span class="code-number">03</span>
+
+                                <span class="code-number">
+                                    03
+                                </span>
+
                                 <span>
                                     <i>const</i>
                                     <b>stack</b>
@@ -243,25 +481,39 @@
                                     <strong>".NET"</strong>
                                     ];
                                 </span>
+
                             </div>
 
+
                             <div class="code-line">
-                                <span class="code-number">04</span>
+
+                                <span class="code-number">
+                                    04
+                                </span>
+
                                 <span>
                                     <i>const</i>
                                     <b>mindset</b>
                                     =
                                     <strong>"build"</strong>;
                                 </span>
+
                             </div>
 
+
                             <div class="code-line">
-                                <span class="code-number">05</span>
+
+                                <span class="code-number">
+                                    05
+                                </span>
+
                                 <span>
                                     <i>return</i>
                                     developer;
                                 </span>
+
                             </div>
+
 
                             <div class="code-cursor"></div>
 
@@ -270,25 +522,47 @@
                     </div>
 
 
+                    <!-- FLOATING CARD 1 -->
+
                     <div class="floating-card floating-card-one">
 
-                        <span class="floating-icon">⌘</span>
+                        <span class="floating-icon">
+                            ⌘
+                        </span>
 
                         <div>
-                            <small>PRIMARY</small>
-                            <strong>C# / .NET</strong>
+
+                            <small data-i18n="floating.primary">
+                                ANA TEKNOLOJİ
+                            </small>
+
+                            <strong>
+                                C# / .NET
+                            </strong>
+
                         </div>
 
                     </div>
 
 
+                    <!-- FLOATING CARD 2 -->
+
                     <div class="floating-card floating-card-two">
 
-                        <span class="floating-icon">↗</span>
+                        <span class="floating-icon">
+                            ↗
+                        </span>
 
                         <div>
-                            <small>FOCUS</small>
-                            <strong>AUTOMATION</strong>
+
+                            <small data-i18n="floating.focus">
+                                ODAK
+                            </small>
+
+                            <strong data-i18n="floating.automation">
+                                OTOMASYON
+                            </strong>
+
                         </div>
 
                     </div>
@@ -297,38 +571,77 @@
 
             </div>
 
+
             <div class="scroll-indicator">
+
                 <span></span>
-                Scroll to explore
+
+                <span data-i18n="hero.scroll">
+                    Keşfetmek için kaydır
+                </span>
+
             </div>
 
         </section>
 
 
         <!-- =====================================================
-             INTRO / NUMBERS
+             STATS
         ====================================================== -->
 
         <section class="stats-section">
 
             <div class="container stats-grid">
 
-                <div class="stat reveal">
-                    <strong>01</strong>
-                    <span>Core Focus</span>
-                    <p>Automation & internal systems</p>
-                </div>
 
                 <div class="stat reveal">
-                    <strong>∞</strong>
-                    <span>Problems to solve</span>
-                    <p>Always building something new</p>
+
+                    <strong>
+                        01
+                    </strong>
+
+                    <span data-i18n="stats.one.title">
+                        Ana Odak
+                    </span>
+
+                    <p data-i18n="stats.one.description">
+                        Otomasyon ve iç sistemler
+                    </p>
+
                 </div>
 
+
                 <div class="stat reveal">
-                    <strong>24/7</strong>
-                    <span>Engineering mindset</span>
-                    <p>Learn · Build · Improve</p>
+
+                    <strong>
+                        ∞
+                    </strong>
+
+                    <span data-i18n="stats.two.title">
+                        Çözülecek Problem
+                    </span>
+
+                    <p data-i18n="stats.two.description">
+                        Her zaman geliştirilecek bir şey var
+                    </p>
+
+                </div>
+
+
+                <div class="stat reveal">
+
+                    <strong>
+                        24/7
+                    </strong>
+
+                    <span data-i18n="stats.three.title">
+                        Mühendislik Zihniyeti
+                    </span>
+
+                    <p data-i18n="stats.three.description">
+                        Öğren · Geliştir · İyileştir
+                    </p>
+
                 </div>
 
             </div>
@@ -340,24 +653,45 @@
              WORK
         ====================================================== -->
 
-        <section class="section work-section" id="work">
+        <section
+            class="section work-section"
+            id="work"
+        >
 
             <div class="container">
+
 
                 <div class="section-heading reveal">
 
                     <div>
-                        <span class="eyebrow">01 — SELECTED WORK</span>
+
+                        <span
+                            class="eyebrow"
+                            data-i18n="work.eyebrow"
+                        >
+                            01 — SEÇİLMİŞ ÇALIŞMALAR
+                        </span>
 
                         <h2>
-                            Software built to
-                            <span>solve actual problems.</span>
+
+                            <span data-i18n="work.title">
+                                Gerçek problemleri
+                            </span>
+
+                            <span data-i18n="work.titleHighlight">
+                                çözen yazılımlar.
+                            </span>
+
                         </h2>
+
                     </div>
 
-                    <p>
-                        A selection of systems, automation tools and applications
-                        built around real workflows.
+
+                    <p data-i18n="work.description">
+
+                        Gerçek iş akışları etrafında geliştirilmiş sistemler,
+                        otomasyon araçları ve uygulamalardan bir seçki.
+
                     </p>
 
                 </div>
@@ -365,7 +699,10 @@
 
                 <div class="projects-grid">
 
-                    <!-- PROJECT 01 -->
+
+                    <!-- =================================================
+                         PROJECT 01
+                    ================================================== -->
 
                     <article
                         class="project-card project-large reveal"
@@ -374,68 +711,126 @@
 
                         <div class="project-top">
 
-                            <span class="project-number">01</span>
+                            <span class="project-number">
+                                01
+                            </span>
 
-                            <span class="project-status">
-                                DESKTOP AUTOMATION
+                            <span
+                                class="project-status"
+                                data-i18n="projects.efes.status"
+                            >
+                                MASAÜSTÜ OTOMASYON
                             </span>
 
                         </div>
+
 
                         <div class="project-content">
 
                             <div>
 
-                                <span class="project-category">
+                                <span
+                                    class="project-category"
+                                    data-i18n="projects.efes.category"
+                                >
                                     C# · .NET · UI AUTOMATION
                                 </span>
 
-                                <h3>Efes Oto Fatura</h3>
+                                <h3>
+                                    Efes Oto Fatura
+                                </h3>
 
-                                <p>
-                                    Desktop automation system designed to automate
-                                    invoice processing and repetitive data-entry
-                                    workflows inside a legacy business application.
+                                <p data-i18n="projects.efes.description">
+
+                                    Eski bir iş uygulaması içerisindeki fatura
+                                    işleme ve tekrarlayan veri giriş süreçlerini
+                                    otomatikleştirmek için geliştirilen masaüstü
+                                    otomasyon sistemi.
+
                                 </p>
 
                             </div>
 
-                            <button class="project-link">
-                                Explore case study
-                                <span>↗</span>
+
+                            <button
+                                class="project-link"
+                                type="button"
+                            >
+
+                                <span data-i18n="project.explore">
+                                    Vaka çalışmasını incele
+                                </span>
+
+                                <span>
+                                    ↗
+                                </span>
+
                             </button>
 
                         </div>
 
+
                         <div class="project-visual efes-visual">
+
 
                             <div class="mini-window">
 
                                 <div class="mini-window-header">
+
                                     <span></span>
+
                                     <span></span>
+
                                     <span></span>
+
                                 </div>
+
 
                                 <div class="mini-window-body">
 
                                     <div class="mini-row">
-                                        <span>Invoice</span>
-                                        <b>Processing</b>
+
+                                        <span data-i18n="mini.invoice">
+                                            Fatura
+                                        </span>
+
+                                        <b data-i18n="mini.processing">
+                                            İşleniyor
+                                        </b>
+
                                     </div>
+
 
                                     <div class="progress-bar">
+
                                         <span style="width: 82%"></span>
+
                                     </div>
 
-                                    <div class="mini-row">
-                                        <span>Validation</span>
-                                        <strong>✓</strong>
-                                    </div>
 
                                     <div class="mini-row">
-                                        <span>Automation</span>
-                                        <strong>RUNNING</strong>
+
+                                        <span data-i18n="mini.validation">
+                                            Doğrulama
+                                        </span>
+
+                                        <strong>
+                                            ✓
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div class="mini-row">
+
+                                        <span data-i18n="mini.automation">
+                                            Otomasyon
+                                        </span>
+
+                                        <strong data-i18n="mini.running">
+                                            ÇALIŞIYOR
+                                        </strong>
+
                                     </div>
 
                                 </div>
@@ -447,7 +842,9 @@
                     </article>
 
 
-                    <!-- PROJECT 02 -->
+                    <!-- =================================================
+                         PROJECT 02
+                    ================================================== -->
 
                     <article
                         class="project-card reveal"
@@ -456,56 +853,97 @@
 
                         <div class="project-top">
 
-                            <span class="project-number">02</span>
+                            <span class="project-number">
+                                02
+                            </span>
 
-                            <span class="project-status">
-                                BUSINESS SYSTEM
+                            <span
+                                class="project-status"
+                                data-i18n="projects.claim.status"
+                            >
+                                İŞ SİSTEMİ
                             </span>
 
                         </div>
+
 
                         <div class="project-content">
 
                             <div>
 
-                                <span class="project-category">
+                                <span
+                                    class="project-category"
+                                    data-i18n="projects.claim.category"
+                                >
                                     C# · WINFORMS · SQL
                                 </span>
 
-                                <h3>Claim Depo</h3>
+                                <h3>
+                                    Claim Depo
+                                </h3>
 
-                                <p>
-                                    Internal inventory and claim management
-                                    application designed around operational
-                                    workflows.
+                                <p data-i18n="projects.claim.description">
+
+                                    Operasyonel iş akışları etrafında tasarlanmış
+                                    dahili stok ve claim yönetim uygulaması.
+
                                 </p>
 
                             </div>
 
-                            <button class="project-link">
-                                Explore case study
-                                <span>↗</span>
+
+                            <button
+                                class="project-link"
+                                type="button"
+                            >
+
+                                <span data-i18n="project.explore">
+                                    Vaka çalışmasını incele
+                                </span>
+
+                                <span>
+                                    ↗
+                                </span>
+
                             </button>
 
                         </div>
 
+
                         <div class="project-mini-ui">
+
 
                             <div class="dashboard-mini">
 
                                 <div class="dashboard-mini-top">
-                                    <span>Inventory</span>
-                                    <span>● LIVE</span>
+
+                                    <span data-i18n="mini.inventory">
+                                        Stok
+                                    </span>
+
+                                    <span data-i18n="mini.live">
+                                        ● CANLI
+                                    </span>
+
                                 </div>
 
+
                                 <div class="dashboard-mini-chart">
+
                                     <span style="height: 35%"></span>
+
                                     <span style="height: 60%"></span>
+
                                     <span style="height: 45%"></span>
+
                                     <span style="height: 78%"></span>
+
                                     <span style="height: 65%"></span>
+
                                     <span style="height: 92%"></span>
+
                                     <span style="height: 72%"></span>
+
                                 </div>
 
                             </div>
@@ -515,7 +953,9 @@
                     </article>
 
 
-                    <!-- PROJECT 03 -->
+                    <!-- =================================================
+                         PROJECT 03
+                    ================================================== -->
 
                     <article
                         class="project-card reveal"
@@ -524,38 +964,64 @@
 
                         <div class="project-top">
 
-                            <span class="project-number">03</span>
+                            <span class="project-number">
+                                03
+                            </span>
 
-                            <span class="project-status">
-                                BROWSER AUTOMATION
+                            <span
+                                class="project-status"
+                                data-i18n="projects.servicebox.status"
+                            >
+                                TARAYICI OTOMASYONU
                             </span>
 
                         </div>
+
 
                         <div class="project-content">
 
                             <div>
 
-                                <span class="project-category">
+                                <span
+                                    class="project-category"
+                                    data-i18n="projects.servicebox.category"
+                                >
                                     JAVASCRIPT · EXTENSION · EXCEL
                                 </span>
 
-                                <h3>Service Box Automation</h3>
+                                <h3>
+                                    Service Box Automation
+                                </h3>
 
-                                <p>
-                                    Chrome extension that processes VINs,
-                                    detects campaigns and writes structured
-                                    results back into Excel.
+                                <p data-i18n="projects.servicebox.description">
+
+                                    VIN numaralarını işleyen, kampanyaları
+                                    tespit eden ve sonuçları Excel'e
+                                    yapılandırılmış şekilde yazan Chrome
+                                    eklentisi.
+
                                 </p>
 
                             </div>
 
-                            <button class="project-link">
-                                Explore case study
-                                <span>↗</span>
+
+                            <button
+                                class="project-link"
+                                type="button"
+                            >
+
+                                <span data-i18n="project.explore">
+                                    Vaka çalışmasını incele
+                                </span>
+
+                                <span>
+                                    ↗
+                                </span>
+
                             </button>
 
                         </div>
+
 
                         <div class="browser-mini">
 
@@ -569,16 +1035,32 @@
 
                             </div>
 
+
                             <div class="browser-content">
 
                                 <div class="vin-row">
-                                    <span>VIN</span>
-                                    <b>VF7XXXXXXXXXXXXXX</b>
+
+                                    <span>
+                                        VIN
+                                    </span>
+
+                                    <b>
+                                        VF7XXXXXXXXXXXXXX
+                                    </b>
+
                                 </div>
 
+
                                 <div class="campaign-row">
-                                    <span>Campaigns</span>
-                                    <strong>03 FOUND</strong>
+
+                                    <span data-i18n="mini.campaigns">
+                                        Kampanyalar
+                                    </span>
+
+                                    <strong data-i18n="mini.found">
+                                        03 BULUNDU
+                                    </strong>
+
                                 </div>
 
                             </div>
@@ -588,7 +1070,9 @@
                     </article>
 
 
-                    <!-- PROJECT 04 -->
+                    <!-- =================================================
+                         PROJECT 04
+                    ================================================== -->
 
                     <article
                         class="project-card reveal"
@@ -597,50 +1081,82 @@
 
                         <div class="project-top">
 
-                            <span class="project-number">04</span>
+                            <span class="project-number">
+                                04
+                            </span>
 
-                            <span class="project-status">
-                                INVENTORY / BARCODE
+                            <span
+                                class="project-status"
+                                data-i18n="projects.turgut.status"
+                            >
+                                STOK / BARKOD
                             </span>
 
                         </div>
+
 
                         <div class="project-content">
 
                             <div>
 
-                                <span class="project-category">
+                                <span
+                                    class="project-category"
+                                    data-i18n="projects.turgut.category"
+                                >
                                     C# · TCP · SQLITE
                                 </span>
 
-                                <h3>Turgut</h3>
+                                <h3>
+                                    Turgut
+                                </h3>
 
-                                <p>
-                                    Desktop inventory workflow integrating barcode
-                                    scanning, TCP communication and local database
-                                    storage.
+                                <p data-i18n="projects.turgut.description">
+
+                                    Barkod tarama, TCP iletişimi ve yerel veritabanı
+                                    depolamasını bir araya getiren masaüstü stok
+                                    yönetim sistemi.
+
                                 </p>
 
                             </div>
 
-                            <button class="project-link">
-                                Explore case study
-                                <span>↗</span>
+
+                            <button
+                                class="project-link"
+                                type="button"
+                            >
+
+                                <span data-i18n="project.explore">
+                                    Vaka çalışmasını incele
+                                </span>
+
+                                <span>
+                                    ↗
+                                </span>
+
                             </button>
 
                         </div>
+
 
                         <div class="scanner-mini">
 
                             <div class="scanner-line"></div>
 
+
                             <div class="scanner-data">
 
-                                <span>ZEBRA</span>
+                                <span>
+                                    ZEBRA
+                                </span>
 
-                                <strong>P9820226380</strong>
+                                <strong>
+                                    P9820226380
+                                </strong>
 
-                                <small>TCP : 58628</small>
+                                <small>
+                                    TCP : 58628
+                                </small>
 
                             </div>
 
@@ -659,24 +1175,46 @@
              ENGINEERING
         ====================================================== -->
 
-        <section class="section engineering-section" id="engineering">
+        <section
+            class="section engineering-section"
+            id="engineering"
+        >
 
             <div class="container">
+
 
                 <div class="section-heading reveal">
 
                     <div>
-                        <span class="eyebrow">02 — ENGINEERING</span>
+
+                        <span
+                            class="eyebrow"
+                            data-i18n="engineering.eyebrow"
+                        >
+                            02 — MÜHENDİSLİK
+                        </span>
 
                         <h2>
-                            More than code.
-                            <span>Systems thinking.</span>
+
+                            <span data-i18n="engineering.title">
+                                Koddan daha fazlası.
+                            </span>
+
+                            <span data-i18n="engineering.titleHighlight">
+                                Sistem düşüncesi.
+                            </span>
+
                         </h2>
+
                     </div>
 
-                    <p>
-                        I care about how software behaves in the real world —
-                        not only how it looks inside an IDE.
+
+                    <p data-i18n="engineering.description">
+
+                        Yazılımın sadece IDE içerisinde nasıl göründüğünden
+                        değil, gerçek dünyada nasıl davrandığından da
+                        önem veriyorum.
+
                     </p>
 
                 </div>
@@ -684,120 +1222,246 @@
 
                 <div class="engineering-grid">
 
+
+                    <!-- 01 -->
+
                     <div class="engineering-card reveal">
 
-                        <span class="engineering-icon">01</span>
+                        <span class="engineering-icon">
+                            01
+                        </span>
 
-                        <h3>Automation</h3>
+                        <h3 data-i18n="engineering.automation.title">
+                            Otomasyon
+                        </h3>
 
-                        <p>
-                            Repetitive workflows become faster, more predictable
-                            and less dependent on manual interaction.
+                        <p data-i18n="engineering.automation.description">
+
+                            Tekrarlayan iş akışlarını daha hızlı, öngörülebilir
+                            ve manuel müdahaleye daha az bağımlı hale getiriyorum.
+
                         </p>
 
+
                         <div class="engineering-tags">
-                            <span>UI Automation</span>
-                            <span>Workflow Design</span>
+
+                            <span data-i18n="tags.uiAutomation">
+                                UI Automation
+                            </span>
+
+                            <span data-i18n="tags.workflow">
+                                İş Akışı Tasarımı
+                            </span>
+
                         </div>
 
                     </div>
 
 
+                    <!-- 02 -->
+
                     <div class="engineering-card reveal">
 
-                        <span class="engineering-icon">02</span>
+                        <span class="engineering-icon">
+                            02
+                        </span>
 
-                        <h3>Desktop Systems</h3>
+                        <h3 data-i18n="engineering.desktop.title">
+                            Masaüstü Sistemleri
+                        </h3>
 
-                        <p>
-                            Applications designed around real operational
-                            workflows, legacy systems and business requirements.
+                        <p data-i18n="engineering.desktop.description">
+
+                            Gerçek operasyonel iş akışları, eski sistemler
+                            ve iş gereksinimleri etrafında uygulamalar
+                            geliştiriyorum.
+
                         </p>
 
+
                         <div class="engineering-tags">
-                            <span>C#</span>
-                            <span>.NET</span>
-                            <span>WinForms</span>
+
+                            <span>
+                                C#
+                            </span>
+
+                            <span>
+                                .NET
+                            </span>
+
+                            <span>
+                                WinForms
+                            </span>
+
                         </div>
 
                     </div>
 
 
+                    <!-- 03 -->
+
                     <div class="engineering-card reveal">
 
-                        <span class="engineering-icon">03</span>
+                        <span class="engineering-icon">
+                            03
+                        </span>
 
-                        <h3>Data</h3>
+                        <h3 data-i18n="engineering.data.title">
+                            Veri
+                        </h3>
 
-                        <p>
-                            Structured data processing, database design,
-                            Excel workflows and reliable persistence.
+                        <p data-i18n="engineering.data.description">
+
+                            Yapılandırılmış veri işleme, veritabanı tasarımı,
+                            Excel süreçleri ve güvenilir veri saklama.
+
                         </p>
 
+
                         <div class="engineering-tags">
-                            <span>SQL</span>
-                            <span>SQLite</span>
-                            <span>Excel</span>
+
+                            <span>
+                                SQL
+                            </span>
+
+                            <span>
+                                SQLite
+                            </span>
+
+                            <span>
+                                Excel
+                            </span>
+
                         </div>
 
                     </div>
 
 
+                    <!-- 04 -->
+
                     <div class="engineering-card reveal">
 
-                        <span class="engineering-icon">04</span>
+                        <span class="engineering-icon">
+                            04
+                        </span>
 
-                        <h3>Integration</h3>
+                        <h3 data-i18n="engineering.integration.title">
+                            Entegrasyon
+                        </h3>
 
-                        <p>
-                            Connecting browsers, desktop applications, scanners,
-                            databases and external workflows.
+                        <p data-i18n="engineering.integration.description">
+
+                            Tarayıcıları, masaüstü uygulamalarını, barkod
+                            okuyucuları, veritabanlarını ve dış iş akışlarını
+                            birbirine bağlıyorum.
+
                         </p>
 
+
                         <div class="engineering-tags">
-                            <span>TCP</span>
-                            <span>APIs</span>
-                            <span>Extensions</span>
+
+                            <span>
+                                TCP
+                            </span>
+
+                            <span>
+                                APIs
+                            </span>
+
+                            <span data-i18n="tags.extensions">
+                                Eklentiler
+                            </span>
+
                         </div>
 
                     </div>
 
 
+                    <!-- 05 -->
+
                     <div class="engineering-card reveal">
 
-                        <span class="engineering-icon">05</span>
+                        <span class="engineering-icon">
+                            05
+                        </span>
 
-                        <h3>Problem Solving</h3>
+                        <h3 data-i18n="engineering.problem.title">
+                            Problem Çözme
+                        </h3>
 
-                        <p>
-                            Breaking messy real-world problems into smaller,
-                            understandable and maintainable systems.
+                        <p data-i18n="engineering.problem.description">
+
+                            Karmaşık gerçek dünya problemlerini daha küçük,
+                            anlaşılır ve sürdürülebilir sistemlere ayırıyorum.
+
                         </p>
 
+
                         <div class="engineering-tags">
-                            <span>Architecture</span>
-                            <span>Debugging</span>
+
+                            <span data-i18n="tags.architecture">
+                                Mimari
+                            </span>
+
+                            <span data-i18n="tags.debugging">
+                                Hata Ayıklama
+                            </span>
+
                         </div>
 
                     </div>
 
+
+                    <!-- FEATURE -->
 
                     <div class="engineering-card engineering-feature reveal">
 
+
                         <div class="feature-code">
 
-                            <span>// engineering mindset</span>
+                            <span data-i18n="engineering.mindset.comment">
+                                // mühendislik yaklaşımı
+                            </span>
+
 
                             <code>
-                                <b>problem</b>
-                                <span>→</span>
-                                <b>understand</b>
-                                <span>→</span>
-                                <b>design</b>
-                                <span>→</span>
-                                <b>build</b>
-                                <span>→</span>
-                                <b>improve</b>
+
+                                <b data-i18n="engineering.mindset.problem">
+                                    problem
+                                </b>
+
+                                <span>
+                                    →
+                                </span>
+
+                                <b data-i18n="engineering.mindset.understand">
+                                    anla
+                                </b>
+
+                                <span>
+                                    →
+                                </span>
+
+                                <b data-i18n="engineering.mindset.design">
+                                    tasarla
+                                </b>
+
+                                <span>
+                                    →
+                                </span>
+
+                                <b data-i18n="engineering.mindset.build">
+                                    geliştir
+                                </b>
+
+                                <span>
+                                    →
+                                </span>
+
+                                <b data-i18n="engineering.mindset.improve">
+                                    iyileştir
+                                </b>
+
                             </code>
 
                         </div>
@@ -819,15 +1483,30 @@
 
             <div class="container">
 
+
                 <div class="section-heading reveal">
 
                     <div>
-                        <span class="eyebrow">03 — TOOLBOX</span>
+
+                        <span
+                            class="eyebrow"
+                            data-i18n="toolbox.eyebrow"
+                        >
+                            03 — ARAÇLAR
+                        </span>
 
                         <h2>
-                            Technologies I
-                            <span>build with.</span>
+
+                            <span data-i18n="toolbox.title">
+                                Kullandığım
+                            </span>
+
+                            <span data-i18n="toolbox.titleHighlight">
+                                teknolojiler.
+                            </span>
+
                         </h2>
+
                     </div>
 
                 </div>
@@ -835,70 +1514,162 @@
 
                 <div class="stack-layout">
 
+
+                    <!-- PRIMARY -->
+
                     <div class="stack-primary reveal">
 
-                        <span class="stack-label">
-                            PRIMARY
+                        <span
+                            class="stack-label"
+                            data-i18n="toolbox.primary"
+                        >
+                            ANA TEKNOLOJİLER
                         </span>
 
+
                         <div class="tech-row">
+
                             <div>
-                                <strong>C#</strong>
-                                <span>Primary language</span>
+
+                                <strong>
+                                    C#
+                                </strong>
+
+                                <span data-i18n="tech.csharp">
+                                    Ana programlama dili
+                                </span>
+
                             </div>
 
-                            <b>01</b>
+                            <b>
+                                01
+                            </b>
+
                         </div>
 
+
                         <div class="tech-row">
+
                             <div>
-                                <strong>.NET</strong>
-                                <span>Application platform</span>
+
+                                <strong>
+                                    .NET
+                                </strong>
+
+                                <span data-i18n="tech.dotnet">
+                                    Uygulama platformu
+                                </span>
+
                             </div>
 
-                            <b>02</b>
+                            <b>
+                                02
+                            </b>
+
                         </div>
 
+
                         <div class="tech-row">
+
                             <div>
-                                <strong>SQL</strong>
-                                <span>Data & persistence</span>
+
+                                <strong>
+                                    SQL
+                                </strong>
+
+                                <span data-i18n="tech.sql">
+                                    Veri ve kalıcılık
+                                </span>
+
                             </div>
 
-                            <b>03</b>
+                            <b>
+                                03
+                            </b>
+
                         </div>
 
+
                         <div class="tech-row">
+
                             <div>
-                                <strong>Automation</strong>
-                                <span>Workflow engineering</span>
+
+                                <strong data-i18n="stack.automation">
+                                    Otomasyon
+                                </strong>
+
+                                <span data-i18n="tech.automation">
+                                    İş akışı mühendisliği
+                                </span>
+
                             </div>
 
-                            <b>04</b>
+                            <b>
+                                04
+                            </b>
+
                         </div>
 
                     </div>
 
 
+                    <!-- SECONDARY -->
+
                     <div class="stack-secondary reveal">
 
-                        <span class="stack-label">
-                            ALSO WORKED WITH
+                        <span
+                            class="stack-label"
+                            data-i18n="toolbox.secondary"
+                        >
+                            DİĞER KULLANDIKLARIM
                         </span>
+
 
                         <div class="technology-cloud">
 
-                            <span>JavaScript</span>
-                            <span>HTML</span>
-                            <span>CSS</span>
-                            <span>WinForms</span>
-                            <span>SQLite</span>
-                            <span>SQL Server</span>
-                            <span>Chrome Extensions</span>
-                            <span>Excel</span>
-                            <span>Git</span>
-                            <span>GitHub</span>
-                            <span>TCP</span>
+                            <span>
+                                JavaScript
+                            </span>
+
+                            <span>
+                                HTML
+                            </span>
+
+                            <span>
+                                CSS
+                            </span>
+
+                            <span>
+                                WinForms
+                            </span>
+
+                            <span>
+                                SQLite
+                            </span>
+
+                            <span data-i18n="tech.sqlserver">
+                                SQL Server
+                            </span>
+
+                            <span data-i18n="tech.chrome">
+                                Chrome Extensions
+                            </span>
+
+                            <span>
+                                Excel
+                            </span>
+
+                            <span>
+                                Git
+                            </span>
+
+                            <span>
+                                GitHub
+                            </span>
+
+                            <span>
+                                TCP
+                            </span>
 
                         </div>
 
@@ -919,22 +1690,41 @@
 
             <div class="container">
 
+
                 <div class="github-panel reveal">
+
 
                     <div class="github-copy">
 
-                        <span class="eyebrow">04 — OPEN SOURCE / CODE</span>
+                        <span
+                            class="eyebrow"
+                            data-i18n="github.eyebrow"
+                        >
+                            04 — OPEN SOURCE / KOD
+                        </span>
+
 
                         <h2>
-                            See what I'm
-                            <span>building.</span>
+
+                            <span data-i18n="github.title">
+                                Neler
+                            </span>
+
+                            <span data-i18n="github.titleHighlight">
+                                geliştirdiğime bak.
+                            </span>
+
                         </h2>
 
-                        <p>
-                            My GitHub is where experiments, tools and projects
-                            live. Some are polished products, others are ideas
-                            being tested.
+
+                        <p data-i18n="github.description">
+
+                            GitHub; deneylerimin, araçlarımın ve projelerimin
+                            yaşadığı yer. Bazıları tamamlanmış ürünler,
+                            bazıları ise hâlâ fikir aşamasında.
+
                         </p>
+
 
                         <a
                             href="https://github.com/Salvadoo-tr"
@@ -942,58 +1732,103 @@
                             rel="noopener noreferrer"
                             class="button button-primary"
                         >
-                            Visit GitHub
-                            <span>↗</span>
+
+                            <span data-i18n="github.button">
+                                GitHub'ı Ziyaret Et
+                            </span>
+
+                            <span>
+                                ↗
+                            </span>
+
                         </a>
 
                     </div>
 
 
+                    <!-- TERMINAL -->
+
                     <div class="github-terminal">
+
 
                         <div class="terminal-header">
 
                             <div class="window-dots">
+
                                 <span></span>
+
                                 <span></span>
+
                                 <span></span>
+
                             </div>
 
-                            <span>github</span>
+                            <span>
+                                github
+                            </span>
 
                         </div>
 
+
                         <div class="terminal-body">
 
+
                             <p>
-                                <span class="terminal-green">$</span>
+
+                                <span class="terminal-green">
+                                    $
+                                </span>
+
                                 git status
+
                             </p>
 
+
                             <p class="terminal-muted">
+
                                 On branch main
+
                             </p>
+
 
                             <p class="terminal-success">
+
                                 ✓ Everything is under construction.
+
                             </p>
+
 
                             <p>
-                                <span class="terminal-green">$</span>
+
+                                <span class="terminal-green">
+                                    $
+                                </span>
+
                                 git log --oneline -3
+
                             </p>
 
+
                             <p class="terminal-muted">
+
                                 build: improve automation workflow
+
                             </p>
 
+
                             <p class="terminal-muted">
+
                                 feat: add inventory management
+
                             </p>
 
+
                             <p class="terminal-muted">
+
                                 refactor: simplify data processing
+
                             </p>
+
 
                             <span class="terminal-cursor"></span>
 
@@ -1012,19 +1847,37 @@
              ABOUT
         ====================================================== -->
 
-        <section class="section about-section" id="about">
+        <section
+            class="section about-section"
+            id="about"
+        >
 
             <div class="container">
 
+
                 <div class="about-grid">
+
 
                     <div class="about-heading reveal">
 
-                        <span class="eyebrow">05 — ABOUT</span>
+                        <span
+                            class="eyebrow"
+                            data-i18n="about.eyebrow"
+                        >
+                            05 — HAKKIMDA
+                        </span>
+
 
                         <h2>
-                            Building software
-                            <span>around reality.</span>
+
+                            <span data-i18n="about.title">
+                                Gerçekliğin etrafında
+                            </span>
+
+                            <span data-i18n="about.titleHighlight">
+                                yazılım geliştiriyorum.
+                            </span>
+
                         </h2>
 
                     </div>
@@ -1032,40 +1885,78 @@
 
                     <div class="about-content reveal">
 
-                        <p class="about-lead">
-                            I enjoy taking manual, repetitive or unreliable
-                            workflows and turning them into software that is
-                            predictable, maintainable and easier to operate.
+
+                        <p
+                            class="about-lead"
+                            data-i18n="about.lead"
+                        >
+
+                            Manuel, tekrarlayan veya güvenilir olmayan
+                            iş akışlarını öngörülebilir, sürdürülebilir ve
+                            kullanımı daha kolay yazılımlara dönüştürmekten
+                            keyif alıyorum.
+
                         </p>
 
-                        <p>
-                            My projects often sit at the intersection of
-                            software and real-world operations: desktop
-                            applications, business processes, databases,
-                            browser automation and hardware integrations.
+
+                        <p data-i18n="about.paragraph1">
+
+                            Projelerim çoğunlukla yazılım ile gerçek dünya
+                            operasyonlarının kesişiminde yer alıyor:
+                            masaüstü uygulamaları, iş süreçleri, veritabanları,
+                            tarayıcı otomasyonu ve donanım entegrasyonları.
+
                         </p>
 
-                        <p>
-                            I prefer understanding the actual problem first,
-                            then choosing the simplest architecture that can
-                            solve it reliably.
+
+                        <p data-i18n="about.paragraph2">
+
+                            Önce gerçek problemi anlamayı, ardından güvenilir
+                            şekilde çözebilecek en basit mimariyi seçmeyi
+                            tercih ediyorum.
+
                         </p>
+
 
                         <div class="about-principles">
 
-                            <div>
-                                <span>01</span>
-                                <strong>Understand first.</strong>
-                            </div>
 
                             <div>
-                                <span>02</span>
-                                <strong>Build with purpose.</strong>
+
+                                <span>
+                                    01
+                                </span>
+
+                                <strong data-i18n="about.principle1">
+                                    Önce anla.
+                                </strong>
+
                             </div>
 
+
                             <div>
-                                <span>03</span>
-                                <strong>Improve continuously.</strong>
+
+                                <span>
+                                    02
+                                </span>
+
+                                <strong data-i18n="about.principle2">
+                                    Amaca yönelik geliştir.
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    03
+                                </span>
+
+                                <strong data-i18n="about.principle3">
+                                    Sürekli iyileştir.
+                                </strong>
+
                             </div>
 
                         </div>
@@ -1087,15 +1978,31 @@
 
             <div class="container">
 
+
                 <div class="section-heading reveal">
 
                     <div>
-                        <span class="eyebrow">06 — EXPERIENCE</span>
+
+                        <span
+                            class="eyebrow"
+                            data-i18n="experience.eyebrow"
+                        >
+                            06 — DENEYİM
+                        </span>
+
 
                         <h2>
-                            From operations
-                            <span>to software.</span>
+
+                            <span data-i18n="experience.title">
+                                Operasyondan
+                            </span>
+
+                            <span data-i18n="experience.titleHighlight">
+                                yazılıma.
+                            </span>
+
                         </h2>
+
                     </div>
 
                 </div>
@@ -1103,28 +2010,45 @@
 
                 <div class="timeline">
 
+
+                    <!-- EXPERIENCE -->
+
                     <div class="timeline-item reveal">
 
                         <div class="timeline-marker"></div>
 
-                        <div class="timeline-date">
-                            EXPERIENCE
+
+                        <div
+                            class="timeline-date"
+                            data-i18n="experience.item1.date"
+                        >
+                            DENEYİM
                         </div>
+
 
                         <div class="timeline-content">
 
-                            <span class="timeline-type">
-                                AUTOMOTIVE / OPERATIONS
+                            <span
+                                class="timeline-type"
+                                data-i18n="experience.item1.type"
+                            >
+                                OTOMOTİV / OPERASYON
                             </span>
 
-                            <h3>Real-world workflow experience</h3>
 
-                            <p>
-                                Working directly with operational processes,
-                                customer acceptance, vehicle workflows,
-                                reporting and business data provided the
-                                foundation for building software around actual
-                                user needs.
+                            <h3 data-i18n="experience.item1.title">
+                                Gerçek dünya iş akışı deneyimi
+                            </h3>
+
+
+                            <p data-i18n="experience.item1.description">
+
+                                Operasyonel süreçler, müşteri kabulü,
+                                araç süreçleri, raporlama ve iş verileriyle
+                                doğrudan çalışmak; gerçek kullanıcı
+                                ihtiyaçları etrafında yazılım geliştirmemin
+                                temelini oluşturdu.
+
                             </p>
 
                         </div>
@@ -1132,53 +2056,87 @@
                     </div>
 
 
+                    <!-- DEVELOPMENT -->
+
                     <div class="timeline-item reveal">
 
                         <div class="timeline-marker"></div>
 
-                        <div class="timeline-date">
-                            DEVELOPMENT
+
+                        <div
+                            class="timeline-date"
+                            data-i18n="experience.item2.date"
+                        >
+                            GELİŞTİRME
                         </div>
+
 
                         <div class="timeline-content">
 
-                            <span class="timeline-type">
-                                SOFTWARE ENGINEERING
+                            <span
+                                class="timeline-type"
+                                data-i18n="experience.item2.type"
+                            >
+                                YAZILIM GELİŞTİRME
                             </span>
 
-                            <h3>Internal tools & automation</h3>
 
-                            <p>
-                                Building C# applications, database-backed tools,
-                                automation workflows and browser extensions
-                                focused on eliminating repetitive manual work.
+                            <h3 data-i18n="experience.item2.title">
+                                İç araçlar ve otomasyon
+                            </h3>
+
+
+                            <p data-i18n="experience.item2.description">
+
+                                Tekrarlayan manuel işleri ortadan kaldırmaya
+                                odaklanan C# uygulamaları, veritabanı tabanlı
+                                araçlar, otomasyon süreçleri ve tarayıcı
+                                eklentileri geliştiriyorum.
+
                             </p>
 
                         </div>
 
                     </div>
 
+
+                    <!-- NOW -->
 
                     <div class="timeline-item reveal">
 
                         <div class="timeline-marker active"></div>
 
-                        <div class="timeline-date">
-                            NOW
+
+                        <div
+                            class="timeline-date"
+                            data-i18n="experience.item3.date"
+                        >
+                            ŞİMDİ
                         </div>
+
 
                         <div class="timeline-content">
 
-                            <span class="timeline-type">
-                                BUILDING
+                            <span
+                                class="timeline-type"
+                                data-i18n="experience.item3.type"
+                            >
+                                GELİŞTİRİYORUM
                             </span>
 
-                            <h3>Learning, experimenting, shipping</h3>
 
-                            <p>
-                                Continuing to explore software architecture,
-                                automation, system integration and better ways
-                                to turn ideas into reliable products.
+                            <h3 data-i18n="experience.item3.title">
+                                Öğreniyorum, deniyorum, geliştiriyorum
+                            </h3>
+
+
+                            <p data-i18n="experience.item3.description">
+
+                                Yazılım mimarisi, otomasyon, sistem
+                                entegrasyonu ve fikirleri güvenilir ürünlere
+                                dönüştürmenin daha iyi yollarını keşfetmeye
+                                devam ediyorum.
+
                             </p>
 
                         </div>
@@ -1196,24 +2154,46 @@
              CONTACT
         ====================================================== -->
 
-        <section class="section contact-section" id="contact">
+        <section
+            class="section contact-section"
+            id="contact"
+        >
 
             <div class="container">
 
+
                 <div class="contact-card reveal">
+
 
                     <div class="contact-content">
 
-                        <span class="eyebrow">07 — CONTACT</span>
+                        <span
+                            class="eyebrow"
+                            data-i18n="contact.eyebrow"
+                        >
+                            07 — İLETİŞİM
+                        </span>
+
 
                         <h2>
-                            Have a problem
-                            <span>worth solving?</span>
+
+                            <span data-i18n="contact.title">
+                                Çözülmeye değer
+                            </span>
+
+                            <span data-i18n="contact.titleHighlight">
+                                bir problemin mi var?
+                            </span>
+
                         </h2>
 
-                        <p>
-                            I'm always interested in interesting software
-                            problems, automation ideas and things worth building.
+
+                        <p data-i18n="contact.description">
+
+                            İlginç yazılım problemleri, otomasyon fikirleri
+                            ve geliştirilmeye değer projeler her zaman
+                            ilgimi çekiyor.
+
                         </p>
 
                     </div>
@@ -1221,13 +2201,26 @@
 
                     <div class="contact-actions">
 
+
+                        <!-- EMAIL -->
+
                         <a
                             href="mailto:abdullahcan4809@gmail.com"
                             class="contact-button"
                         >
-                            <span>Email</span>
-                            <strong>↗</strong>
+
+                            <span data-i18n="contact.email">
+                                E-posta
+                            </span>
+
+                            <strong>
+                                ↗
+                            </strong>
+
                         </a>
+
+
+                        <!-- GITHUB -->
 
                         <a
                             href="https://github.com/Salvadoo-tr"
@@ -1235,9 +2228,19 @@
                             rel="noopener noreferrer"
                             class="contact-button"
                         >
-                            <span>GitHub</span>
-                            <strong>↗</strong>
+
+                            <span>
+                                GitHub
+                            </span>
+
+                            <strong>
+                                ↗
+                            </strong>
+
                         </a>
+
+
+                        <!-- LINKEDIN -->
 
                         <a
                             href="https://github.com/Salvadoo-tr"
@@ -1245,8 +2248,15 @@
                             rel="noopener noreferrer"
                             class="contact-button"
                         >
-                            <span>LinkedIn</span>
-                            <strong>↗</strong>
+
+                            <span>
+                                LinkedIn
+                            </span>
+
+                            <strong>
+                                ↗
+                            </strong>
+
                         </a>
 
                     </div>
@@ -1268,13 +2278,24 @@
 
         <div class="container footer-container">
 
+
             <div class="footer-brand">
 
-                <span class="brand-mark">S</span>
+                <span class="brand-mark">
+                    S
+                </span>
+
 
                 <div>
-                    <strong>SALVA</strong>
-                    <span>Software Developer</span>
+
+                    <strong>
+                        SALVA
+                    </strong>
+
+                    <span data-i18n="footer.developer">
+                        Yazılım Geliştirici
+                    </span>
+
                 </div>
 
             </div>
@@ -1284,8 +2305,8 @@
 
                 <span class="status-dot"></span>
 
-                <span>
-                    SYSTEM ONLINE
+                <span data-i18n="footer.online">
+                    SİSTEM ÇEVRİMİÇİ
                 </span>
 
             </div>
@@ -1294,8 +2315,13 @@
             <div class="footer-right">
 
                 <span>
-                    © <span id="year"></span> Salva
+
+                    ©
+                    <span id="year"></span>
+                    Salva
+
                 </span>
+
 
                 <span id="localTime"></span>
 
@@ -1310,21 +2336,34 @@
          PROJECT MODAL
     ========================================================== -->
 
-    <div class="project-modal" id="projectModal">
+    <div
+        class="project-modal"
+        id="projectModal"
+    >
 
-        <div class="modal-backdrop" id="modalBackdrop"></div>
+        <div
+            class="modal-backdrop"
+            id="modalBackdrop"
+        ></div>
+
 
         <div class="modal-container">
+
 
             <button
                 class="modal-close"
                 id="modalClose"
-                aria-label="Close"
+                aria-label="Kapat"
+                type="button"
             >
                 ×
             </button>
 
-            <div class="modal-content" id="modalContent">
+
+            <div
+                class="modal-content"
+                id="modalContent"
+            >
 
                 <!-- JavaScript fills this area -->
 
@@ -1334,6 +2373,10 @@
 
     </div>
 
+
+    <!-- =========================================================
+         SCRIPT
+    ========================================================== -->
 
     <script src="script.js"></script>
 
