@@ -1,1523 +1,3209 @@
 /* =========================================================
-   PROJECT DATA
+   ROOT
 ========================================================= */
 
-const projects = {
+:root {
+    --bg: #07090c;
+    --bg-soft: #0b0e12;
+    --surface: #0d1116;
+    --surface-2: #11161d;
+    --surface-3: #151b23;
 
-    efes: {
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.16);
 
-        number: "01",
+    --text: #f3f5f7;
+    --text-soft: #a7afb9;
+    --text-muted: #6d7681;
 
-        category: {
-            tr: "MASAÜSTÜ OTOMASYON",
-            en: "DESKTOP AUTOMATION"
-        },
+    --accent: #7c5cff;
+    --accent-light: #9b84ff;
+    --accent-soft: rgba(124, 92, 255, 0.12);
 
-        title: {
-            tr: "Efes Oto Fatura",
-            en: "Efes Oto Fatura"
-        },
+    --green: #45d483;
 
-        subtitle: {
-            tr: "Eski bir iş uygulaması içerisindeki fatura işleme ve tekrarlayan veri giriş süreçlerini otomatikleştirmek için geliştirilen masaüstü otomasyon sistemi.",
-            en: "A desktop automation system designed to automate invoice processing and repetitive data-entry workflows inside a legacy business application."
-        },
+    --container: 1180px;
 
-        tags: [
-            "C#",
-            ".NET",
-            "UI Automation",
-            "PDF Processing",
-            "Desktop Automation"
-        ],
+    --radius: 18px;
+    --radius-small: 12px;
 
-        problem: {
-            tr: "Manuel fatura işleme; tekrarlayan veri girişi, uygulama içerisinde gezinme ve doğrulama adımlarını gerektirebiliyor. Amaç bu süreci daha öngörülebilir ve yazılım tarafından yönetilebilir hale getirmekti.",
-            en: "Manual invoice processing can involve repetitive data entry, application navigation and validation steps. The goal was to turn this workflow into a more predictable software-driven process."
-        },
+    --font-main: "DM Sans", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
 
-        solution: {
-            tr: "C#/.NET tabanlı otomasyon katmanı mevcut masaüstü uygulamasıyla etkileşime girerek fatura verilerini işler ve gerekli işlem adımlarını koordine eder.",
-            en: "A C#/.NET automation layer interacts with the existing desktop application, processes invoice data and coordinates the required workflow steps."
-        },
-
-        challenges: {
-            tr: [
-                "Eski bir masaüstü uygulamasıyla çalışmak",
-                "Dinamik UI elementlerini bulmak ve kontrol etmek",
-                "Otomasyon adımlarını senkronize etmek",
-                "Beklenmeyen uygulama durumlarını yönetmek",
-                "Fatura bilgilerini ayrıştırmak",
-                "Hata yönetimi ve kurtarma mekanizmaları tasarlamak"
-            ],
-
-            en: [
-                "Working with a legacy desktop application",
-                "Finding and interacting with dynamic UI elements",
-                "Synchronizing automation steps",
-                "Handling unexpected application states",
-                "Parsing invoice information",
-                "Designing recovery and error handling"
-            ]
-        },
-
-        architecture: `
-PDF / Invoice
-        ↓
-Invoice Parser
-        ↓
-Data Validation
-        ↓
-Automation Engine
-        ↓
-UI Automation
-        ↓
-EfesPro
-        ↓
-Invoice Entry
-`
-    },
-
-
-    claim: {
-
-        number: "02",
-
-        category: {
-            tr: "İŞ SİSTEMİ",
-            en: "BUSINESS SYSTEM"
-        },
-
-        title: {
-            tr: "Claim Depo",
-            en: "Claim Depo"
-        },
-
-        subtitle: {
-            tr: "Gerçek operasyonel süreçler üzerine tasarlanmış dahili stok ve claim yönetim sistemi.",
-            en: "An internal inventory and claim management system designed around real operational workflows."
-        },
-
-        tags: [
-            "C#",
-            "WinForms",
-            "SQL Server",
-            "SQLite",
-            "DataGridView",
-            "Inventory"
-        ],
-
-        problem: {
-            tr: "Operasyonel stok süreçleri güvenilir veri yönetimi, filtreleme, stok takibi ve mevcut kayıtların net şekilde görüntülenmesini gerektiriyor.",
-            en: "Operational inventory workflows require reliable data management, filtering, stock tracking and clear visibility into current records."
-        },
-
-        solution: {
-            tr: "Masaüstü uygulaması; yapılandırılmış veri yönetimi, filtreleme, stok operasyonları, dashboard ve veritabanı destekli iş akışları sağlıyor.",
-            en: "A desktop application provides structured data management, filtering, inventory operations, dashboards and database-backed workflows."
-        },
-
-        challenges: {
-            tr: [
-                "UI durumunu veritabanı durumuyla senkron tutmak",
-                "Tekrar kullanılabilir filtreleme sistemi tasarlamak",
-                "Stok değişikliklerini tutarlı şekilde yönetmek",
-                "Soft delete süreçlerini uygulamak",
-                "Backup ve recovery planlaması",
-                "Veritabanı migration stratejisi"
-            ],
-
-            en: [
-                "Keeping UI state synchronized with database state",
-                "Designing reusable filtering logic",
-                "Handling stock changes consistently",
-                "Implementing soft delete workflows",
-                "Backup and recovery planning",
-                "Database migration strategy"
-            ]
-        },
-
-        architecture: `
-                    WinForms
-                       ↓
-                Application Logic
-                       ↓
-              ┌────────┴────────┐
-              ↓                 ↓
-          SQL Server          SQLite
-              ↓                 ↓
-               Persistent Data
-`
-    },
-
-
-    servicebox: {
-
-        number: "03",
-
-        category: {
-            tr: "TARAYICI OTOMASYONU",
-            en: "BROWSER AUTOMATION"
-        },
-
-        title: {
-            tr: "Service Box Automation",
-            en: "Service Box Automation"
-        },
-
-        subtitle: {
-            tr: "Excel'den VIN numaralarını okuyup kampanya bilgilerini kontrol eden ve sonuçları tekrar Excel'e yazan Chrome eklentisi.",
-            en: "A Chrome extension that reads VINs from Excel, checks campaign information and writes structured results back into the spreadsheet."
-        },
-
-        tags: [
-            "JavaScript",
-            "Chrome Extension",
-            "Manifest V3",
-            "Excel",
-            "Browser Automation"
-        ],
-
-        problem: {
-            tr: "Birden fazla VIN'i manuel olarak kontrol etmek ve kampanya bilgilerini Excel'e aktarmak gereksiz ve tekrarlayan bir iş oluşturuyor.",
-            en: "Checking multiple VINs manually and transferring campaign information into Excel creates unnecessary repetitive work."
-        },
-
-        solution: {
-            tr: "Chrome eklentisi Excel'deki VIN numaralarını işler, hedef sayfadaki süreci yürütür, kampanya bilgilerini tespit eder ve sonuçları ilgili Excel satırlarına aktarır.",
-            en: "A browser extension processes VINs from an Excel file, navigates the target workflow, detects campaign information and updates the corresponding spreadsheet columns."
-        },
-
-        challenges: {
-            tr: [
-                "Dinamik web arayüzleriyle çalışmak",
-                "Asenkron sayfa durumlarını beklemek",
-                "Kampanya bilgilerini güvenilir şekilde çıkarmak",
-                "Sonuçları doğru Excel satırlarına eşlemek",
-                "Başarısız veya eksik aramaları yönetmek",
-                "Kullanışlı bir eklenti arayüzü oluşturmak"
-            ],
-
-            en: [
-                "Working with dynamic web interfaces",
-                "Waiting for asynchronous page states",
-                "Extracting campaign information reliably",
-                "Mapping results back to Excel rows",
-                "Handling failed or incomplete searches",
-                "Building a usable extension interface"
-            ]
-        },
-
-        architecture: `
-Excel
-  ↓
-VIN Extraction
-  ↓
-Chrome Extension
-  ↓
-Service Box
-  ↓
-Campaign Detection
-  ↓
-Result Processing
-  ↓
-Excel Update
-`
-    },
-
-
-    turgut: {
-
-        number: "04",
-
-        category: {
-            tr: "STOK / BARKOD",
-            en: "INVENTORY / BARCODE"
-        },
-
-        title: {
-            tr: "Turgut",
-            en: "Turgut"
-        },
-
-        subtitle: {
-            tr: "Barkod tarama, TCP iletişimi ve yerel veritabanı depolamasını bir araya getiren masaüstü stok sistemi.",
-            en: "A desktop inventory workflow integrating barcode scanning, TCP communication and local database storage."
-        },
-
-        tags: [
-            "C#",
-            "TCP",
-            "SQLite",
-            "Zebra",
-            "Barcode",
-            "DataWedge"
-        ],
-
-        problem: {
-            tr: "Barkod tabanlı stok süreçlerinde tarayıcı cihaz, uygulama ve veri deposu arasında hızlı ve güvenilir iletişim gerekiyor.",
-            en: "Barcode-driven inventory workflows need fast communication between the scanning device, the application and the local data store."
-        },
-
-        solution: {
-            tr: "TCP tabanlı barkod listener, tarayıcıdan gelen verileri alarak yapılandırılmış barkod bilgisini masaüstü uygulamasına ve SQLite veri katmanına aktarır.",
-            en: "A TCP-based barcode listener receives scanner input and passes structured barcode data into the desktop application and SQLite persistence layer."
-        },
-
-        challenges: {
-            tr: [
-                "TCP üzerinden barkod verisi almak",
-                "Zebra tarama donanımını entegre etmek",
-                "Tarayıcı event'lerini UI durumuyla senkronize etmek",
-                "Kayıtları yerel olarak saklamak",
-                "Dinamik stok filtreleme sistemi oluşturmak",
-                "Uygulama publish edildikten sonra veriyi korumak"
-            ],
-
-            en: [
-                "Receiving barcode data over TCP",
-                "Integrating Zebra scanning hardware",
-                "Synchronizing scanner events with UI state",
-                "Persisting records locally",
-                "Dynamic inventory filtering",
-                "Maintaining data after application publishing"
-            ]
-        },
-
-        architecture: `
-Zebra Scanner
-      ↓
-DataWedge / IPWedge
-      ↓
-TCP : 58628
-      ↓
-Barcode Listener
-      ↓
-C# Application
-      ↓
-SQLite
-      ↓
-Inventory Records
-`
-    }
-
-};
+    --transition: 220ms cubic-bezier(.2,.8,.2,1);
+}
 
 
 /* =========================================================
-   TRANSLATIONS
+   RESET
 ========================================================= */
 
-const translations = {
-
-    tr: {
-
-        loader: {
-            loading: "SİSTEM BAŞLATILIYOR..."
-        },
-
-        nav: {
-            home: "Ana Sayfa",
-            projects: "Projeler",
-            engineering: "Mühendislik",
-            stack: "Teknolojiler",
-            about: "Hakkımda",
-            experience: "Deneyim",
-            contact: "İletişim"
-        },
-
-        hero: {
-            status: "SEÇİLİ PROJELER İÇİN UYGUN",
-            titleLine1: "Yazılım",
-            titleLine2: "sistemleri geliştiriyorum.",
-            description: "Otomasyon, iş uygulamaları ve gerçek problemlere pratik çözümler üreten sistemlere odaklanan yazılım geliştiriciyim.",
-            projectsButton: "Projeleri Gör",
-            contactButton: "İletişime Geç",
-            floating1Label: "UZMANLIK",
-            floating1Value: "Otomasyon",
-            floating2Label: "YAKLAŞIM",
-            floating2Value: "Gerçek Çözümler",
-            scroll: "KEŞFETMEK İÇİN KAYDIR"
-        },
-
-        stats: {
-            projects: "Gerçek Proje",
-            projectsDesc: "Gerçek operasyonel süreçler üzerine geliştirildi.",
-            backend: "Ana Dil",
-            backendDesc: "Masaüstü uygulamaları, otomasyon ve sistemler.",
-            mindset: "Problem Çözme",
-            mindsetDesc: "Geliştir, test et, iyileştir ve tekrar et."
-        },
-
-        projects: {
-            eyebrow: "SEÇİLİ ÇALIŞMALAR",
-            title: "Gerçek problemler",
-            titleMuted: "için geliştirilen sistemler.",
-            description: "Gerçek iş akışlarını iyileştirmek için geliştirilmiş masaüstü uygulamaları, otomasyon sistemleri ve tarayıcı tabanlı araçlardan bir seçki.",
-            status: "VAKA ÇALIŞMASI",
-            viewCase: "Vaka çalışmasını görüntüle"
-        },
-
-        project: {
-
-            efes: {
-                title: "Efes Oto Fatura",
-                subtitle: "Fatura işleme ve tekrarlayan veri giriş süreçleri için masaüstü otomasyon sistemi."
-            },
-
-            claim: {
-                title: "Claim Depo",
-                subtitle: "Operasyonel süreçler üzerine geliştirilen dahili stok ve claim yönetim sistemi."
-            },
-
-            servicebox: {
-                title: "Service Box Automation",
-                subtitle: "VIN numaralarını işleyip kampanya sonuçlarını Excel'e aktaran Chrome eklentisi."
-            },
-
-            turgut: {
-                title: "Turgut",
-                subtitle: "Barkod tarama, TCP iletişimi ve SQLite entegrasyonlu stok sistemi."
-            }
-
-        },
-
-        engineering: {
-
-            eyebrow: "MÜHENDİSLİK YAKLAŞIMI",
-
-            title: "Sadece kod",
-            titleMuted: "yazmıyorum.",
-
-            description: "Mimari ve veri akışından hata kurtarmaya, sürdürülebilirlikten kullanıcı deneyimine kadar sistemin tamamını önemsiyorum.",
-
-            card1: {
-                title: "Otomasyon",
-                description: "Tekrarlayan manuel süreçleri öngörülebilir yazılım akışlarına dönüştürmek."
-            },
-
-            card2: {
-                title: "Veri Sistemleri",
-                description: "Filtreleme, kalıcı veri, recovery ve güvenilir veritabanı yapıları oluşturmak."
-            },
-
-            card3: {
-                title: "Entegrasyon",
-                description: "Uygulamaları, tarayıcıları, tarayıcı cihazlarını, dosyaları ve farklı sistemleri birbirine bağlamak."
-            },
-
-            featureLabel: "PRENSİP",
-
-            feature1: "anla",
-            feature2: "tasarla",
-            feature3: "otomatikleştir",
-            feature4: "iyileştir"
-        },
-
-        stack: {
-
-            eyebrow: "TEKNOLOJİ",
-
-            title: "Kullandığım",
-            titleMuted: "araçlar.",
-
-            description: "Kullanışlı ve sürdürülebilir yazılımlar geliştirmeye odaklanan pratik bir teknoloji stack'i.",
-
-            primary: "ANA TEKNOLOJİLER",
-
-            dotnet: "Masaüstü & backend",
-            sql: "Veri & kalıcılık",
-            javascript: "Web otomasyonu",
-            sqlite: "Yerel veri",
-
-            other: "DİĞER TEKNOLOJİLER"
-        },
-
-        github: {
-
-            eyebrow: "OPEN SOURCE / CODE",
-
-            title: "Koda",
-            titleMuted: "bak.",
-
-            description: "Projelerim, deneylerim ve geliştirme çalışmalarım GitHub'da bulunuyor. Kodları, mimariyi ve uygulama detaylarını inceleyebilirsin."
-        },
-
-        about: {
-
-            eyebrow: "HAKKIMDA",
-
-            title: "Faydalı",
-            titleMuted: "şeyler geliştiriyorum.",
-
-            lead: "Dağınık, tekrarlayan ve verimsiz iş akışlarını basit yazılımlara dönüştürmeyi seviyorum.",
-
-            paragraph1: "Geliştirme yaklaşımım oldukça pratik. Bir sistemi otomatikleştirmeye veya geliştirmeye karar vermeden önce sistemin gerçekte nasıl çalıştığını anlamaya odaklanıyorum.",
-
-            paragraph2: "İster masaüstü uygulaması, ister tarayıcı eklentisi, veritabanı sistemi veya donanım entegrasyonu olsun, amaç aynı: işi gerçekten kolaylaştıran bir şey geliştirmek.",
-
-            principle1: "Önce anla",
-            principle2: "Pratik tut",
-            principle3: "Sürekli geliştir"
-        },
-
-        experience: {
-
-            eyebrow: "DENEYİM",
-
-            title: "İşten",
-            titleMuted: "yazılıma.",
-
-            description: "Gerçek iş ve operasyon problemlerini yazılımla çözmeye odaklanan bir deneyim.",
-
-            item1: {
-                type: "YAZILIM GELİŞTİRME",
-                title: "Otomasyon & İş Sistemleri",
-                description: "Gerçek operasyonel ihtiyaçlar üzerine masaüstü uygulamaları, otomasyon akışları, stok sistemleri ve tarayıcı araçları geliştiriyorum."
-            },
-
-            item2: {
-                type: "GELİŞTİRME",
-                title: "C# / .NET Geliştirme",
-                description: "Manuel işleri azaltmak için raporlama araçları, veri odaklı uygulamalar ve yazılım çözümleri geliştiriyorum."
-            },
-
-            item3: {
-                type: "SÜREKLİ GELİŞTİRME",
-                title: "Geliştirerek Öğrenmek",
-                description: "Yeni teknolojileri deneyerek öğrenmeye ve fikirleri çalışan yazılımlara dönüştürmeye devam ediyorum."
-            }
-        },
-
-        contact: {
-
-            eyebrow: "İLETİŞİM",
-
-            title: "Çözülmeye",
-            titleMuted: "değer bir problem mi var?",
-
-            description: "Yazılımla çözülebilecek bir projen, iş akışın veya teknik problemin varsa benimle iletişime geçebilirsin."
-        },
-
-        footer: {
-
-            role: "Yazılım Geliştirici",
-
-            status: "SİSTEM ÇALIŞIYOR",
-
-            localTime: "YEREL SAAT"
-        },
-
-        modal: {
-
-            problem: "Problem",
-
-            solution: "Çözüm",
-
-            challenges: "Teknik Zorluklar",
-
-            architecture: "Mimari",
-
-            systemFlow: "SİSTEM AKIŞI"
-        }
-
-    },
-
-
-    en: {
-
-        loader: {
-            loading: "SYSTEM INITIALIZING..."
-        },
-
-        nav: {
-            home: "Home",
-            projects: "Projects",
-            engineering: "Engineering",
-            stack: "Stack",
-            about: "About",
-            experience: "Experience",
-            contact: "Contact"
-        },
-
-        hero: {
-            status: "AVAILABLE FOR SELECTED PROJECTS",
-            titleLine1: "I build",
-            titleLine2: "software systems.",
-            description: "Software developer focused on automation, business applications and practical systems that solve real-world problems.",
-            projectsButton: "View Projects",
-            contactButton: "Get In Touch",
-            floating1Label: "SPECIALIZATION",
-            floating1Value: "Automation",
-            floating2Label: "APPROACH",
-            floating2Value: "Real Solutions",
-            scroll: "SCROLL TO EXPLORE"
-        },
-
-        stats: {
-            projects: "Real Projects",
-            projectsDesc: "Built around actual operational workflows.",
-            backend: "Primary Language",
-            backendDesc: "Desktop applications, automation and systems.",
-            mindset: "Problem Solving",
-            mindsetDesc: "Build, test, improve and repeat."
-        },
-
-        projects: {
-            eyebrow: "SELECTED WORK",
-            title: "Systems built",
-            titleMuted: "for real problems.",
-            description: "A selection of desktop applications, automation systems and browser-based tools built to improve real workflows.",
-            status: "CASE STUDY",
-            viewCase: "View case study"
-        },
-
-        project: {
-
-            efes: {
-                title: "Efes Oto Fatura",
-                subtitle: "Desktop automation for invoice processing and repetitive data-entry workflows."
-            },
-
-            claim: {
-                title: "Claim Depo",
-                subtitle: "Internal inventory and claim management system built around operational workflows."
-            },
-
-            servicebox: {
-                title: "Service Box Automation",
-                subtitle: "Chrome extension that processes VINs and writes campaign results into Excel."
-            },
-
-            turgut: {
-                title: "Turgut",
-                subtitle: "Inventory system integrating barcode scanning, TCP communication and SQLite."
-            }
-
-        },
-
-        engineering: {
-
-            eyebrow: "ENGINEERING MINDSET",
-
-            title: "More than",
-            titleMuted: "writing code.",
-
-            description: "I care about the entire system — from architecture and data flow to recovery, maintainability and user experience.",
-
-            card1: {
-                title: "Automation",
-                description: "Turning repetitive manual processes into predictable software workflows."
-            },
-
-            card2: {
-                title: "Data Systems",
-                description: "Building reliable database-backed systems with filtering, persistence and recovery."
-            },
-
-            card3: {
-                title: "Integration",
-                description: "Connecting applications, browsers, scanners, files and external workflows."
-            },
-
-            featureLabel: "THE PRINCIPLE",
-
-            feature1: "understand",
-            feature2: "design",
-            feature3: "automate",
-            feature4: "improve"
-        },
-
-        stack: {
-
-            eyebrow: "TECHNOLOGY",
-
-            title: "Tools I",
-            titleMuted: "work with.",
-
-            description: "A practical technology stack focused on building useful, maintainable software.",
-
-            primary: "PRIMARY",
-
-            dotnet: "Desktop & backend",
-            sql: "Data & persistence",
-            javascript: "Web automation",
-            sqlite: "Local storage",
-
-            other: "ALSO WORKING WITH"
-        },
-
-        github: {
-
-            eyebrow: "OPEN SOURCE / CODE",
-
-            title: "See the",
-            titleMuted: "code.",
-
-            description: "Projects, experiments and development work live on GitHub. Feel free to explore the code, architecture and implementation details."
-        },
-
-        about: {
-
-            eyebrow: "ABOUT",
-
-            title: "Building",
-            titleMuted: "useful things.",
-
-            lead: "I like turning messy, repetitive and inefficient workflows into simple software.",
-
-            paragraph1: "My development approach is heavily practical. I focus on understanding how a system actually works before deciding how it should be automated or improved.",
-
-            paragraph2: "Whether it is a desktop application, a browser extension, a database workflow or hardware integration, the goal remains the same: build something that genuinely makes the job easier.",
-
-            principle1: "Understand first",
-            principle2: "Keep it practical",
-            principle3: "Improve continuously"
-        },
-
-        experience: {
-
-            eyebrow: "EXPERIENCE",
-
-            title: "From work",
-            titleMuted: "to software.",
-
-            description: "Experience shaped around solving real business and operational problems with software.",
-
-            item1: {
-                type: "SOFTWARE DEVELOPMENT",
-                title: "Automation & Business Systems",
-                description: "Building desktop applications, automation workflows, inventory systems and browser tools around real operational needs."
-            },
-
-            item2: {
-                type: "DEVELOPMENT",
-                title: "C# / .NET Development",
-                description: "Developing reporting tools, data-driven applications and software solutions designed to reduce manual work."
-            },
-
-            item3: {
-                type: "CONTINUOUSLY BUILDING",
-                title: "Learning by Building",
-                description: "Continuously experimenting with new technologies while turning ideas into working software."
-            }
-        },
-
-        contact: {
-
-            eyebrow: "CONTACT",
-
-            title: "Have a problem",
-            titleMuted: "worth solving?",
-
-            description: "If you have a project, workflow or technical problem that could benefit from software, feel free to reach out."
-        },
-
-        footer: {
-
-            role: "Software Developer",
-
-            status: "SYSTEM ONLINE",
-
-            localTime: "LOCAL TIME"
-        },
-
-        modal: {
-
-            problem: "The Problem",
-
-            solution: "The Solution",
-
-            challenges: "Technical Challenges",
-
-            architecture: "Architecture",
-
-            systemFlow: "SYSTEM FLOW"
-        }
-
-    }
-
-};
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-main);
+    overflow-x: hidden;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    font: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
 
 
 /* =========================================================
-   CURRENT LANGUAGE
+   BACKGROUND
 ========================================================= */
 
-let currentLanguage =
-    localStorage.getItem("salva-language") || "tr";
+.background {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -10;
+    overflow: hidden;
+}
+
+.background-grid {
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.025) 1px,
+            transparent 1px
+        );
+
+    background-size: 60px 60px;
+
+    mask-image: linear-gradient(
+        to bottom,
+        black,
+        transparent 85%
+    );
+}
+
+.background-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: .12;
+}
+
+.glow-one {
+    top: -250px;
+    right: -150px;
+    background: var(--accent);
+}
+
+.glow-two {
+    top: 45%;
+    left: -300px;
+    background: #3859ff;
+}
+
+.mouse-glow {
+    position: fixed;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    pointer-events: none;
+
+    background: radial-gradient(
+        circle,
+        rgba(124,92,255,.08),
+        transparent 65%
+    );
+
+    transform: translate(-50%, -50%);
+
+    z-index: -1;
+    opacity: 0;
+
+    transition: opacity .3s ease;
+}
 
 
 /* =========================================================
-   GET TRANSLATION
+   CURSOR COMPANION (ROBOT)
 ========================================================= */
 
-function getTranslation(path) {
+.cursor-bot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 46px;
+    height: 46px;
 
-    const parts = path.split(".");
+    pointer-events: none;
+    z-index: 400;
 
-    let value =
-        translations[currentLanguage];
+    opacity: 0;
+    will-change: transform;
 
-    for (const part of parts) {
+    transition: opacity .35s ease;
+}
 
-        if (
-            value === undefined ||
-            value === null
-        ) {
-            return "";
-        }
+.cursor-bot.is-visible {
+    opacity: 1;
+}
 
-        value = value[part];
+.cursor-bot-bob {
+    width: 100%;
+    height: 100%;
+    animation: bot-bob 2.6s ease-in-out infinite;
+}
 
+.cursor-bot.is-idle .cursor-bot-bob {
+    animation-play-state: running;
+}
+
+.cursor-bot-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    filter: drop-shadow(0 6px 16px rgba(124, 92, 255, .35));
+}
+
+.bot-antenna-line {
+    stroke: var(--border-hover);
+    stroke-width: 2;
+}
+
+.bot-antenna-dot {
+    fill: var(--accent-light);
+    animation: bot-pulse 1.8s ease-in-out infinite;
+}
+
+.bot-body {
+    fill: var(--surface-2);
+    stroke: var(--border-hover);
+    stroke-width: 1.5;
+    transition: stroke .25s ease;
+}
+
+.bot-visor {
+    fill: rgba(124, 92, 255, .1);
+    stroke: var(--accent-soft);
+    stroke-width: 1;
+}
+
+.bot-eye {
+    fill: var(--accent-light);
+    transition: transform .12s ease-out, fill .2s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+.bot-mouth {
+    stroke: var(--text-muted);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    fill: none;
+    transition: stroke .2s ease;
+}
+
+.cursor-bot.is-blinking .bot-eye {
+    transform: scaleY(.15);
+}
+
+.cursor-bot.is-alert .bot-body {
+    stroke: var(--accent-light);
+}
+
+.cursor-bot.is-alert .bot-eye {
+    fill: var(--green);
+}
+
+.cursor-bot.is-alert .bot-antenna-dot {
+    fill: var(--green);
+    animation-duration: .7s;
+}
+
+.cursor-bot.is-alert .bot-mouth {
+    stroke: var(--green);
+}
+
+@keyframes bot-bob {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-5px) rotate(-2deg); }
+}
+
+@keyframes bot-pulse {
+    0%, 100% { opacity: .5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.25); }
+}
+
+@media (pointer: coarse) {
+    .cursor-bot {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cursor-bot {
+        display: none;
+    }
+}
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+.container {
+    width: min(
+        calc(100% - 48px),
+        var(--container)
+    );
+
+    margin-inline: auto;
+}
+
+.section {
+    padding: 150px 0;
+}
+
+.eyebrow {
+    display: inline-block;
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+
+    margin-bottom: 24px;
+}
+
+.section-heading {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-end;
+
+    gap: 50px;
+
+    margin-bottom: 70px;
+}
+
+.section-heading h2 {
+    max-width: 700px;
+
+    font-size: clamp(
+        38px,
+        5vw,
+        64px
+    );
+
+    line-height: 1.03;
+    letter-spacing: -.055em;
+}
+
+.section-heading h2 span {
+    display: block;
+    color: var(--text-muted);
+}
+
+.section-heading > p {
+    max-width: 340px;
+
+    color: var(--text-soft);
+
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+.page-loader {
+    position: fixed;
+    inset: 0;
+
+    background: var(--bg);
+
+    z-index: 9999;
+
+    display: grid;
+    place-items: center;
+
+    transition:
+        opacity .6s ease,
+        visibility .6s ease;
+}
+
+.page-loader.loaded {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-content {
+    width: 220px;
+    text-align: center;
+}
+
+.loader-logo {
+    width: 55px;
+    height: 55px;
+
+    margin: 0 auto 22px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid var(--border);
+    border-radius: 14px;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    background: var(--surface);
+}
+
+.loader-line {
+    width: 100%;
+    height: 2px;
+
+    background: var(--surface-3);
+
+    overflow: hidden;
+
+    margin-bottom: 14px;
+}
+
+.loader-line span {
+    display: block;
+
+    width: 40%;
+    height: 100%;
+
+    background: var(--accent);
+
+    animation:
+        loading 1.2s infinite ease-in-out;
+}
+
+.loader-content p {
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+
+    letter-spacing: .12em;
+}
+
+@keyframes loading {
+
+    0% {
+        transform: translateX(-100%);
     }
 
-    return value ?? "";
+    100% {
+        transform: translateX(350%);
+    }
 
 }
 
 
 /* =========================================================
-   APPLY LANGUAGE
+   NAVBAR
 ========================================================= */
 
-function applyLanguage(language) {
+.navbar {
+    position: fixed;
 
-    if (!translations[language]) {
-        language = "tr";
-    }
+    top: 0;
+    left: 0;
+    right: 0;
 
-    currentLanguage = language;
+    z-index: 100;
 
-    localStorage.setItem(
-        "salva-language",
-        language
+    padding: 20px 0;
+
+    transition:
+        background var(--transition),
+        border-color var(--transition),
+        padding var(--transition);
+}
+
+.navbar.scrolled {
+    padding: 13px 0;
+
+    background: rgba(7,9,12,.8);
+
+    border-bottom: 1px solid var(--border);
+
+    backdrop-filter: blur(18px);
+}
+
+.nav-container {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.brand-mark {
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: var(--surface);
+
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.brand-name {
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: .12em;
+}
+
+.desktop-nav {
+    display: flex;
+
+    align-items: center;
+
+    gap: 35px;
+
+    margin-left: 100px;
+}
+
+.desktop-nav a {
+    color: var(--text-soft);
+
+    font-size: 13px;
+
+    transition:
+        color var(--transition);
+}
+
+.desktop-nav a:hover {
+    color: var(--text);
+}
+
+.nav-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+/* =========================================================
+   LANGUAGE SWITCHER
+========================================================= */
+
+.language-switcher {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 5px 7px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    background: var(--surface);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+}
+
+.language-button {
+    padding: 3px 5px;
+
+    border: none;
+
+    border-radius: 5px;
+
+    background: transparent;
+
+    color: var(--text-muted);
+
+    cursor: pointer;
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+
+    transition:
+        color var(--transition),
+        background var(--transition);
+}
+
+.language-button:hover {
+    color: var(--text);
+}
+
+.language-button.active {
+    background: var(--accent-soft);
+    color: var(--accent-light);
+}
+
+.language-switcher > span {
+    color: var(--text-muted);
+}
+
+.mobile-language {
+    display: none;
+}
+
+
+/* =========================================================
+   GITHUB NAV
+========================================================= */
+
+.nav-github {
+    display: flex;
+
+    gap: 8px;
+
+    align-items: center;
+
+    color: var(--text-soft);
+
+    font-size: 13px;
+
+    transition:
+        color var(--transition);
+}
+
+.nav-github:hover {
+    color: var(--text);
+}
+
+.nav-github span {
+    font-size: 16px;
+}
+
+.mobile-menu-button {
+    display: none;
+
+    width: 42px;
+    height: 42px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    background: var(--surface);
+
+    cursor: pointer;
+}
+
+.mobile-menu-button span {
+    display: block;
+
+    width: 17px;
+    height: 1px;
+
+    background: var(--text);
+
+    margin: 4px auto;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+
+    padding-top: 180px;
+    padding-bottom: 100px;
+
+    position: relative;
+}
+
+.hero-container {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    align-items: center;
+
+    gap: 90px;
+}
+
+.availability {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 8px 12px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 999px;
+
+    background: rgba(255,255,255,.025);
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+
+    letter-spacing: .12em;
+
+    margin-bottom: 28px;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+    box-shadow:
+        0 0 0 4px rgba(69,212,131,.08),
+        0 0 15px rgba(69,212,131,.4);
+}
+
+.hero h1 {
+    max-width: 760px;
+
+    font-size: clamp(
+        54px,
+        7vw,
+        92px
     );
 
+    line-height: .98;
 
-    document.documentElement.lang =
-        language;
+    letter-spacing: -.075em;
 
+    font-weight: 700;
+}
 
-    document.querySelectorAll(
-        "[data-i18n]"
-    ).forEach(element => {
+.gradient-text {
+    display: block;
 
-        const key =
-            element.dataset.i18n;
-
-        const translation =
-            getTranslation(key);
-
-        if (
-            translation !== undefined &&
-            translation !== null
-        ) {
-
-            element.textContent =
-                translation;
-
-        }
-
-    });
-
-
-    document.querySelectorAll(
-        ".language-button"
-    ).forEach(button => {
-
-        button.classList.toggle(
-            "active",
-            button.dataset.language === language
+    background:
+        linear-gradient(
+            100deg,
+            #fff 0%,
+            #a69aff 45%,
+            #6952ff 100%
         );
 
-    });
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    color: transparent;
+}
+
+.hero-description {
+    max-width: 610px;
+
+    color: var(--text-soft);
+
+    font-size: 17px;
+
+    line-height: 1.8;
+
+    margin-top: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+
+    gap: 12px;
+
+    margin-top: 40px;
+}
+
+.button {
+    min-height: 50px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 13px;
+
+    padding: 0 20px;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    transition:
+        transform var(--transition),
+        background var(--transition),
+        border-color var(--transition);
+}
+
+.button:hover {
+    transform: translateY(-2px);
+}
+
+.button-primary {
+    background: var(--text);
+    color: #08090c;
+}
+
+.button-primary:hover {
+    background: #fff;
+}
+
+.button-secondary {
+    border: 1px solid var(--border);
+
+    background: var(--surface);
+
+    color: var(--text);
+}
+
+.button-secondary:hover {
+    border-color: var(--border-hover);
+}
+
+.hero-stack {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-top: 55px;
+}
+
+.hero-stack span {
+    padding: 7px 10px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 7px;
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+
+    letter-spacing: .04em;
+}
 
 
-    document.title =
-        language === "tr"
-            ? "SALVA — Yazılım Geliştirici"
-            : "SALVA — Software Developer";
+/* =========================================================
+   HERO VISUAL
+========================================================= */
+
+.hero-visual {
+    position: relative;
+
+    min-height: 500px;
+
+    display: grid;
+
+    place-items: center;
+}
+
+.system-card {
+    width: min(100%, 540px);
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.015)
+        );
+
+    box-shadow:
+        0 40px 100px rgba(0,0,0,.35);
+
+    overflow: hidden;
+
+    transform:
+        perspective(1200px)
+        rotateY(-7deg)
+        rotateX(3deg);
+
+    transition:
+        transform .6s ease;
+}
+
+.hero-visual:hover .system-card {
+    transform:
+        perspective(1200px)
+        rotateY(-2deg)
+        rotateX(1deg)
+        translateY(-5px);
+}
+
+.system-header {
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 18px;
+
+    border-bottom: 1px solid var(--border);
+
+    background: rgba(255,255,255,.02);
+}
+
+.window-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.window-dots span {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--text-muted);
+
+    opacity: .6;
+}
+
+.system-title {
+    margin-left: auto;
+    margin-right: auto;
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 10px;
+}
+
+.system-body {
+    min-height: 330px;
+
+    padding: 30px;
+
+    font-family: var(--font-mono);
+
+    font-size: 12px;
+
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(124,92,255,.1),
+            transparent 40%
+        );
+}
+
+.code-line {
+    display: grid;
+
+    grid-template-columns: 30px 1fr;
+
+    gap: 18px;
+
+    margin-bottom: 20px;
+
+    color: var(--text-soft);
+
+    line-height: 1.6;
+}
+
+.code-number {
+    color: #3e4650;
+}
+
+.code-line i {
+    color: #aa8cff;
+    font-style: normal;
+}
+
+.code-line b {
+    color: #e5e8ed;
+    font-weight: 500;
+}
+
+.code-line strong {
+    color: #74d5a0;
+    font-weight: 500;
+}
+
+.code-cursor {
+    width: 7px;
+    height: 15px;
+
+    background: var(--accent);
+
+    margin-left: 48px;
+
+    animation:
+        cursorBlink 1s infinite;
+}
+
+@keyframes cursorBlink {
+
+    0%,
+    45% {
+        opacity: 1;
+    }
+
+    46%,
+    100% {
+        opacity: 0;
+    }
+
+}
+
+.floating-card {
+    position: absolute;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 11px 14px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    background: rgba(13,17,22,.9);
+
+    backdrop-filter: blur(15px);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.3);
+}
+
+.floating-card small {
+    display: block;
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 7px;
+
+    letter-spacing: .1em;
+}
+
+.floating-card strong {
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 10px;
+}
+
+.floating-icon {
+    width: 30px;
+    height: 30px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 7px;
+
+    background: var(--accent-soft);
+
+    color: var(--accent-light);
+}
+
+.floating-card-one {
+    top: 10%;
+    left: -20px;
+}
+
+.floating-card-two {
+    bottom: 12%;
+    right: -10px;
+}
+
+.scroll-indicator {
+    position: absolute;
+
+    bottom: 35px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+
+    letter-spacing: .1em;
+}
+
+.scroll-indicator span {
+    width: 30px;
+    height: 1px;
+
+    background: var(--border);
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats-section {
+    padding: 0 0 130px;
+}
+
+.stats-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.stat {
+    padding: 40px;
+
+    border-right: 1px solid var(--border);
+}
+
+.stat:last-child {
+    border-right: none;
+}
+
+.stat strong {
+    display: block;
+
+    font-size: 38px;
+
+    letter-spacing: -.04em;
+
+    margin-bottom: 10px;
+}
+
+.stat span {
+    display: block;
+
+    color: var(--text);
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    margin-bottom: 5px;
+}
+
+.stat p {
+    color: var(--text-muted);
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   PROJECTS
+========================================================= */
+
+.projects-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 16px;
+}
+
+.project-card {
+    position: relative;
+
+    min-height: 510px;
+
+    padding: 30px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow: hidden;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.035),
+            rgba(255,255,255,.012)
+        );
+
+    cursor: pointer;
+
+    transition:
+        border-color var(--transition),
+        transform var(--transition),
+        background var(--transition);
+}
+
+.project-card:hover {
+    border-color: var(--border-hover);
+
+    transform: translateY(-5px);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.05),
+            rgba(255,255,255,.015)
+        );
+}
+
+.project-large {
+    grid-column: span 2;
+    min-height: 570px;
+}
+
+.project-top {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project-number {
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 10px;
+}
+
+.project-status {
+    padding: 6px 8px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 6px;
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 8px;
+
+    letter-spacing: .08em;
+}
+
+.project-content {
+    position: relative;
+
+    z-index: 2;
+
+    margin-top: auto;
+}
+
+.project-category {
+    color: var(--accent-light);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+
+    letter-spacing: .1em;
+}
+
+.project-content h3 {
+    margin-top: 10px;
+
+    font-size: 31px;
+
+    letter-spacing: -.045em;
+}
+
+.project-content p {
+    max-width: 550px;
+
+    color: var(--text-soft);
+
+    line-height: 1.7;
+
+    font-size: 13px;
+
+    margin-top: 12px;
+}
+
+.project-link {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    margin-top: 24px;
+
+    padding: 0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--text);
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+.project-link span {
+    transition:
+        transform var(--transition);
+}
+
+.project-card:hover
+.project-link span {
+    transform:
+        translate(3px,-3px);
+}
+
+
+/* =========================================================
+   PROJECT VISUALS
+========================================================= */
+
+.project-visual {
+    position: absolute;
+
+    inset: 70px 40px auto 40px;
+
+    height: 250px;
+
+    pointer-events: none;
+}
+
+.efes-visual {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.mini-window {
+    width: 70%;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    background:
+        rgba(8,10,13,.85);
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.4);
+
+    transform:
+        perspective(900px)
+        rotateX(8deg)
+        rotateY(-7deg);
+
+    opacity: .9;
+}
+
+.mini-window-header {
+    height: 32px;
+
+    border-bottom: 1px solid var(--border);
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding-left: 12px;
+}
+
+.mini-window-header span {
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: var(--text-muted);
+}
+
+.mini-window-body {
+    padding: 20px;
+}
+
+.mini-row {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 15px;
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+}
+
+.mini-row b,
+.mini-row strong {
+    color: var(--text);
+}
+
+.progress-bar {
+    height: 5px;
+
+    border-radius: 99px;
+
+    background: var(--surface-3);
+
+    margin-bottom: 20px;
+
+    overflow: hidden;
+}
+
+.progress-bar span {
+    display: block;
+
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--accent),
+            #a28fff
+        );
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.project-mini-ui,
+.browser-mini,
+.scanner-mini {
+    position: absolute;
+
+    top: 80px;
+    right: 30px;
+    left: 30px;
+
+    height: 220px;
+}
+
+.dashboard-mini {
+    height: 100%;
+
+    padding: 20px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    background:
+        rgba(255,255,255,.018);
+
+    transform:
+        perspective(900px)
+        rotateX(8deg)
+        rotateY(6deg);
+}
+
+.dashboard-mini-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+}
+
+.dashboard-mini-top span:last-child {
+    color: var(--green);
+}
+
+.dashboard-mini-chart {
+    height: 130px;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 8px;
+
+    margin-top: 30px;
+}
+
+.dashboard-mini-chart span {
+    flex: 1;
+
+    border-radius:
+        4px 4px 0 0;
+
+    background:
+        linear-gradient(
+            to top,
+            var(--accent-soft),
+            rgba(124,92,255,.5)
+        );
+
+    opacity: .8;
+}
+
+
+/* =========================================================
+   BROWSER
+========================================================= */
+
+.browser-mini {
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    background:
+        rgba(8,10,13,.9);
+
+    transform:
+        perspective(900px)
+        rotateX(5deg)
+        rotateY(-5deg);
+}
+
+.browser-bar {
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 0 14px;
+
+    border-bottom: 1px solid var(--border);
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 8px;
+}
+
+.browser-bar > span {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+}
+
+.browser-content {
+    padding: 30px 20px;
+}
+
+.vin-row,
+.campaign-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 14px 0;
+
+    border-bottom: 1px solid var(--border);
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+}
+
+.vin-row b {
+    color: var(--text);
+}
+
+.campaign-row strong {
+    color: var(--green);
+}
+
+
+/* =========================================================
+   SCANNER
+========================================================= */
+
+.scanner-mini {
+    display: grid;
+
+    place-items: center;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(124,92,255,.1),
+            transparent 65%
+        );
+
+    overflow: hidden;
+}
+
+.scanner-data {
+    text-align: center;
+}
+
+.scanner-data span {
+    display: block;
+
+    color: var(--accent-light);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+
+    letter-spacing: .2em;
+
+    margin-bottom: 12px;
+}
+
+.scanner-data strong {
+    display: block;
+
+    font-family: var(--font-mono);
+
+    font-size: 18px;
+
+    letter-spacing: .08em;
+}
+
+.scanner-data small {
+    display: block;
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 8px;
+
+    margin-top: 12px;
+}
+
+.scanner-line {
+    position: absolute;
+
+    width: 80%;
+    height: 1px;
+
+    background: var(--accent);
+
+    box-shadow:
+        0 0 15px var(--accent);
+
+    animation:
+        scanner 2.5s infinite ease-in-out;
+}
+
+@keyframes scanner {
+
+    0%,
+    100% {
+        transform:
+            translateY(-70px);
+    }
+
+    50% {
+        transform:
+            translateY(70px);
+    }
 
 }
 
 
 /* =========================================================
-   LANGUAGE BUTTONS
+   ENGINEERING
 ========================================================= */
 
-document
-    .querySelectorAll(".language-button")
-    .forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                applyLanguage(
-                    button.dataset.language
-                );
-
-            }
+.engineering-section {
+    background:
+        linear-gradient(
+            180deg,
+            transparent,
+            rgba(255,255,255,.015),
+            transparent
         );
-
-    });
-
-
-/* =========================================================
-   DOM
-========================================================= */
-
-const pageLoader =
-    document.getElementById("pageLoader");
-
-const navbar =
-    document.getElementById("navbar");
-
-const mouseGlow =
-    document.getElementById("mouseGlow");
-
-const yearElement =
-    document.getElementById("year");
-
-const localTimeElement =
-    document.getElementById("localTime");
-
-const mobileMenuButton =
-    document.getElementById("mobileMenuButton");
-
-const mobileMenu =
-    document.getElementById("mobileMenu");
-
-const projectModal =
-    document.getElementById("projectModal");
-
-const modalBackdrop =
-    document.getElementById("modalBackdrop");
-
-const modalClose =
-    document.getElementById("modalClose");
-
-const modalContent =
-    document.getElementById("modalContent");
-
-
-/* =========================================================
-   INITIAL LANGUAGE
-========================================================= */
-
-applyLanguage(currentLanguage);
-
-
-/* =========================================================
-   PAGE LOADER
-========================================================= */
-
-window.addEventListener(
-    "load",
-    () => {
-
-        setTimeout(
-            () => {
-
-                pageLoader.classList.add(
-                    "loaded"
-                );
-
-            },
-            500
-        );
-
-    }
-);
-
-
-/* =========================================================
-   YEAR
-========================================================= */
-
-yearElement.textContent =
-    new Date().getFullYear();
-
-
-/* =========================================================
-   LOCAL TIME
-========================================================= */
-
-function updateLocalTime() {
-
-    const now =
-        new Date();
-
-    const time =
-        now.toLocaleTimeString(
-            currentLanguage === "tr"
-                ? "tr-TR"
-                : "en-US",
-            {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit"
-            }
-        );
-
-    localTimeElement.textContent =
-        time;
-
 }
 
-updateLocalTime();
+.engineering-grid {
+    display: grid;
 
-setInterval(
-    updateLocalTime,
-    1000
-);
+    grid-template-columns:
+        repeat(3, 1fr);
 
+    gap: 1px;
 
-/* =========================================================
-   NAVBAR SCROLL
-========================================================= */
+    border: 1px solid var(--border);
 
-function handleNavbar() {
-
-    if (window.scrollY > 30) {
-
-        navbar.classList.add(
-            "scrolled"
-        );
-
-    } else {
-
-        navbar.classList.remove(
-            "scrolled"
-        );
-
-    }
-
+    background: var(--border);
 }
 
-window.addEventListener(
-    "scroll",
-    handleNavbar,
-    {
-        passive: true
-    }
-);
+.engineering-card {
+    min-height: 300px;
 
-handleNavbar();
+    padding: 32px;
 
+    background: var(--bg);
 
-/* =========================================================
-   MOBILE MENU
-========================================================= */
+    transition:
+        background var(--transition);
+}
 
-mobileMenuButton.addEventListener(
-    "click",
-    () => {
+.engineering-card:hover {
+    background: var(--surface);
+}
 
-        mobileMenu.classList.toggle(
-            "active"
+.engineering-icon {
+    display: inline-flex;
+
+    width: 35px;
+    height: 35px;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+}
+
+.engineering-card h3 {
+    margin-top: 55px;
+
+    font-size: 22px;
+
+    letter-spacing: -.035em;
+}
+
+.engineering-card p {
+    color: var(--text-soft);
+
+    font-size: 13px;
+
+    line-height: 1.7;
+
+    margin-top: 10px;
+}
+
+.engineering-tags {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    margin-top: 25px;
+}
+
+.engineering-tags span {
+    padding: 5px 7px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 5px;
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 7px;
+}
+
+.engineering-feature {
+    grid-column: span 3;
+
+    min-height: 170px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(124,92,255,.07),
+            transparent 60%
         );
+}
 
-    }
-);
+.feature-code {
+    width: 100%;
+    max-width: 760px;
+}
 
+.feature-code > span {
+    display: block;
 
-document
-    .querySelectorAll(".mobile-menu a")
-    .forEach(link => {
+    color: var(--text-muted);
 
-        link.addEventListener(
-            "click",
-            () => {
+    font-family: var(--font-mono);
 
-                mobileMenu.classList.remove(
-                    "active"
-                );
+    font-size: 10px;
 
-            }
-        );
+    margin-bottom: 20px;
+}
 
-    });
+.feature-code code {
+    display: flex;
 
+    flex-wrap: wrap;
 
-/* =========================================================
-   REVEAL ANIMATIONS
-========================================================= */
+    align-items: center;
 
-const revealElements =
-    document.querySelectorAll(
-        ".reveal"
+    justify-content: center;
+
+    gap: 14px;
+
+    font-family: var(--font-mono);
+
+    font-size: clamp(
+        12px,
+        2vw,
+        18px
     );
+}
 
-const revealObserver =
-    new IntersectionObserver(
-        entries => {
+.feature-code code b {
+    color: var(--text);
 
-            entries.forEach(
-                entry => {
+    font-weight: 500;
+}
 
-                    if (
-                        entry.isIntersecting
-                    ) {
-
-                        entry.target.classList.add(
-                            "visible"
-                        );
-
-                        revealObserver.unobserve(
-                            entry.target
-                        );
-
-                    }
-
-                }
-            );
-
-        },
-        {
-            threshold: .12
-        }
-    );
-
-
-revealElements.forEach(
-    element => {
-
-        revealObserver.observe(
-            element
-        );
-
-    }
-);
-
-
-/* =========================================================
-   MOUSE GLOW
-========================================================= */
-
-if (
-    window.matchMedia(
-        "(pointer: fine)"
-    ).matches
-) {
-
-    window.addEventListener(
-        "mousemove",
-        event => {
-
-            mouseGlow.style.left =
-                `${event.clientX}px`;
-
-            mouseGlow.style.top =
-                `${event.clientY}px`;
-
-            mouseGlow.style.opacity =
-                "1";
-
-        }
-    );
-
+.feature-code code span {
+    color: var(--accent-light);
 }
 
 
 /* =========================================================
-   PROJECT CARDS
+   STACK
 ========================================================= */
 
-const projectCards =
-    document.querySelectorAll(
-        ".project-card"
+.stack-layout {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 70px;
+}
+
+.stack-label {
+    display: block;
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+
+    letter-spacing: .12em;
+
+    margin-bottom: 20px;
+}
+
+.stack-primary {
+    border-top:
+        1px solid var(--border);
+}
+
+.tech-row {
+    min-height: 90px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+.tech-row strong {
+    display: block;
+
+    font-size: 19px;
+
+    letter-spacing: -.02em;
+}
+
+.tech-row span {
+    display: block;
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+
+    margin-top: 3px;
+}
+
+.tech-row b {
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+
+    font-weight: 400;
+}
+
+.technology-cloud {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+}
+
+.technology-cloud span {
+    padding: 10px 13px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    background: var(--surface);
+
+    color: var(--text-soft);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+
+    transition:
+        color var(--transition),
+        border-color var(--transition);
+}
+
+.technology-cloud span:hover {
+    color: var(--text);
+
+    border-color:
+        var(--border-hover);
+}
+
+
+/* =========================================================
+   GITHUB
+========================================================= */
+
+.github-section {
+    padding-top: 80px;
+}
+
+.github-panel {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 70px;
+
+    padding: 70px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 22px;
+
+    background:
+        radial-gradient(
+            circle at 80% 30%,
+            rgba(124,92,255,.08),
+            transparent 40%
+        ),
+        var(--surface);
+}
+
+.github-copy h2 {
+    font-size: clamp(
+        40px,
+        5vw,
+        60px
     );
 
+    line-height: 1;
 
-projectCards.forEach(
-    card => {
+    letter-spacing: -.06em;
+}
 
-        card.addEventListener(
-            "click",
-            event => {
+.github-copy h2 span {
+    color: var(--text-muted);
+}
 
-                const projectId =
-                    card.dataset.project;
+.github-copy p {
+    max-width: 480px;
 
-                openProject(
-                    projectId
-                );
+    color: var(--text-soft);
 
-            }
+    line-height: 1.8;
+
+    font-size: 14px;
+
+    margin: 25px 0 35px;
+}
+
+.github-terminal {
+    align-self: center;
+
+    border: 1px solid var(--border);
+
+    border-radius: 13px;
+
+    overflow: hidden;
+
+    background: #06080a;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.35);
+}
+
+.terminal-header {
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 15px;
+
+    border-bottom: 1px solid var(--border);
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+}
+
+.terminal-header > span {
+    margin: auto;
+}
+
+.terminal-body {
+    padding: 25px;
+
+    min-height: 260px;
+
+    font-family: var(--font-mono);
+
+    font-size: 10px;
+
+    line-height: 2;
+}
+
+.terminal-green {
+    color: var(--green);
+}
+
+.terminal-muted {
+    color: var(--text-muted);
+}
+
+.terminal-success {
+    color: #78d7a0;
+}
+
+.terminal-cursor {
+    display: inline-block;
+
+    width: 6px;
+    height: 12px;
+
+    background: var(--green);
+
+    animation:
+        cursorBlink 1s infinite;
+}
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.about-grid {
+    display: grid;
+
+    grid-template-columns:
+        .7fr 1.3fr;
+
+    gap: 120px;
+}
+
+.about-heading h2 {
+    font-size: clamp(
+        42px,
+        5vw,
+        65px
+    );
+
+    line-height: 1;
+
+    letter-spacing: -.06em;
+}
+
+.about-heading h2 span {
+    display: block;
+
+    color: var(--text-muted);
+}
+
+.about-content {
+    max-width: 700px;
+}
+
+.about-lead {
+    color: var(--text);
+
+    font-size: 22px !important;
+
+    line-height: 1.55 !important;
+}
+
+.about-content p {
+    color: var(--text-soft);
+
+    font-size: 14px;
+
+    line-height: 1.85;
+
+    margin-bottom: 25px;
+}
+
+.about-principles {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 10px;
+
+    margin-top: 45px;
+}
+
+.about-principles div {
+    padding: 18px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    background: var(--surface);
+}
+
+.about-principles span {
+    display: block;
+
+    color: var(--accent-light);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+
+    margin-bottom: 12px;
+}
+
+.about-principles strong {
+    display: block;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   EXPERIENCE
+========================================================= */
+
+.timeline {
+    position: relative;
+
+    max-width: 1000px;
+
+    margin: 0 auto;
+}
+
+.timeline::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    left: 100px;
+
+    width: 1px;
+
+    background: var(--border);
+}
+
+.timeline-item {
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns:
+        100px 1fr;
+
+    gap: 60px;
+
+    padding-bottom: 80px;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-marker {
+    position: absolute;
+
+    left: 96px;
+    top: 3px;
+
+    width: 9px;
+    height: 9px;
+
+    border-radius: 50%;
+
+    background: var(--bg);
+
+    border: 1px solid var(--text-muted);
+
+    z-index: 2;
+}
+
+.timeline-marker.active {
+    background: var(--accent);
+
+    border-color: var(--accent);
+
+    box-shadow:
+        0 0 20px rgba(124,92,255,.5);
+}
+
+.timeline-date {
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+}
+
+.timeline-content {
+    max-width: 700px;
+}
+
+.timeline-type {
+    color: var(--accent-light);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+
+    letter-spacing: .1em;
+}
+
+.timeline-content h3 {
+    margin-top: 10px;
+
+    font-size: 27px;
+
+    letter-spacing: -.04em;
+}
+
+.timeline-content p {
+    color: var(--text-soft);
+
+    font-size: 14px;
+
+    line-height: 1.8;
+
+    margin-top: 12px;
+}
+
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.contact-card {
+    display: grid;
+
+    grid-template-columns:
+        1.2fr .8fr;
+
+    gap: 80px;
+
+    padding: 80px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 22px;
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(124,92,255,.1),
+            transparent 35%
+        ),
+        var(--surface);
+}
+
+.contact-content h2 {
+    max-width: 700px;
+
+    font-size: clamp(
+        45px,
+        6vw,
+        76px
+    );
+
+    line-height: .98;
+
+    letter-spacing: -.07em;
+}
+
+.contact-content h2 span {
+    color: var(--text-muted);
+}
+
+.contact-content p {
+    max-width: 550px;
+
+    color: var(--text-soft);
+
+    font-size: 15px;
+
+    line-height: 1.8;
+
+    margin-top: 25px;
+}
+
+.contact-actions {
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 8px;
+}
+
+.contact-button {
+    min-height: 62px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 18px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255,255,255,.015);
+
+    color: var(--text-soft);
+
+    font-size: 13px;
+
+    transition:
+        color var(--transition),
+        border-color var(--transition),
+        background var(--transition);
+}
+
+.contact-button:hover {
+    color: var(--text);
+
+    border-color:
+        var(--border-hover);
+
+    background:
+        rgba(255,255,255,.035);
+}
+
+.contact-button strong {
+    color: var(--text-muted);
+
+    font-size: 18px;
+
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+    padding: 30px 0;
+
+    border-top: 1px solid var(--border);
+
+    margin-top: 80px;
+}
+
+.footer-container {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+.footer-brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.footer-brand .brand-mark {
+    width: 30px;
+    height: 30px;
+
+    font-size: 12px;
+}
+
+.footer-brand strong {
+    display: block;
+
+    font-size: 11px;
+
+    letter-spacing: .1em;
+}
+
+.footer-brand span:not(.brand-mark) {
+    display: block;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+
+    margin-top: 2px;
+}
+
+.footer-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 8px;
+
+    letter-spacing: .08em;
+}
+
+.footer-right {
+    display: flex;
+
+    gap: 20px;
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.project-modal {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 500;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px;
+}
+
+.project-modal.active {
+    display: flex;
+}
+
+.modal-backdrop {
+    position: absolute;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.75);
+
+    backdrop-filter: blur(12px);
+
+    opacity: 0;
+
+    animation:
+        modalFade .25s forwards;
+}
+
+.modal-container {
+    position: relative;
+
+    width: min(900px, 100%);
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    background: var(--surface);
+
+    box-shadow:
+        0 50px 150px rgba(0,0,0,.6);
+
+    transform: translateY(20px);
+
+    animation:
+        modalUp .3s forwards;
+}
+
+.modal-close {
+    position: absolute;
+
+    top: 18px;
+    right: 18px;
+
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+
+    place-items: center;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    background:
+        rgba(0,0,0,.3);
+
+    color: var(--text-soft);
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    z-index: 5;
+}
+
+.modal-close:hover {
+    color: var(--text);
+
+    border-color:
+        var(--border-hover);
+}
+
+.modal-content {
+    padding: 60px;
+}
+
+.modal-project-number {
+    color: var(--accent-light);
+
+    font-family: var(--font-mono);
+
+    font-size: 10px;
+
+    letter-spacing: .1em;
+}
+
+.modal-content h2 {
+    max-width: 700px;
+
+    margin-top: 15px;
+
+    font-size: clamp(
+        40px,
+        6vw,
+        65px
+    );
+
+    line-height: 1;
+
+    letter-spacing: -.06em;
+}
+
+.modal-subtitle {
+    color: var(--text-soft);
+
+    font-size: 17px;
+
+    line-height: 1.7;
+
+    margin-top: 20px;
+}
+
+.modal-tags {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-top: 25px;
+}
+
+.modal-tags span {
+    padding: 7px 9px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 6px;
+
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 8px;
+}
+
+.modal-divider {
+    height: 1px;
+
+    background: var(--border);
+
+    margin: 45px 0;
+}
+
+.modal-grid {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 45px;
+}
+
+.modal-block h4 {
+    color: var(--text-muted);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+
+    letter-spacing: .1em;
+
+    text-transform: uppercase;
+}
+
+.modal-block p {
+    color: var(--text-soft);
+
+    font-size: 13px;
+
+    line-height: 1.8;
+
+    margin-top: 12px;
+}
+
+.modal-block ul {
+    margin-top: 12px;
+
+    list-style: none;
+}
+
+.modal-block li {
+    position: relative;
+
+    padding-left: 18px;
+
+    color: var(--text-soft);
+
+    font-size: 13px;
+
+    line-height: 2;
+}
+
+.modal-block li::before {
+    content: "→";
+
+    position: absolute;
+
+    left: 0;
+
+    color: var(--accent-light);
+}
+
+.architecture {
+    margin-top: 20px;
+
+    padding: 25px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    background: #080a0d;
+
+    font-family: var(--font-mono);
+
+    font-size: 10px;
+
+    color: var(--text-muted);
+
+    line-height: 2;
+
+    white-space: pre-wrap;
+}
+
+.architecture strong {
+    color: var(--text);
+}
+
+@keyframes modalFade {
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+@keyframes modalUp {
+
+    to {
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+.reveal {
+    opacity: 0;
+
+    transform:
+        translateY(25px);
+
+    transition:
+        opacity .8s ease,
+        transform .8s cubic-bezier(.2,.8,.2,1);
+}
+
+.reveal.visible {
+    opacity: 1;
+
+    transform:
+        translateY(0);
+}
+
+.reveal-delay {
+    transition-delay: .12s;
+}
+
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+::selection {
+    background:
+        rgba(124,92,255,.35);
+
+    color: white;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #252b34;
+
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #353d48;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .desktop-nav {
+        margin-left: 0;
+    }
+
+    .hero-container {
+        grid-template-columns: 1fr;
+
+        gap: 80px;
+    }
+
+    .hero {
+        padding-top: 150px;
+    }
+
+    .hero-visual {
+        max-width: 650px;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .project-large {
+        grid-column: span 1;
+    }
+
+    .engineering-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .engineering-feature {
+        grid-column: span 2;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+
+        gap: 60px;
+    }
+
+    .contact-card,
+    .github-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .stack-layout {
+        gap: 50px;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .container {
+        width: min(
+            calc(100% - 32px),
+            var(--container)
         );
-
-    }
-);
-
-
-/* =========================================================
-   OPEN PROJECT
-========================================================= */
-
-function openProject(projectId) {
-
-    const project =
-        projects[projectId];
-
-    if (!project) {
-        return;
     }
 
+    .section {
+        padding: 100px 0;
+    }
 
-    const tagsHTML =
-        project.tags
-            .map(
-                tag =>
-                    `<span>${tag}</span>`
-            )
-            .join("");
+    .desktop-nav,
+    .nav-github,
+    .language-switcher {
+        display: none;
+    }
 
+    .mobile-menu-button {
+        display: block;
+    }
 
-    const challenges =
-        project.challenges[
-            currentLanguage
-        ];
+    .mobile-menu {
+        position: absolute;
 
+        top: 70px;
 
-    const challengesHTML =
-        challenges
-            .map(
-                challenge =>
-                    `<li>${challenge}</li>`
-            )
-            .join("");
+        left: 16px;
+        right: 16px;
 
+        padding: 10px;
 
-    modalContent.innerHTML = `
+        border: 1px solid var(--border);
 
-        <span class="modal-project-number">
+        border-radius: 12px;
 
-            ${project.number}
-            —
-            ${project.category[currentLanguage]}
+        background:
+            rgba(13,17,22,.95);
 
-        </span>
+        backdrop-filter: blur(20px);
 
+        display: none;
 
-        <h2>
-            ${project.title[currentLanguage]}
-        </h2>
+        flex-direction: column;
+    }
 
+    .mobile-menu.active {
+        display: flex;
+    }
 
-        <p class="modal-subtitle">
+    .mobile-menu a {
+        padding: 15px;
 
-            ${project.subtitle[currentLanguage]}
+        border-radius: 8px;
 
-        </p>
+        color: var(--text-soft);
 
+        font-size: 13px;
+    }
 
-        <div class="modal-tags">
+    .mobile-menu a:hover {
+        background:
+            rgba(255,255,255,.04);
 
-            ${tagsHTML}
-
-        </div>
-
-
-        <div class="modal-divider"></div>
-
-
-        <div class="modal-grid">
-
-
-            <div class="modal-block">
-
-                <h4>
-                    ${translations[currentLanguage].modal.problem}
-                </h4>
-
-                <p>
-                    ${project.problem[currentLanguage]}
-                </p>
-
-            </div>
+        color: var(--text);
+    }
 
 
-            <div class="modal-block">
+    /* MOBILE LANGUAGE */
 
-                <h4>
-                    ${translations[currentLanguage].modal.solution}
-                </h4>
+    .mobile-language {
+        display: flex;
 
-                <p>
-                    ${project.solution[currentLanguage]}
-                </p>
+        align-items: center;
 
-            </div>
+        gap: 6px;
 
+        margin-top: 8px;
 
-            <div class="modal-block">
+        padding: 12px 15px;
 
-                <h4>
-                    ${translations[currentLanguage].modal.challenges}
-                </h4>
+        border-top:
+            1px solid var(--border);
 
-                <ul>
+        font-family: var(--font-mono);
 
-                    ${challengesHTML}
+        font-size: 9px;
+    }
 
-                </ul>
-
-            </div>
-
-
-            <div class="modal-block">
-
-                <h4>
-                    ${translations[currentLanguage].modal.architecture}
-                </h4>
-
-                <div class="architecture">
-
-                    <strong>
-                        ${translations[currentLanguage].modal.systemFlow}
-                    </strong>
-
-                    <br><br>
-
-                    ${project.architecture}
-
-                </div>
-
-            </div>
-
-        </div>
-
-    `;
+    .mobile-language
+    .language-button {
+        padding: 6px 9px;
+    }
 
 
-    projectModal.classList.add(
-        "active"
-    );
+    .hero {
+        padding-top: 130px;
+    }
 
-    document.body.classList.add(
-        "modal-open"
-    );
+    .hero h1 {
+        font-size: clamp(
+            47px,
+            15vw,
+            70px
+        );
+    }
+
+    .hero-description {
+        font-size: 15px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+    .button {
+        width: 100%;
+    }
+
+    .hero-visual {
+        min-height: 390px;
+    }
+
+    .system-card {
+        transform: none;
+    }
+
+    .floating-card-one {
+        left: 0;
+    }
+
+    .floating-card-two {
+        right: 0;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stat {
+        border-right: none;
+
+        border-bottom:
+            1px solid var(--border);
+    }
+
+    .stat:last-child {
+        border-bottom: none;
+    }
+
+    .section-heading {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        margin-bottom: 45px;
+    }
+
+    .section-heading > p {
+        max-width: 500px;
+    }
+
+    .project-card,
+    .project-large {
+        min-height: 500px;
+    }
+
+    .project-visual {
+        inset:
+            80px 20px auto 20px;
+    }
+
+    .engineering-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .engineering-feature {
+        grid-column: span 1;
+    }
+
+    .engineering-card {
+        min-height: 280px;
+    }
+
+    .stack-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .github-panel {
+        padding: 35px 25px;
+    }
+
+    .contact-card {
+        padding: 40px 25px;
+    }
+
+    .about-principles {
+        grid-template-columns: 1fr;
+    }
+
+    .timeline::before {
+        left: 6px;
+    }
+
+    .timeline-item {
+        grid-template-columns: 1fr;
+
+        gap: 18px;
+
+        padding-left: 30px;
+    }
+
+    .timeline-marker {
+        left: 2px;
+    }
+
+    .timeline-date {
+        font-size: 8px;
+    }
+
+    .modal-content {
+        padding: 40px 25px;
+    }
+
+    .modal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-container {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 20px;
+    }
+
+    .footer-right {
+        flex-direction: column;
+
+        gap: 6px;
+    }
+
+    .scroll-indicator {
+        display: none;
+    }
 
 }
 
 
-/* =========================================================
-   CLOSE PROJECT
-========================================================= */
+@media (max-width: 420px) {
 
-function closeProject() {
-
-    projectModal.classList.remove(
-        "active"
-    );
-
-    document.body.classList.remove(
-        "modal-open"
-    );
-
-}
-
-
-modalClose.addEventListener(
-    "click",
-    closeProject
-);
-
-modalBackdrop.addEventListener(
-    "click",
-    closeProject
-);
-
-
-/* =========================================================
-   ESCAPE KEY
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if (
-            event.key === "Escape" &&
-            projectModal.classList.contains(
-                "active"
-            )
-        ) {
-
-            closeProject();
-
-        }
-
+    .hero h1 {
+        font-size: 46px;
     }
-);
 
+    .system-body {
+        padding: 20px;
 
-/* =========================================================
-   SMOOTH ANCHOR OFFSET
-========================================================= */
+        font-size: 10px;
+    }
 
-document
-    .querySelectorAll(
-        'a[href^="#"]'
-    )
-    .forEach(
-        anchor => {
+    .code-line {
+        grid-template-columns:
+            22px 1fr;
 
-            anchor.addEventListener(
-                "click",
-                event => {
+        gap: 10px;
+    }
 
-                    const targetId =
-                        anchor.getAttribute(
-                            "href"
-                        );
+    .project-content h3 {
+        font-size: 27px;
+    }
 
-                    if (
-                        !targetId ||
-                        targetId === "#"
-                    ) {
-                        return;
-                    }
-
-
-                    const target =
-                        document.querySelector(
-                            targetId
-                        );
-
-                    if (!target) {
-                        return;
-                    }
-
-
-                    event.preventDefault();
-
-
-                    const navbarHeight =
-                        navbar.offsetHeight;
-
-
-                    const targetPosition =
-                        target
-                            .getBoundingClientRect()
-                            .top
-                        +
-                        window.scrollY
-                        -
-                        navbarHeight
-                        -
-                        20;
-
-
-                    window.scrollTo({
-                        top:
-                            targetPosition,
-                        behavior:
-                            "smooth"
-                    });
-
-                }
-            );
-
-        }
-    );
-
-
-/* =========================================================
-   PROJECT CARD TILT
-========================================================= */
-
-if (
-    window.matchMedia(
-        "(pointer: fine)"
-    ).matches
-) {
-
-    projectCards.forEach(
-        card => {
-
-            card.addEventListener(
-                "mousemove",
-                event => {
-
-                    const rect =
-                        card.getBoundingClientRect();
-
-                    const x =
-                        event.clientX -
-                        rect.left;
-
-                    const y =
-                        event.clientY -
-                        rect.top;
-
-                    const centerX =
-                        rect.width / 2;
-
-                    const centerY =
-                        rect.height / 2;
-
-                    const rotateX =
-                        (
-                            (y - centerY) /
-                            centerY
-                        ) * -1.2;
-
-                    const rotateY =
-                        (
-                            (x - centerX) /
-                            centerX
-                        ) * 1.2;
-
-                    card.style.transform = `
-                        perspective(1000px)
-                        rotateX(${rotateX}deg)
-                        rotateY(${rotateY}deg)
-                        translateY(-5px)
-                    `;
-
-                }
-            );
-
-
-            card.addEventListener(
-                "mouseleave",
-                () => {
-
-                    card.style.transform =
-                        "";
-
-                }
-            );
-
-        }
-    );
+    .floating-card {
+        transform:
+            scale(.85);
+    }
 
 }
-
-
-/* =========================================================
-   CONSOLE
-========================================================= */
-
-console.log(
-    "%cSALVA",
-    "font-size:32px;font-weight:700;"
-);
-
-console.log(
-    "%cSoftware Developer",
-    "font-size:14px;color:#9b84ff;"
-);
-
-console.log(
-    "%cIf you're reading this, you're probably curious.",
-    "font-size:12px;color:#a7afb9;"
-);
-
-console.log(
-    "%cLet's build something.",
-    "font-size:12px;color:#45d483;"
-);
