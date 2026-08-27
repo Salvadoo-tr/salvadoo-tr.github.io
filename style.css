@@ -50,12 +50,9 @@ html {
 
 body {
     min-height: 100vh;
-
     background: var(--bg);
     color: var(--text);
-
     font-family: var(--font-main);
-
     overflow-x: hidden;
 }
 
@@ -85,11 +82,8 @@ a {
 .background {
     position: fixed;
     inset: 0;
-
     pointer-events: none;
-
     z-index: -10;
-
     overflow: hidden;
 }
 
@@ -119,39 +113,30 @@ a {
 
 .background-glow {
     position: absolute;
-
     width: 600px;
     height: 600px;
-
     border-radius: 50%;
-
     filter: blur(120px);
-
     opacity: .12;
 }
 
 .glow-one {
     top: -250px;
     right: -150px;
-
     background: var(--accent);
 }
 
 .glow-two {
     top: 45%;
     left: -300px;
-
     background: #3859ff;
 }
 
 .mouse-glow {
     position: fixed;
-
     width: 350px;
     height: 350px;
-
     border-radius: 50%;
-
     pointer-events: none;
 
     background: radial-gradient(
@@ -163,7 +148,6 @@ a {
     transform: translate(-50%, -50%);
 
     z-index: -1;
-
     opacity: 0;
 
     transition: opacity .3s ease;
@@ -222,13 +206,11 @@ a {
     );
 
     line-height: 1.03;
-
     letter-spacing: -.055em;
 }
 
 .section-heading h2 span {
     display: block;
-
     color: var(--text-muted);
 }
 
@@ -238,7 +220,6 @@ a {
     color: var(--text-soft);
 
     line-height: 1.8;
-
     font-size: 15px;
 }
 
@@ -249,7 +230,6 @@ a {
 
 .page-loader {
     position: fixed;
-
     inset: 0;
 
     background: var(--bg);
@@ -271,7 +251,6 @@ a {
 
 .loader-content {
     width: 220px;
-
     text-align: center;
 }
 
@@ -285,7 +264,6 @@ a {
     place-items: center;
 
     border: 1px solid var(--border);
-
     border-radius: 14px;
 
     font-size: 24px;
@@ -313,7 +291,8 @@ a {
 
     background: var(--accent);
 
-    animation: loading 1.2s infinite ease-in-out;
+    animation:
+        loading 1.2s infinite ease-in-out;
 }
 
 .loader-content p {
@@ -327,6 +306,7 @@ a {
 }
 
 @keyframes loading {
+
     0% {
         transform: translateX(-100%);
     }
@@ -334,6 +314,7 @@ a {
     100% {
         transform: translateX(350%);
     }
+
 }
 
 
@@ -378,9 +359,7 @@ a {
 
 .brand {
     display: flex;
-
     align-items: center;
-
     gap: 11px;
 }
 
@@ -424,7 +403,8 @@ a {
 
     font-size: 13px;
 
-    transition: color var(--transition);
+    transition:
+        color var(--transition);
 }
 
 .desktop-nav a:hover {
@@ -433,9 +413,80 @@ a {
 
 .nav-actions {
     display: flex;
+
     align-items: center;
+
     gap: 15px;
 }
+
+
+/* =========================================================
+   LANGUAGE SWITCHER
+========================================================= */
+
+.language-switcher {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 5px 7px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    background: var(--surface);
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+}
+
+.language-button {
+    padding: 3px 5px;
+
+    border: none;
+
+    border-radius: 5px;
+
+    background: transparent;
+
+    color: var(--text-muted);
+
+    cursor: pointer;
+
+    font-family: var(--font-mono);
+
+    font-size: 9px;
+
+    transition:
+        color var(--transition),
+        background var(--transition);
+}
+
+.language-button:hover {
+    color: var(--text);
+}
+
+.language-button.active {
+    background: var(--accent-soft);
+    color: var(--accent-light);
+}
+
+.language-switcher > span {
+    color: var(--text-muted);
+}
+
+.mobile-language {
+    display: none;
+}
+
+
+/* =========================================================
+   GITHUB NAV
+========================================================= */
 
 .nav-github {
     display: flex;
@@ -448,7 +499,8 @@ a {
 
     font-size: 13px;
 
-    transition: color var(--transition);
+    transition:
+        color var(--transition);
 }
 
 .nav-github:hover {
@@ -721,7 +773,8 @@ a {
         rotateY(-7deg)
         rotateX(3deg);
 
-    transition: transform .6s ease;
+    transition:
+        transform .6s ease;
 }
 
 .hero-visual:hover .system-card {
@@ -748,7 +801,6 @@ a {
 
 .window-dots {
     display: flex;
-
     gap: 6px;
 }
 
@@ -832,10 +884,12 @@ a {
 
     margin-left: 48px;
 
-    animation: cursorBlink 1s infinite;
+    animation:
+        cursorBlink 1s infinite;
 }
 
 @keyframes cursorBlink {
+
     0%,
     45% {
         opacity: 1;
@@ -845,6 +899,7 @@ a {
     100% {
         opacity: 0;
     }
+
 }
 
 .floating-card {
@@ -866,7 +921,8 @@ a {
 
     backdrop-filter: blur(15px);
 
-    box-shadow: 0 20px 50px rgba(0,0,0,.3);
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.3);
 }
 
 .floating-card small {
@@ -894,6 +950,7 @@ a {
     height: 30px;
 
     display: grid;
+
     place-items: center;
 
     border-radius: 7px;
@@ -905,13 +962,11 @@ a {
 
 .floating-card-one {
     top: 10%;
-
     left: -20px;
 }
 
 .floating-card-two {
     bottom: 12%;
-
     right: -10px;
 }
 
@@ -959,7 +1014,8 @@ a {
 .stats-grid {
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:
+        repeat(3, 1fr);
 
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
@@ -1011,7 +1067,8 @@ a {
 .projects-grid {
     display: grid;
 
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns:
+        repeat(2, 1fr);
 
     gap: 16px;
 }
@@ -1063,7 +1120,6 @@ a {
 
 .project-large {
     grid-column: span 2;
-
     min-height: 570px;
 }
 
@@ -1161,11 +1217,14 @@ a {
 }
 
 .project-link span {
-    transition: transform var(--transition);
+    transition:
+        transform var(--transition);
 }
 
-.project-card:hover .project-link span {
-    transform: translate(3px,-3px);
+.project-card:hover
+.project-link span {
+    transform:
+        translate(3px,-3px);
 }
 
 
@@ -1197,11 +1256,16 @@ a {
 
     border-radius: 12px;
 
-    background: rgba(8,10,13,.85);
+    background:
+        rgba(8,10,13,.85);
 
-    box-shadow: 0 30px 80px rgba(0,0,0,.4);
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.4);
 
-    transform: perspective(900px) rotateX(8deg) rotateY(-7deg);
+    transform:
+        perspective(900px)
+        rotateX(8deg)
+        rotateY(-7deg);
 
     opacity: .9;
 }
@@ -1273,15 +1337,18 @@ a {
 
     border-radius: inherit;
 
-    background: linear-gradient(
-        90deg,
-        var(--accent),
-        #a28fff
-    );
+    background:
+        linear-gradient(
+            90deg,
+            var(--accent),
+            #a28fff
+        );
 }
 
 
-/* Dashboard */
+/* =========================================================
+   DASHBOARD
+========================================================= */
 
 .project-mini-ui,
 .browser-mini,
@@ -1304,7 +1371,8 @@ a {
 
     border-radius: 12px;
 
-    background: rgba(255,255,255,.018);
+    background:
+        rgba(255,255,255,.018);
 
     transform:
         perspective(900px)
@@ -1343,19 +1411,23 @@ a {
 .dashboard-mini-chart span {
     flex: 1;
 
-    border-radius: 4px 4px 0 0;
+    border-radius:
+        4px 4px 0 0;
 
-    background: linear-gradient(
-        to top,
-        var(--accent-soft),
-        rgba(124,92,255,.5)
-    );
+    background:
+        linear-gradient(
+            to top,
+            var(--accent-soft),
+            rgba(124,92,255,.5)
+        );
 
     opacity: .8;
 }
 
 
-/* Browser */
+/* =========================================================
+   BROWSER
+========================================================= */
 
 .browser-mini {
     border: 1px solid var(--border);
@@ -1364,7 +1436,8 @@ a {
 
     overflow: hidden;
 
-    background: rgba(8,10,13,.9);
+    background:
+        rgba(8,10,13,.9);
 
     transform:
         perspective(900px)
@@ -1431,7 +1504,9 @@ a {
 }
 
 
-/* Scanner */
+/* =========================================================
+   SCANNER
+========================================================= */
 
 .scanner-mini {
     display: grid;
@@ -1500,20 +1575,26 @@ a {
 
     background: var(--accent);
 
-    box-shadow: 0 0 15px var(--accent);
+    box-shadow:
+        0 0 15px var(--accent);
 
-    animation: scanner 2.5s infinite ease-in-out;
+    animation:
+        scanner 2.5s infinite ease-in-out;
 }
 
 @keyframes scanner {
+
     0%,
     100% {
-        transform: translateY(-70px);
+        transform:
+            translateY(-70px);
     }
 
     50% {
-        transform: translateY(70px);
+        transform:
+            translateY(70px);
     }
+
 }
 
 
@@ -1534,7 +1615,8 @@ a {
 .engineering-grid {
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:
+        repeat(3, 1fr);
 
     gap: 1px;
 
@@ -1550,7 +1632,8 @@ a {
 
     background: var(--bg);
 
-    transition: background var(--transition);
+    transition:
+        background var(--transition);
 }
 
 .engineering-card:hover {
@@ -1640,7 +1723,6 @@ a {
 
 .feature-code {
     width: 100%;
-
     max-width: 760px;
 }
 
@@ -1678,6 +1760,7 @@ a {
 
 .feature-code code b {
     color: var(--text);
+
     font-weight: 500;
 }
 
@@ -1693,7 +1776,8 @@ a {
 .stack-layout {
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns:
+        1fr 1fr;
 
     gap: 70px;
 }
@@ -1713,7 +1797,8 @@ a {
 }
 
 .stack-primary {
-    border-top: 1px solid var(--border);
+    border-top:
+        1px solid var(--border);
 }
 
 .tech-row {
@@ -1725,7 +1810,8 @@ a {
 
     justify-content: space-between;
 
-    border-bottom: 1px solid var(--border);
+    border-bottom:
+        1px solid var(--border);
 }
 
 .tech-row strong {
@@ -1787,7 +1873,8 @@ a {
 .technology-cloud span:hover {
     color: var(--text);
 
-    border-color: var(--border-hover);
+    border-color:
+        var(--border-hover);
 }
 
 
@@ -1802,7 +1889,8 @@ a {
 .github-panel {
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns:
+        1fr 1fr;
 
     gap: 70px;
 
@@ -1860,7 +1948,8 @@ a {
 
     background: #06080a;
 
-    box-shadow: 0 30px 80px rgba(0,0,0,.35);
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.35);
 }
 
 .terminal-header {
@@ -1917,7 +2006,8 @@ a {
 
     background: var(--green);
 
-    animation: cursorBlink 1s infinite;
+    animation:
+        cursorBlink 1s infinite;
 }
 
 
@@ -1928,7 +2018,8 @@ a {
 .about-grid {
     display: grid;
 
-    grid-template-columns: .7fr 1.3fr;
+    grid-template-columns:
+        .7fr 1.3fr;
 
     gap: 120px;
 }
@@ -1976,7 +2067,8 @@ a {
 .about-principles {
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:
+        repeat(3, 1fr);
 
     gap: 10px;
 
@@ -2044,7 +2136,8 @@ a {
 
     display: grid;
 
-    grid-template-columns: 100px 1fr;
+    grid-template-columns:
+        100px 1fr;
 
     gap: 60px;
 
@@ -2078,7 +2171,8 @@ a {
 
     border-color: var(--accent);
 
-    box-shadow: 0 0 20px rgba(124,92,255,.5);
+    box-shadow:
+        0 0 20px rgba(124,92,255,.5);
 }
 
 .timeline-date {
@@ -2087,8 +2181,6 @@ a {
     font-family: var(--font-mono);
 
     font-size: 9px;
-
-    padding-top: 0;
 }
 
 .timeline-content {
@@ -2131,7 +2223,8 @@ a {
 .contact-card {
     display: grid;
 
-    grid-template-columns: 1.2fr .8fr;
+    grid-template-columns:
+        1.2fr .8fr;
 
     gap: 80px;
 
@@ -2205,7 +2298,8 @@ a {
 
     border-radius: 10px;
 
-    background: rgba(255,255,255,.015);
+    background:
+        rgba(255,255,255,.015);
 
     color: var(--text-soft);
 
@@ -2220,9 +2314,11 @@ a {
 .contact-button:hover {
     color: var(--text);
 
-    border-color: var(--border-hover);
+    border-color:
+        var(--border-hover);
 
-    background: rgba(255,255,255,.035);
+    background:
+        rgba(255,255,255,.035);
 }
 
 .contact-button strong {
@@ -2350,7 +2446,8 @@ a {
 
     opacity: 0;
 
-    animation: modalFade .25s forwards;
+    animation:
+        modalFade .25s forwards;
 }
 
 .modal-container {
@@ -2368,11 +2465,13 @@ a {
 
     background: var(--surface);
 
-    box-shadow: 0 50px 150px rgba(0,0,0,.6);
+    box-shadow:
+        0 50px 150px rgba(0,0,0,.6);
 
     transform: translateY(20px);
 
-    animation: modalUp .3s forwards;
+    animation:
+        modalUp .3s forwards;
 }
 
 .modal-close {
@@ -2385,13 +2484,15 @@ a {
     height: 38px;
 
     display: grid;
+
     place-items: center;
 
     border: 1px solid var(--border);
 
     border-radius: 9px;
 
-    background: rgba(0,0,0,.3);
+    background:
+        rgba(0,0,0,.3);
 
     color: var(--text-soft);
 
@@ -2405,7 +2506,8 @@ a {
 .modal-close:hover {
     color: var(--text);
 
-    border-color: var(--border-hover);
+    border-color:
+        var(--border-hover);
 }
 
 .modal-content {
@@ -2483,7 +2585,8 @@ a {
 .modal-grid {
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns:
+        1fr 1fr;
 
     gap: 45px;
 }
@@ -2556,6 +2659,8 @@ a {
     color: var(--text-muted);
 
     line-height: 2;
+
+    white-space: pre-wrap;
 }
 
 .architecture strong {
@@ -2563,15 +2668,19 @@ a {
 }
 
 @keyframes modalFade {
+
     to {
         opacity: 1;
     }
+
 }
 
 @keyframes modalUp {
+
     to {
         transform: translateY(0);
     }
+
 }
 
 
@@ -2582,7 +2691,8 @@ a {
 .reveal {
     opacity: 0;
 
-    transform: translateY(25px);
+    transform:
+        translateY(25px);
 
     transition:
         opacity .8s ease,
@@ -2592,7 +2702,8 @@ a {
 .reveal.visible {
     opacity: 1;
 
-    transform: translateY(0);
+    transform:
+        translateY(0);
 }
 
 .reveal-delay {
@@ -2605,7 +2716,8 @@ a {
 ========================================================= */
 
 ::selection {
-    background: rgba(124,92,255,.35);
+    background:
+        rgba(124,92,255,.35);
 
     color: white;
 }
@@ -2667,7 +2779,8 @@ a {
     }
 
     .engineering-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
     .engineering-feature {
@@ -2688,6 +2801,7 @@ a {
     .stack-layout {
         gap: 50px;
     }
+
 }
 
 
@@ -2705,7 +2819,8 @@ a {
     }
 
     .desktop-nav,
-    .nav-github {
+    .nav-github,
+    .language-switcher {
         display: none;
     }
 
@@ -2717,6 +2832,7 @@ a {
         position: absolute;
 
         top: 70px;
+
         left: 16px;
         right: 16px;
 
@@ -2726,7 +2842,8 @@ a {
 
         border-radius: 12px;
 
-        background: rgba(13,17,22,.95);
+        background:
+            rgba(13,17,22,.95);
 
         backdrop-filter: blur(20px);
 
@@ -2750,10 +2867,39 @@ a {
     }
 
     .mobile-menu a:hover {
-        background: rgba(255,255,255,.04);
+        background:
+            rgba(255,255,255,.04);
 
         color: var(--text);
     }
+
+
+    /* MOBILE LANGUAGE */
+
+    .mobile-language {
+        display: flex;
+
+        align-items: center;
+
+        gap: 6px;
+
+        margin-top: 8px;
+
+        padding: 12px 15px;
+
+        border-top:
+            1px solid var(--border);
+
+        font-family: var(--font-mono);
+
+        font-size: 9px;
+    }
+
+    .mobile-language
+    .language-button {
+        padding: 6px 9px;
+    }
+
 
     .hero {
         padding-top: 130px;
@@ -2802,7 +2948,8 @@ a {
     .stat {
         border-right: none;
 
-        border-bottom: 1px solid var(--border);
+        border-bottom:
+            1px solid var(--border);
     }
 
     .stat:last-child {
@@ -2827,7 +2974,8 @@ a {
     }
 
     .project-visual {
-        inset: 80px 20px auto 20px;
+        inset:
+            80px 20px auto 20px;
     }
 
     .engineering-grid {
@@ -2903,6 +3051,7 @@ a {
     .scroll-indicator {
         display: none;
     }
+
 }
 
 
@@ -2919,7 +3068,8 @@ a {
     }
 
     .code-line {
-        grid-template-columns: 22px 1fr;
+        grid-template-columns:
+            22px 1fr;
 
         gap: 10px;
     }
@@ -2929,6 +3079,8 @@ a {
     }
 
     .floating-card {
-        transform: scale(.85);
+        transform:
+            scale(.85);
     }
+
 }
