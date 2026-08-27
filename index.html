@@ -1,699 +1,1341 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SALVA // RED CYBERPUNK</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            background: #0a0a0a;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Share Tech Mono', monospace;
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-        }
+    <meta
+        name="description"
+        content="Salva — Software Developer building automation systems, internal tools and software for real-world problems."
+    >
 
-        /* ========== KIRMIZI MATRIX ARKAPLAN ========== */
-        #networkCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
+    <meta
+        name="keywords"
+        content="Salva, software developer, C#, .NET, automation, SQL, JavaScript, desktop applications"
+    >
 
-        /* ========== SCANLINE ========== */
-        .scanline {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent 0px,
-                transparent 3px,
-                rgba(255, 0, 0, 0.03) 3px,
-                rgba(255, 0, 0, 0.03) 4px
-            );
-            pointer-events: none;
-            z-index: 1;
-            animation: scanMove 8s linear infinite;
-        }
+    <meta name="author" content="Salva">
 
-        @keyframes scanMove {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(100px); }
-        }
+    <meta property="og:title" content="Salva — Software Developer">
+    <meta
+        property="og:description"
+        content="Software developer focused on automation, internal tools and real-world systems."
+    >
+    <meta property="og:type" content="website">
 
-        /* ========== TERMINAL CONTAINER ========== */
-        .terminal-container {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            max-width: 900px;
-            background: rgba(10, 10, 10, 0.92);
-            border: 1px solid #ff0033;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 
-                0 0 60px rgba(255, 0, 51, 0.15),
-                inset 0 0 60px rgba(255, 0, 51, 0.05),
-                0 0 120px rgba(255, 0, 51, 0.05);
-            backdrop-filter: blur(10px);
-        }
+    <title>Salva — Software Developer</title>
 
-        /* ========== HEADER ========== */
-        .terminal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 0, 51, 0.2);
-            margin-bottom: 20px;
-        }
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        .terminal-title {
-            color: #ff0033;
-            font-family: 'Orbitron', monospace;
-            font-size: 14px;
-            letter-spacing: 3px;
-            text-shadow: 0 0 20px rgba(255, 0, 51, 0.3);
-        }
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet"
+    >
 
-        .terminal-title .blink {
-            animation: blink 1.5s step-end infinite;
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-
-        .terminal-dots {
-            display: flex;
-            gap: 10px;
-        }
-
-        .dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-
-        .dot-red { background: #ff0033; box-shadow: 0 0 15px #ff0033; }
-        .dot-yellow { background: #ff6600; box-shadow: 0 0 15px #ff6600; }
-        .dot-green { background: #00ff9c; box-shadow: 0 0 15px #00ff9c; }
-
-        .dot:hover {
-            transform: scale(1.3);
-        }
-
-        /* ========== OUTPUT ========== */
-        .terminal-output {
-            color: #ff0033;
-            font-size: 15px;
-            line-height: 1.8;
-            min-height: 400px;
-            max-height: 500px;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .terminal-output .line {
-            opacity: 0;
-            animation: fadeIn 0.3s ease forwards;
-            margin-bottom: 2px;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        .output-text {
-            color: #ff6688;
-            padding-left: 25px;
-            display: block;
-        }
-
-        .highlight {
-            color: #ffcc00;
-        }
-
-        .error {
-            color: #ff0033;
-            text-shadow: 0 0 20px rgba(255, 0, 51, 0.3);
-        }
-
-        .success {
-            color: #ff0033;
-        }
-
-        .info {
-            color: #ff8844;
-        }
-
-        .ascii-art {
-            color: #ff0033;
-            font-size: 12px;
-            line-height: 1.3;
-            white-space: pre;
-            margin: 10px 0;
-            opacity: 0.7;
-            text-shadow: 0 0 10px rgba(255, 0, 51, 0.1);
-        }
-
-        /* ========== INPUT ========== */
-        .terminal-input-line {
-            display: flex;
-            align-items: center;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 0, 51, 0.1);
-        }
-
-        .terminal-input-line .prompt {
-            color: #ff0033;
-            margin-right: 10px;
-            font-size: 16px;
-        }
-
-        .terminal-input {
-            background: transparent;
-            border: none;
-            color: #ff0033;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 16px;
-            outline: none;
-            flex: 1;
-            caret-color: #ff0033;
-        }
-
-        .terminal-input::placeholder {
-            color: rgba(255, 0, 51, 0.3);
-        }
-
-        .cursor-blink {
-            display: inline-block;
-            width: 10px;
-            height: 20px;
-            background: #ff0033;
-            animation: blink 1s step-end infinite;
-            margin-left: 2px;
-            box-shadow: 0 0 20px rgba(255, 0, 51, 0.3);
-        }
-
-        /* ========== COMMANDS ========== */
-        .command-list {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255, 0, 51, 0.1);
-        }
-
-        .cmd-btn {
-            background: rgba(255, 0, 51, 0.05);
-            border: 1px solid rgba(255, 0, 51, 0.2);
-            color: #ff0033;
-            padding: 6px 15px;
-            border-radius: 5px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .cmd-btn:hover {
-            background: rgba(255, 0, 51, 0.15);
-            border-color: #ff0033;
-            box-shadow: 0 0 30px rgba(255, 0, 51, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .cmd-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* ========== STATUS ========== */
-        .status-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255, 0, 51, 0.1);
-            font-size: 12px;
-            color: rgba(255, 0, 51, 0.6);
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .status-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .status-dot.online {
-            background: #ff0033;
-            animation: pulse 2s ease-in-out infinite;
-            box-shadow: 0 0 15px rgba(255, 0, 51, 0.3);
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 768px) {
-            .terminal-container { padding: 15px; }
-            .terminal-output { font-size: 13px; line-height: 1.6; max-height: 350px; }
-            .terminal-title { font-size: 11px; }
-            .ascii-art { font-size: 8px; }
-            .command-list { gap: 5px; }
-            .cmd-btn { font-size: 10px; padding: 4px 10px; }
-        }
-
-        @media (max-width: 480px) {
-            .terminal-output { font-size: 11px; line-height: 1.5; max-height: 300px; }
-            .terminal-container { padding: 10px; border-radius: 8px; }
-            .terminal-header { flex-direction: column; gap: 10px; align-items: flex-start; }
-            .status-bar { flex-direction: column; align-items: flex-start; }
-        }
-
-        .terminal-output::-webkit-scrollbar {
-            width: 4px;
-        }
-        .terminal-output::-webkit-scrollbar-track {
-            background: rgba(255, 0, 51, 0.05);
-        }
-        .terminal-output::-webkit-scrollbar-thumb {
-            background: #ff0033;
-            border-radius: 2px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <!-- ========== ARKAPLAN CANVAS (BAĞLANAN ÇİZGİLER) ========== -->
-    <canvas id="networkCanvas"></canvas>
-    
-    <div class="scanline"></div>
+    <!-- =========================================================
+         PAGE LOADER
+    ========================================================== -->
 
-    <!-- ========== TERMINAL ========== -->
-    <div class="terminal-container">
-        
-        <div class="terminal-header">
-            <div class="terminal-title">
-                <span class="blink">●</span> SALVA@RED_CYBER:~ 
-                <span style="opacity:0.5; font-size:11px;">// v3.0</span>
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-content">
+            <div class="loader-logo">S</div>
+            <div class="loader-line">
+                <span></span>
             </div>
-            <div class="terminal-dots">
-                <span class="dot dot-red"></span>
-                <span class="dot dot-yellow"></span>
-                <span class="dot dot-green"></span>
-            </div>
-        </div>
-
-        <div class="terminal-output" id="output"></div>
-
-        <div class="terminal-input-line">
-            <span class="prompt">$</span>
-            <input type="text" class="terminal-input" id="commandInput" placeholder="Komut girin..." autofocus>
-            <span class="cursor-blink"></span>
-        </div>
-
-        <div class="command-list">
-            <button class="cmd-btn" data-cmd="whoami">> whoami</button>
-            <button class="cmd-btn" data-cmd="about">> ./about-me.sh</button>
-            <button class="cmd-btn" data-cmd="neofetch">> neofetch</button>
-            <button class="cmd-btn" data-cmd="projects">> ls ./projects</button>
-            <button class="cmd-btn" data-cmd="status">> git status</button>
-            <button class="cmd-btn" data-cmd="clear">> clear</button>
-            <button class="cmd-btn" data-cmd="help">> help</button>
-        </div>
-
-        <div class="status-bar">
-            <span class="status-item">
-                <span class="status-dot online"></span>
-                SYSTEM: ONLINE
-            </span>
-            <span class="status-item">
-                <span class="status-dot online"></span>
-                CONNECTION: SECURE
-            </span>
-            <span class="status-item">
-                <span class="status-dot online"></span>
-                MODE: BUILDING
-            </span>
-            <span class="status-item" id="timeDisplay">
-                ⏱️ 00:00:00
-            </span>
+            <p>INITIALIZING PORTFOLIO</p>
         </div>
     </div>
 
-    <script>
-        // ============================================================
-        // ARKAPLAN: BAĞLANAN ÇİZGİLER (MATRIX TARZI)
-        // ============================================================
-        const canvas = document.getElementById('networkCanvas');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
-        const PARTICLE_COUNT = 80;
-        const CONNECTION_DISTANCE = 150;
 
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
+    <!-- =========================================================
+         BACKGROUND
+    ========================================================== -->
 
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 1.5;
-                this.vy = (Math.random() - 0.5) * 1.5;
-                this.radius = Math.random() * 2 + 1;
-            }
+    <div class="background">
+        <div class="background-grid"></div>
+        <div class="background-glow glow-one"></div>
+        <div class="background-glow glow-two"></div>
+    </div>
 
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
+    <div class="mouse-glow" id="mouseGlow"></div>
 
-                // Kenarlardan sekme
-                if (this.x < 0 || this.x > width) this.vx *= -1;
-                if (this.y < 0 || this.y > height) this.vy *= -1;
-            }
 
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = '#ff0033';
-                ctx.shadowColor = '#ff0033';
-                ctx.shadowBlur = 10;
-                ctx.fill();
-            }
-        }
+    <!-- =========================================================
+         NAVBAR
+    ========================================================== -->
 
-        function initParticles() {
-            particles = [];
-            for (let i = 0; i < PARTICLE_COUNT; i++) {
-                particles.push(new Particle());
-            }
-        }
+    <header class="navbar" id="navbar">
 
-        function drawLines() {
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
+        <div class="container nav-container">
 
-                    if (distance < CONNECTION_DISTANCE) {
-                        const opacity = 1 - (distance / CONNECTION_DISTANCE);
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = `rgba(255, 0, 51, ${opacity * 0.3})`;
-                        ctx.lineWidth = 1;
-                        ctx.shadowColor = `rgba(255, 0, 51, ${opacity * 0.2})`;
-                        ctx.shadowBlur = 10;
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
+            <a href="#home" class="brand">
+                <span class="brand-mark">S</span>
+                <span class="brand-name">SALVA</span>
+            </a>
 
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
+            <nav class="desktop-nav">
+                <a href="#work">Work</a>
+                <a href="#engineering">Engineering</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </nav>
 
-            // Çizgileri önce çiz (arkada kalsın)
-            drawLines();
+            <div class="nav-actions">
 
-            // Sonra parçacıkları çiz
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
+                <a
+                    href="https://github.com/Salvadoo-tr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="nav-github"
+                >
+                    GitHub
+                    <span>↗</span>
+                </a>
 
-            requestAnimationFrame(animate);
-        }
+                <button
+                    class="mobile-menu-button"
+                    id="mobileMenuButton"
+                    aria-label="Open menu"
+                >
+                    <span></span>
+                    <span></span>
+                </button>
 
-        window.addEventListener('resize', () => {
-            resize();
-            initParticles();
-        });
+            </div>
 
-        // Başlat
-        resize();
-        initParticles();
-        animate();
+        </div>
 
-        // ============================================================
-        // TERMINAL KOMUTLARI
-        // ============================================================
-        const asciiArt = `
-        ███████╗ █████╗ ██╗     ██╗   ██╗ █████╗ 
-        ██╔════╝██╔══██╗██║     ██║   ██║██╔══██╗
-        ███████╗███████║██║     ██║   ██║███████║
-        ╚════██║██╔══██║██║     ██║   ██║██╔══██║
-        ███████║██║  ██║███████╗╚██████╔╝██║  ██║
-        ╚══════╝╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝
-        `;
+        <div class="mobile-menu" id="mobileMenu">
 
-        const output = document.getElementById('output');
-        const input = document.getElementById('commandInput');
-        let commandHistory = [];
-        let historyIndex = -1;
+            <a href="#work">Work</a>
+            <a href="#engineering">Engineering</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
 
-        function typeLine(text, className = '', delay = 50) {
-            return new Promise(resolve => {
-                const line = document.createElement('div');
-                line.className = 'line';
-                if (className) line.className += ' ' + className;
-                
-                if (text.includes('█████')) {
-                    line.textContent = text;
-                    line.style.whiteSpace = 'pre';
-                    output.appendChild(line);
-                    resolve();
-                    return;
-                }
+            <a
+                href="https://github.com/Salvadoo-tr"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                GitHub ↗
+            </a>
 
-                let i = 0;
-                const type = () => {
-                    if (i < text.length) {
-                        line.textContent += text[i];
-                        i++;
-                        setTimeout(type, delay);
-                    } else {
-                        resolve();
-                    }
-                };
-                output.appendChild(line);
-                type();
-            });
-        }
+        </div>
 
-        async function executeCommand(cmd) {
-            const trimmed = cmd.trim().toLowerCase();
-            
-            if (!trimmed) {
-                await typeLine('');
-                return;
-            }
+    </header>
 
-            if (trimmed !== 'clear' && trimmed !== 'cls') {
-                commandHistory.push(trimmed);
-                historyIndex = commandHistory.length;
-            }
 
-            await typeLine(`$ ${cmd}`, 'prompt');
+    <main>
 
-            switch(trimmed) {
-                case 'whoami':
-                    await typeLine('USER        :: SALVA', 'output-text');
-                    await typeLine('STATUS      :: ● ONLINE', 'output-text');
-                    await typeLine('MODE        :: BUILDING', 'output-text');
-                    await typeLine('ENVIRONMENT :: RED_CYBER', 'output-text');
-                    await typeLine('');
-                    await typeLine('> Software developer & cyberpunk enthusiast.', 'output-text');
-                    await typeLine('> Building the future, one line of code at a time.', 'output-text');
-                    await typeLine('> Currently: Breaking things to understand them.', 'output-text');
-                    break;
+        <!-- =====================================================
+             HERO
+        ====================================================== -->
 
-                case 'about':
-                case './about-me.sh':
-                    await typeLine('[+] Initializing user profile...', 'info');
-                    await typeLine('');
-                    await typeLine('USER        :: SALVA', 'output-text');
-                    await typeLine('STATUS      :: ● ONLINE', 'output-text');
-                    await typeLine('MODE        :: BUILDING', 'output-text');
-                    await typeLine('MISSION     :: CREATE / LEARN / BREAK / REBUILD', 'output-text');
-                    await typeLine('');
-                    await typeLine('[✓] Curiosity ............ 100%', 'success');
-                    await typeLine('[✓] Coffee ............... 99%', 'success');
-                    await typeLine('[✓] Bugs ................. definitely present', 'success');
-                    await typeLine('[✓] Sleep ................ optional', 'success');
-                    await typeLine('');
-                    await typeLine('[+] Profile initialized.', 'success');
-                    break;
+        <section class="hero section" id="home">
 
-                case 'neofetch':
-                    await typeLine(asciiArt, 'ascii-art');
-                    await typeLine('        OS       :: RedCyber v3.0', 'output-text');
-                    await typeLine('        Shell    :: zsh', 'output-text');
-                    await typeLine('        Editor   :: VS Code', 'output-text');
-                    await typeLine('        Mode     :: Dark / Red', 'output-text');
-                    await typeLine('        Status   :: ● Online', 'output-text');
-                    await typeLine('        Focus    :: Build stuff', 'output-text');
-                    await typeLine('');
-                    await typeLine('        curiosity.exe :: RUNNING', 'output-text');
-                    await typeLine('        coffee.exe    :: RUNNING', 'output-text');
-                    await typeLine('        sleep.exe     :: NOT FOUND', 'error');
-                    break;
+            <div class="container hero-container">
 
-                case 'projects':
-                case 'ls ./projects':
-                    await typeLine('projects/');
-                    await typeLine('');
-                    await typeLine('├── red-terminal/');
-                    await typeLine('├── ai-assistant/');
-                    await typeLine('├── dark-web-tools/');
-                    await typeLine('└── future_ideas/');
-                    await typeLine('');
-                    await typeLine('> 3 projects active. 1 classified.', 'info');
-                    break;
+                <div class="hero-content reveal">
 
-                case 'git status':
-                    await typeLine('On branch main');
-                    await typeLine('');
-                    await typeLine('Changes not staged for commit:', 'output-text');
-                    await typeLine('');
-                    await typeLine('  modified:   ideas', 'output-text');
-                    await typeLine('  modified:   skills', 'output-text');
-                    await typeLine('  modified:   future_projects', 'output-text');
-                    await typeLine('');
-                    await typeLine('Untracked files:', 'output-text');
-                    await typeLine('');
-                    await typeLine('  something-cool/', 'output-text');
-                    await typeLine('');
-                    await typeLine('nothing is ever really finished.', 'info');
-                    break;
+                    <div class="availability">
+                        <span class="status-dot"></span>
+                        <span>BUILDING SOFTWARE</span>
+                    </div>
 
-                case 'clear':
-                case 'cls':
-                    output.innerHTML = '';
-                    break;
+                    <h1>
+                        I build software
+                        <span class="gradient-text">for real problems.</span>
+                    </h1>
 
-                case 'help':
-                    await typeLine('📡 KOMUTLAR:', 'highlight');
-                    await typeLine('');
-                    await typeLine('  whoami          - Kullanıcı bilgileri', 'output-text');
-                    await typeLine('  about           - Profil detayları', 'output-text');
-                    await typeLine('  neofetch        - Sistem bilgileri', 'output-text');
-                    await typeLine('  projects        - Projeleri listele', 'output-text');
-                    await typeLine('  git status      - Git durumu', 'output-text');
-                    await typeLine('  clear           - Ekranı temizle', 'output-text');
-                    await typeLine('  help            - Bu mesajı göster', 'output-text');
-                    await typeLine('  exit            - Oturumu kapat', 'output-text');
-                    break;
+                    <p class="hero-description">
+                        Software developer focused on automation, internal tools,
+                        desktop applications and systems that turn repetitive
+                        workflows into reliable software.
+                    </p>
 
-                case 'exit':
-                    await typeLine('🔒 Oturum kapatılıyor...', 'error');
-                    await typeLine('> Bağlantı sonlandırıldı.', 'error');
-                    await typeLine('> Sistem beklemeye alındı.', 'error');
-                    break;
+                    <div class="hero-buttons">
 
-                default:
-                    await typeLine(`Komut bulunamadı: ${cmd}`, 'error');
-                    await typeLine(`'help' yazarak komut listesini görebilirsin.`, 'info');
-            }
+                        <a href="#work" class="button button-primary">
+                            View my work
+                            <span>↓</span>
+                        </a>
 
-            await typeLine('');
-            output.scrollTop = output.scrollHeight;
-        }
+                        <a
+                            href="https://github.com/Salvadoo-tr"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="button button-secondary"
+                        >
+                            GitHub
+                            <span>↗</span>
+                        </a>
 
-        input.addEventListener('keydown', async (e) => {
-            if (e.key === 'Enter') {
-                const cmd = input.value;
-                input.value = '';
-                await executeCommand(cmd);
-                output.scrollTop = output.scrollHeight;
-            } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
-                if (commandHistory.length > 0) {
-                    historyIndex = Math.max(0, historyIndex - 1);
-                    input.value = commandHistory[historyIndex] || '';
-                }
-            } else if (e.key === 'ArrowDown') {
-                e.preventDefault();
-                if (historyIndex < commandHistory.length - 1) {
-                    historyIndex++;
-                    input.value = commandHistory[historyIndex] || '';
-                } else {
-                    historyIndex = commandHistory.length;
-                    input.value = '';
-                }
-            }
-        });
+                    </div>
 
-        document.querySelectorAll('.cmd-btn').forEach(btn => {
-            btn.addEventListener('click', async () => {
-                const cmd = btn.dataset.cmd;
-                input.value = cmd;
-                await executeCommand(cmd);
-                output.scrollTop = output.scrollHeight;
-            });
-        });
+                    <div class="hero-stack">
 
-        document.addEventListener('click', () => {
-            input.focus();
-        });
+                        <span>C#</span>
+                        <span>.NET</span>
+                        <span>SQL</span>
+                        <span>Automation</span>
+                        <span>JavaScript</span>
 
-        function updateClock() {
-            const now = new Date();
-            const time = now.toTimeString().split(' ')[0];
-            document.getElementById('timeDisplay').textContent = `⏱️ ${time}`;
-        }
-        updateClock();
-        setInterval(updateClock, 1000);
+                    </div>
 
-        window.addEventListener('load', async () => {
-            await typeLine('> Bağlantı kuruluyor...', 'info', 100);
-            await typeLine('> SALVA@RED_CYBER terminal başlatılıyor...', 'info', 100);
-            await typeLine('');
-            await typeLine('> Oturum açıldı. "help" yazarak başlayın.', 'highlight');
-            await typeLine('');
-            output.scrollTop = output.scrollHeight;
-        });
-    </script>
+                </div>
+
+
+                <div class="hero-visual reveal reveal-delay">
+
+                    <div class="system-card">
+
+                        <div class="system-header">
+
+                            <div class="window-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+
+                            <span class="system-title">
+                                software.engineer
+                            </span>
+
+                        </div>
+
+                        <div class="system-body">
+
+                            <div class="code-line">
+                                <span class="code-number">01</span>
+                                <span>
+                                    <i>const</i>
+                                    <b>developer</b>
+                                    =
+                                    <strong>"Salva"</strong>;
+                                </span>
+                            </div>
+
+                            <div class="code-line">
+                                <span class="code-number">02</span>
+                                <span>
+                                    <i>const</i>
+                                    <b>focus</b>
+                                    =
+                                    <strong>"automation"</strong>;
+                                </span>
+                            </div>
+
+                            <div class="code-line">
+                                <span class="code-number">03</span>
+                                <span>
+                                    <i>const</i>
+                                    <b>stack</b>
+                                    =
+                                    [
+                                    <strong>"C#"</strong>,
+                                    <strong>".NET"</strong>
+                                    ];
+                                </span>
+                            </div>
+
+                            <div class="code-line">
+                                <span class="code-number">04</span>
+                                <span>
+                                    <i>const</i>
+                                    <b>mindset</b>
+                                    =
+                                    <strong>"build"</strong>;
+                                </span>
+                            </div>
+
+                            <div class="code-line">
+                                <span class="code-number">05</span>
+                                <span>
+                                    <i>return</i>
+                                    developer;
+                                </span>
+                            </div>
+
+                            <div class="code-cursor"></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="floating-card floating-card-one">
+
+                        <span class="floating-icon">⌘</span>
+
+                        <div>
+                            <small>PRIMARY</small>
+                            <strong>C# / .NET</strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="floating-card floating-card-two">
+
+                        <span class="floating-icon">↗</span>
+
+                        <div>
+                            <small>FOCUS</small>
+                            <strong>AUTOMATION</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="scroll-indicator">
+                <span></span>
+                Scroll to explore
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             INTRO / NUMBERS
+        ====================================================== -->
+
+        <section class="stats-section">
+
+            <div class="container stats-grid">
+
+                <div class="stat reveal">
+                    <strong>01</strong>
+                    <span>Core Focus</span>
+                    <p>Automation & internal systems</p>
+                </div>
+
+                <div class="stat reveal">
+                    <strong>∞</strong>
+                    <span>Problems to solve</span>
+                    <p>Always building something new</p>
+                </div>
+
+                <div class="stat reveal">
+                    <strong>24/7</strong>
+                    <span>Engineering mindset</span>
+                    <p>Learn · Build · Improve</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             WORK
+        ====================================================== -->
+
+        <section class="section work-section" id="work">
+
+            <div class="container">
+
+                <div class="section-heading reveal">
+
+                    <div>
+                        <span class="eyebrow">01 — SELECTED WORK</span>
+
+                        <h2>
+                            Software built to
+                            <span>solve actual problems.</span>
+                        </h2>
+                    </div>
+
+                    <p>
+                        A selection of systems, automation tools and applications
+                        built around real workflows.
+                    </p>
+
+                </div>
+
+
+                <div class="projects-grid">
+
+                    <!-- PROJECT 01 -->
+
+                    <article
+                        class="project-card project-large reveal"
+                        data-project="efes"
+                    >
+
+                        <div class="project-top">
+
+                            <span class="project-number">01</span>
+
+                            <span class="project-status">
+                                DESKTOP AUTOMATION
+                            </span>
+
+                        </div>
+
+                        <div class="project-content">
+
+                            <div>
+
+                                <span class="project-category">
+                                    C# · .NET · UI AUTOMATION
+                                </span>
+
+                                <h3>Efes Oto Fatura</h3>
+
+                                <p>
+                                    Desktop automation system designed to automate
+                                    invoice processing and repetitive data-entry
+                                    workflows inside a legacy business application.
+                                </p>
+
+                            </div>
+
+                            <button class="project-link">
+                                Explore case study
+                                <span>↗</span>
+                            </button>
+
+                        </div>
+
+                        <div class="project-visual efes-visual">
+
+                            <div class="mini-window">
+
+                                <div class="mini-window-header">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+
+                                <div class="mini-window-body">
+
+                                    <div class="mini-row">
+                                        <span>Invoice</span>
+                                        <b>Processing</b>
+                                    </div>
+
+                                    <div class="progress-bar">
+                                        <span style="width: 82%"></span>
+                                    </div>
+
+                                    <div class="mini-row">
+                                        <span>Validation</span>
+                                        <strong>✓</strong>
+                                    </div>
+
+                                    <div class="mini-row">
+                                        <span>Automation</span>
+                                        <strong>RUNNING</strong>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- PROJECT 02 -->
+
+                    <article
+                        class="project-card reveal"
+                        data-project="claim"
+                    >
+
+                        <div class="project-top">
+
+                            <span class="project-number">02</span>
+
+                            <span class="project-status">
+                                BUSINESS SYSTEM
+                            </span>
+
+                        </div>
+
+                        <div class="project-content">
+
+                            <div>
+
+                                <span class="project-category">
+                                    C# · WINFORMS · SQL
+                                </span>
+
+                                <h3>Claim Depo</h3>
+
+                                <p>
+                                    Internal inventory and claim management
+                                    application designed around operational
+                                    workflows.
+                                </p>
+
+                            </div>
+
+                            <button class="project-link">
+                                Explore case study
+                                <span>↗</span>
+                            </button>
+
+                        </div>
+
+                        <div class="project-mini-ui">
+
+                            <div class="dashboard-mini">
+
+                                <div class="dashboard-mini-top">
+                                    <span>Inventory</span>
+                                    <span>● LIVE</span>
+                                </div>
+
+                                <div class="dashboard-mini-chart">
+                                    <span style="height: 35%"></span>
+                                    <span style="height: 60%"></span>
+                                    <span style="height: 45%"></span>
+                                    <span style="height: 78%"></span>
+                                    <span style="height: 65%"></span>
+                                    <span style="height: 92%"></span>
+                                    <span style="height: 72%"></span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- PROJECT 03 -->
+
+                    <article
+                        class="project-card reveal"
+                        data-project="servicebox"
+                    >
+
+                        <div class="project-top">
+
+                            <span class="project-number">03</span>
+
+                            <span class="project-status">
+                                BROWSER AUTOMATION
+                            </span>
+
+                        </div>
+
+                        <div class="project-content">
+
+                            <div>
+
+                                <span class="project-category">
+                                    JAVASCRIPT · EXTENSION · EXCEL
+                                </span>
+
+                                <h3>Service Box Automation</h3>
+
+                                <p>
+                                    Chrome extension that processes VINs,
+                                    detects campaigns and writes structured
+                                    results back into Excel.
+                                </p>
+
+                            </div>
+
+                            <button class="project-link">
+                                Explore case study
+                                <span>↗</span>
+                            </button>
+
+                        </div>
+
+                        <div class="browser-mini">
+
+                            <div class="browser-bar">
+
+                                <span></span>
+
+                                <div>
+                                    servicebox.mpsa.com
+                                </div>
+
+                            </div>
+
+                            <div class="browser-content">
+
+                                <div class="vin-row">
+                                    <span>VIN</span>
+                                    <b>VF7XXXXXXXXXXXXXX</b>
+                                </div>
+
+                                <div class="campaign-row">
+                                    <span>Campaigns</span>
+                                    <strong>03 FOUND</strong>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- PROJECT 04 -->
+
+                    <article
+                        class="project-card reveal"
+                        data-project="turgut"
+                    >
+
+                        <div class="project-top">
+
+                            <span class="project-number">04</span>
+
+                            <span class="project-status">
+                                INVENTORY / BARCODE
+                            </span>
+
+                        </div>
+
+                        <div class="project-content">
+
+                            <div>
+
+                                <span class="project-category">
+                                    C# · TCP · SQLITE
+                                </span>
+
+                                <h3>Turgut</h3>
+
+                                <p>
+                                    Desktop inventory workflow integrating barcode
+                                    scanning, TCP communication and local database
+                                    storage.
+                                </p>
+
+                            </div>
+
+                            <button class="project-link">
+                                Explore case study
+                                <span>↗</span>
+                            </button>
+
+                        </div>
+
+                        <div class="scanner-mini">
+
+                            <div class="scanner-line"></div>
+
+                            <div class="scanner-data">
+
+                                <span>ZEBRA</span>
+
+                                <strong>P9820226380</strong>
+
+                                <small>TCP : 58628</small>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             ENGINEERING
+        ====================================================== -->
+
+        <section class="section engineering-section" id="engineering">
+
+            <div class="container">
+
+                <div class="section-heading reveal">
+
+                    <div>
+                        <span class="eyebrow">02 — ENGINEERING</span>
+
+                        <h2>
+                            More than code.
+                            <span>Systems thinking.</span>
+                        </h2>
+                    </div>
+
+                    <p>
+                        I care about how software behaves in the real world —
+                        not only how it looks inside an IDE.
+                    </p>
+
+                </div>
+
+
+                <div class="engineering-grid">
+
+                    <div class="engineering-card reveal">
+
+                        <span class="engineering-icon">01</span>
+
+                        <h3>Automation</h3>
+
+                        <p>
+                            Repetitive workflows become faster, more predictable
+                            and less dependent on manual interaction.
+                        </p>
+
+                        <div class="engineering-tags">
+                            <span>UI Automation</span>
+                            <span>Workflow Design</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="engineering-card reveal">
+
+                        <span class="engineering-icon">02</span>
+
+                        <h3>Desktop Systems</h3>
+
+                        <p>
+                            Applications designed around real operational
+                            workflows, legacy systems and business requirements.
+                        </p>
+
+                        <div class="engineering-tags">
+                            <span>C#</span>
+                            <span>.NET</span>
+                            <span>WinForms</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="engineering-card reveal">
+
+                        <span class="engineering-icon">03</span>
+
+                        <h3>Data</h3>
+
+                        <p>
+                            Structured data processing, database design,
+                            Excel workflows and reliable persistence.
+                        </p>
+
+                        <div class="engineering-tags">
+                            <span>SQL</span>
+                            <span>SQLite</span>
+                            <span>Excel</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="engineering-card reveal">
+
+                        <span class="engineering-icon">04</span>
+
+                        <h3>Integration</h3>
+
+                        <p>
+                            Connecting browsers, desktop applications, scanners,
+                            databases and external workflows.
+                        </p>
+
+                        <div class="engineering-tags">
+                            <span>TCP</span>
+                            <span>APIs</span>
+                            <span>Extensions</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="engineering-card reveal">
+
+                        <span class="engineering-icon">05</span>
+
+                        <h3>Problem Solving</h3>
+
+                        <p>
+                            Breaking messy real-world problems into smaller,
+                            understandable and maintainable systems.
+                        </p>
+
+                        <div class="engineering-tags">
+                            <span>Architecture</span>
+                            <span>Debugging</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="engineering-card engineering-feature reveal">
+
+                        <div class="feature-code">
+
+                            <span>// engineering mindset</span>
+
+                            <code>
+                                <b>problem</b>
+                                <span>→</span>
+                                <b>understand</b>
+                                <span>→</span>
+                                <b>design</b>
+                                <span>→</span>
+                                <b>build</b>
+                                <span>→</span>
+                                <b>improve</b>
+                            </code>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             TECH STACK
+        ====================================================== -->
+
+        <section class="section stack-section">
+
+            <div class="container">
+
+                <div class="section-heading reveal">
+
+                    <div>
+                        <span class="eyebrow">03 — TOOLBOX</span>
+
+                        <h2>
+                            Technologies I
+                            <span>build with.</span>
+                        </h2>
+                    </div>
+
+                </div>
+
+
+                <div class="stack-layout">
+
+                    <div class="stack-primary reveal">
+
+                        <span class="stack-label">
+                            PRIMARY
+                        </span>
+
+                        <div class="tech-row">
+                            <div>
+                                <strong>C#</strong>
+                                <span>Primary language</span>
+                            </div>
+
+                            <b>01</b>
+                        </div>
+
+                        <div class="tech-row">
+                            <div>
+                                <strong>.NET</strong>
+                                <span>Application platform</span>
+                            </div>
+
+                            <b>02</b>
+                        </div>
+
+                        <div class="tech-row">
+                            <div>
+                                <strong>SQL</strong>
+                                <span>Data & persistence</span>
+                            </div>
+
+                            <b>03</b>
+                        </div>
+
+                        <div class="tech-row">
+                            <div>
+                                <strong>Automation</strong>
+                                <span>Workflow engineering</span>
+                            </div>
+
+                            <b>04</b>
+                        </div>
+
+                    </div>
+
+
+                    <div class="stack-secondary reveal">
+
+                        <span class="stack-label">
+                            ALSO WORKED WITH
+                        </span>
+
+                        <div class="technology-cloud">
+
+                            <span>JavaScript</span>
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>WinForms</span>
+                            <span>SQLite</span>
+                            <span>SQL Server</span>
+                            <span>Chrome Extensions</span>
+                            <span>Excel</span>
+                            <span>Git</span>
+                            <span>GitHub</span>
+                            <span>TCP</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             GITHUB
+        ====================================================== -->
+
+        <section class="section github-section">
+
+            <div class="container">
+
+                <div class="github-panel reveal">
+
+                    <div class="github-copy">
+
+                        <span class="eyebrow">04 — OPEN SOURCE / CODE</span>
+
+                        <h2>
+                            See what I'm
+                            <span>building.</span>
+                        </h2>
+
+                        <p>
+                            My GitHub is where experiments, tools and projects
+                            live. Some are polished products, others are ideas
+                            being tested.
+                        </p>
+
+                        <a
+                            href="https://github.com/Salvadoo-tr"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="button button-primary"
+                        >
+                            Visit GitHub
+                            <span>↗</span>
+                        </a>
+
+                    </div>
+
+
+                    <div class="github-terminal">
+
+                        <div class="terminal-header">
+
+                            <div class="window-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+
+                            <span>github</span>
+
+                        </div>
+
+                        <div class="terminal-body">
+
+                            <p>
+                                <span class="terminal-green">$</span>
+                                git status
+                            </p>
+
+                            <p class="terminal-muted">
+                                On branch main
+                            </p>
+
+                            <p class="terminal-success">
+                                ✓ Everything is under construction.
+                            </p>
+
+                            <p>
+                                <span class="terminal-green">$</span>
+                                git log --oneline -3
+                            </p>
+
+                            <p class="terminal-muted">
+                                build: improve automation workflow
+                            </p>
+
+                            <p class="terminal-muted">
+                                feat: add inventory management
+                            </p>
+
+                            <p class="terminal-muted">
+                                refactor: simplify data processing
+                            </p>
+
+                            <span class="terminal-cursor"></span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             ABOUT
+        ====================================================== -->
+
+        <section class="section about-section" id="about">
+
+            <div class="container">
+
+                <div class="about-grid">
+
+                    <div class="about-heading reveal">
+
+                        <span class="eyebrow">05 — ABOUT</span>
+
+                        <h2>
+                            Building software
+                            <span>around reality.</span>
+                        </h2>
+
+                    </div>
+
+
+                    <div class="about-content reveal">
+
+                        <p class="about-lead">
+                            I enjoy taking manual, repetitive or unreliable
+                            workflows and turning them into software that is
+                            predictable, maintainable and easier to operate.
+                        </p>
+
+                        <p>
+                            My projects often sit at the intersection of
+                            software and real-world operations: desktop
+                            applications, business processes, databases,
+                            browser automation and hardware integrations.
+                        </p>
+
+                        <p>
+                            I prefer understanding the actual problem first,
+                            then choosing the simplest architecture that can
+                            solve it reliably.
+                        </p>
+
+                        <div class="about-principles">
+
+                            <div>
+                                <span>01</span>
+                                <strong>Understand first.</strong>
+                            </div>
+
+                            <div>
+                                <span>02</span>
+                                <strong>Build with purpose.</strong>
+                            </div>
+
+                            <div>
+                                <span>03</span>
+                                <strong>Improve continuously.</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             EXPERIENCE
+        ====================================================== -->
+
+        <section class="section experience-section">
+
+            <div class="container">
+
+                <div class="section-heading reveal">
+
+                    <div>
+                        <span class="eyebrow">06 — EXPERIENCE</span>
+
+                        <h2>
+                            From operations
+                            <span>to software.</span>
+                        </h2>
+                    </div>
+
+                </div>
+
+
+                <div class="timeline">
+
+                    <div class="timeline-item reveal">
+
+                        <div class="timeline-marker"></div>
+
+                        <div class="timeline-date">
+                            EXPERIENCE
+                        </div>
+
+                        <div class="timeline-content">
+
+                            <span class="timeline-type">
+                                AUTOMOTIVE / OPERATIONS
+                            </span>
+
+                            <h3>Real-world workflow experience</h3>
+
+                            <p>
+                                Working directly with operational processes,
+                                customer acceptance, vehicle workflows,
+                                reporting and business data provided the
+                                foundation for building software around actual
+                                user needs.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="timeline-item reveal">
+
+                        <div class="timeline-marker"></div>
+
+                        <div class="timeline-date">
+                            DEVELOPMENT
+                        </div>
+
+                        <div class="timeline-content">
+
+                            <span class="timeline-type">
+                                SOFTWARE ENGINEERING
+                            </span>
+
+                            <h3>Internal tools & automation</h3>
+
+                            <p>
+                                Building C# applications, database-backed tools,
+                                automation workflows and browser extensions
+                                focused on eliminating repetitive manual work.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="timeline-item reveal">
+
+                        <div class="timeline-marker active"></div>
+
+                        <div class="timeline-date">
+                            NOW
+                        </div>
+
+                        <div class="timeline-content">
+
+                            <span class="timeline-type">
+                                BUILDING
+                            </span>
+
+                            <h3>Learning, experimenting, shipping</h3>
+
+                            <p>
+                                Continuing to explore software architecture,
+                                automation, system integration and better ways
+                                to turn ideas into reliable products.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CONTACT
+        ====================================================== -->
+
+        <section class="section contact-section" id="contact">
+
+            <div class="container">
+
+                <div class="contact-card reveal">
+
+                    <div class="contact-content">
+
+                        <span class="eyebrow">07 — CONTACT</span>
+
+                        <h2>
+                            Have a problem
+                            <span>worth solving?</span>
+                        </h2>
+
+                        <p>
+                            I'm always interested in interesting software
+                            problems, automation ideas and things worth building.
+                        </p>
+
+                    </div>
+
+
+                    <div class="contact-actions">
+
+                        <a
+                            href="mailto:YOUR_EMAIL@example.com"
+                            class="contact-button"
+                        >
+                            <span>Email</span>
+                            <strong>↗</strong>
+                        </a>
+
+                        <a
+                            href="https://github.com/Salvadoo-tr"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="contact-button"
+                        >
+                            <span>GitHub</span>
+                            <strong>↗</strong>
+                        </a>
+
+                        <a
+                            href="https://www.linkedin.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="contact-button"
+                        >
+                            <span>LinkedIn</span>
+                            <strong>↗</strong>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
+    <footer class="footer">
+
+        <div class="container footer-container">
+
+            <div class="footer-brand">
+
+                <span class="brand-mark">S</span>
+
+                <div>
+                    <strong>SALVA</strong>
+                    <span>Software Developer</span>
+                </div>
+
+            </div>
+
+
+            <div class="footer-status">
+
+                <span class="status-dot"></span>
+
+                <span>
+                    SYSTEM ONLINE
+                </span>
+
+            </div>
+
+
+            <div class="footer-right">
+
+                <span>
+                    © <span id="year"></span> Salva
+                </span>
+
+                <span id="localTime"></span>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================================
+         PROJECT MODAL
+    ========================================================== -->
+
+    <div class="project-modal" id="projectModal">
+
+        <div class="modal-backdrop" id="modalBackdrop"></div>
+
+        <div class="modal-container">
+
+            <button
+                class="modal-close"
+                id="modalClose"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+            <div class="modal-content" id="modalContent">
+
+                <!-- JavaScript fills this area -->
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
 
 </body>
 </html>
