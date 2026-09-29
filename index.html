@@ -1,1831 +1,232 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta
-        name="description"
-        content="SALVA — Yazılım Geliştirici Portfolyosu"
-    >
-
-    <title>SALVA — Yazılım Geliştirici</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
-        rel="stylesheet"
-    >
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050a10">
+  <meta name="description" content="Bir otomasyonun veri yolculuğunu kaydırarak keşfedin. SALVA sinematik web deneyimi demosu.">
+  <title>SALVA — Veri Akışının İçinde</title>
+  <style>
+    :root { color-scheme:dark; --ink:#e9f4f5; --dim:#91a7b0; --cyan:#78f0e4; --orange:#efab72; --line:rgba(169,223,226,.18); font-family:Arial,Helvetica,sans-serif; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:#050a10; color:var(--ink); overflow-x:hidden; }
+    button { font:inherit; }
+    button:focus-visible { outline:2px solid var(--cyan); outline-offset:5px; }
+    .scroll-track { height:650vh; }
+    .stage { position:sticky; top:0; height:100svh; min-height:500px; overflow:hidden; isolation:isolate; background:#050a10; }
+    #world { position:absolute; inset:0; width:100%; height:100%; display:block; }
+    .vignette { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse 72% 62% at 59% 45%, transparent 30%, rgba(2,6,11,.36) 73%, rgba(2,5,10,.83)); }
+    .grain { position:absolute; inset:0; z-index:2; opacity:.13; pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.27'/%3E%3C/svg%3E"); }
+    .topbar { position:absolute; z-index:5; top:0; left:0; right:0; padding:clamp(22px,3vw,42px) clamp(22px,4vw,64px); display:flex; justify-content:space-between; align-items:center; gap:16px; }
+    .logo { color:#f5ffff; font-size:clamp(20px,2vw,28px); font-weight:800; letter-spacing:.18em; line-height:1; }
+    .logo span { display:block; margin-top:9px; color:var(--cyan); font:600 10px/1 Arial,sans-serif; letter-spacing:.35em; }
+    .top-meta { display:flex; align-items:center; gap:24px; color:#a9bec3; font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; }
+    .live { display:flex; align-items:center; gap:8px; }
+    .live::before { content:""; width:6px; height:6px; border-radius:50%; background:var(--cyan); box-shadow:0 0 12px var(--cyan); }
+    .top-rule { position:absolute; left:clamp(22px,4vw,64px); right:clamp(22px,4vw,64px); top:100px; height:1px; background:linear-gradient(90deg,var(--line),transparent 65%,var(--line)); }
+    .content { position:absolute; z-index:4; left:clamp(24px,7.3vw,128px); top:50%; width:min(570px,44vw); transform:translateY(-42%); pointer-events:none; }
+    .chapter { display:flex; align-items:center; gap:14px; margin-bottom:25px; color:var(--cyan); font-size:12px; font-weight:700; letter-spacing:.3em; text-transform:uppercase; }
+    .chapter::before { content:""; width:33px; height:1px; background:var(--cyan); }
+    h1 { margin:0; font-size:clamp(48px,6.1vw,104px); line-height:.96; font-weight:700; letter-spacing:-.065em; text-wrap:balance; }
+    .content p { max-width:430px; margin:28px 0 0; color:#aec0c6; font-size:clamp(16px,1.2vw,19px); line-height:1.6; }
+    .content p strong { color:#e5f4f4; font-weight:600; }
+    .copy { transition:opacity .34s ease,transform .5s ease; }
+    .copy.out { opacity:0; transform:translateY(18px); }
+    .eyebrow { position:absolute; z-index:4; right:clamp(24px,4vw,64px); top:50%; transform:translateY(-50%); writing-mode:vertical-rl; color:rgba(192,222,226,.53); font-size:10px; font-weight:700; letter-spacing:.3em; text-transform:uppercase; }
+    .bottom { position:absolute; z-index:6; bottom:clamp(22px,4.4vh,48px); left:clamp(24px,4vw,64px); right:clamp(24px,4vw,64px); display:flex; align-items:end; justify-content:space-between; gap:28px; }
+    .hint { display:flex; align-items:center; gap:14px; color:#c4d5d7; font-size:11px; font-weight:700; letter-spacing:.17em; text-transform:uppercase; white-space:nowrap; }
+    .wheel { width:25px; height:38px; border:1px solid rgba(219,247,246,.55); border-radius:15px; position:relative; }
+    .wheel::after { content:""; position:absolute; top:9px; left:11px; width:2px; height:7px; border-radius:2px; background:var(--cyan); animation:wheel 1.5s infinite; }
+    @keyframes wheel { to { transform:translateY(9px); opacity:0; } }
+    .nav { flex:1; max-width:660px; display:flex; gap:4px; align-items:end; }
+    .nav button { appearance:none; background:none; color:#a4b9c0; border:0; border-top:1px solid rgba(189,218,222,.24); padding:13px 3px 0; min-height:41px; flex:1; text-align:left; cursor:pointer; font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; transition:color .2s,border-color .2s; }
+    .nav button b { display:block; font-size:11px; margin-bottom:5px; font-weight:600; }
+    .nav button.active { border-top:2px solid var(--cyan); color:#ebffff; }
+    .nav button:hover { color:var(--cyan); }
+    .counter { width:72px; color:#d8e7e7; text-align:right; font-size:13px; font-weight:700; letter-spacing:.18em; white-space:nowrap; padding-bottom:22px; }
+    .counter span { color:#69828b; }
+    .progress { position:absolute; z-index:7; left:0; bottom:0; width:100%; height:2px; background:rgba(180,238,234,.12); }
+    .progress i { display:block; height:100%; width:0; background:var(--cyan); box-shadow:0 0 14px var(--cyan); }
+    .note { position:absolute; z-index:4; right:clamp(35px,11vw,170px); bottom:clamp(110px,15vh,170px); min-width:190px; border-left:1px solid rgba(120,240,228,.5); padding-left:16px; color:#c4dee0; font:12px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace; letter-spacing:.04em; transition:opacity .3s; }
+    .note .muted { color:#6e919a; }
+    .skip { position:absolute; top:118px; right:clamp(24px,4vw,64px); z-index:6; background:rgba(7,19,27,.6); border:1px solid var(--line); color:#c6e2e2; padding:9px 13px; cursor:pointer; font-size:11px; letter-spacing:.13em; text-transform:uppercase; }
+    .skip:hover { border-color:var(--cyan); }
+    @media (max-width:800px) {
+      .topbar { padding:22px 23px; } .top-rule { top:76px; left:23px; right:23px; }
+      .top-meta .desktop-only { display:none; }
+      .content { left:25px; top:26%; transform:none; width:calc(100% - 55px); }
+      h1 { font-size:clamp(42px,10vw,75px); max-width:580px; }
+      .content p { margin-top:18px; max-width:470px; font-size:15px; line-height:1.5; }
+      .chapter { margin-bottom:16px; font-size:10px; }
+      .eyebrow,.note,.hint { display:none; }
+      .bottom { left:22px; right:22px; bottom:25px; }
+      .nav { width:100%; max-width:none; } .nav button { font-size:0; min-height:30px; } .nav button b { font-size:11px; } .counter { width:55px; padding-bottom:10px; }
+      .skip { top:89px; right:22px; }
+    }
+    @media (max-width:420px) { h1 { font-size:45px; } .content { top:23%; } .content p { font-size:14px; } .nav button b { font-size:10px; } }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } .wheel::after { animation:none; } .copy { transition:none; } }
+  </style>
 </head>
-
 <body>
-
-<!-- =========================================================
-     PAGE LOADER
-========================================================= -->
-
-<div class="page-loader" id="pageLoader">
-
-    <div class="loader-content">
-
-        <div class="loader-logo">
-            S
-        </div>
-
-        <div class="loader-line">
-            <span></span>
-        </div>
-
-        <p data-i18n="loader.loading">
-            SİSTEM BAŞLATILIYOR...
-        </p>
-
-    </div>
-
-</div>
-
-
-<!-- =========================================================
-     BACKGROUND
-========================================================= -->
-
-<div class="background">
-
-    <div class="background-grid"></div>
-
-    <div class="background-glow glow-one"></div>
-    <div class="background-glow glow-two"></div>
-
-</div>
-
-<div class="mouse-glow" id="mouseGlow"></div>
-
-<div class="cursor-bot" id="cursorBot" aria-hidden="true">
-
-    <div class="cursor-bot-bob">
-
-        <svg class="cursor-bot-svg" viewBox="0 0 64 64">
-
-            <line class="bot-antenna-line" x1="32" y1="16" x2="32" y2="5"></line>
-            <circle class="bot-antenna-dot" cx="32" cy="5" r="3"></circle>
-
-            <rect
-                class="bot-body"
-                x="9" y="16"
-                width="46" height="37"
-                rx="15"
-            ></rect>
-
-            <rect
-                class="bot-visor"
-                x="16" y="25"
-                width="32" height="18"
-                rx="9"
-            ></rect>
-
-            <circle class="bot-eye" id="botEyeLeft" cx="25" cy="34" r="3.4"></circle>
-            <circle class="bot-eye" id="botEyeRight" cx="39" cy="34" r="3.4"></circle>
-
-            <path class="bot-mouth" d="M25 47 Q32 51 39 47"></path>
-
-        </svg>
-
-    </div>
-
-</div>
-
-
-<!-- =========================================================
-     NAVBAR
-========================================================= -->
-
-<header class="navbar" id="navbar">
-
-    <div class="container nav-container">
-
-        <a href="#home" class="brand">
-
-            <div class="brand-mark">
-                S
-            </div>
-
-            <span class="brand-name">
-                SALVA
-            </span>
-
-        </a>
-
-
-        <nav class="desktop-nav">
-
-            <a href="#home" data-i18n="nav.home">
-                Ana Sayfa
-            </a>
-
-            <a href="#projects" data-i18n="nav.projects">
-                Projeler
-            </a>
-
-            <a href="#engineering" data-i18n="nav.engineering">
-                Mühendislik
-            </a>
-
-            <a href="#stack" data-i18n="nav.stack">
-                Teknolojiler
-            </a>
-
-            <a href="#about" data-i18n="nav.about">
-                Hakkımda
-            </a>
-
-            <a href="#experience" data-i18n="nav.experience">
-                Deneyim
-            </a>
-
-            <a href="#contact" data-i18n="nav.contact">
-                İletişim
-            </a>
-
-        </nav>
-
-
-        <div class="nav-actions">
-
-            <div class="language-switcher">
-
-                <button
-                    class="language-button active"
-                    data-language="tr"
-                    type="button"
-                >
-                    TR
-                </button>
-
-                <span>/</span>
-
-                <button
-                    class="language-button"
-                    data-language="en"
-                    type="button"
-                >
-                    EN
-                </button>
-
-            </div>
-
-
-            <a
-                href="https://github.com/Salvadoo-tr"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="nav-github"
-            >
-                <span>↗</span>
-
-                <span>
-                    GitHub
-                </span>
-            </a>
-
-
-            <button
-                class="mobile-menu-button"
-                id="mobileMenuButton"
-                type="button"
-                aria-label="Menu"
-            >
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- MOBILE MENU -->
-
-    <nav class="mobile-menu" id="mobileMenu">
-
-        <a href="#home" data-i18n="nav.home">
-            Ana Sayfa
-        </a>
-
-        <a href="#projects" data-i18n="nav.projects">
-            Projeler
-        </a>
-
-        <a href="#engineering" data-i18n="nav.engineering">
-            Mühendislik
-        </a>
-
-        <a href="#stack" data-i18n="nav.stack">
-            Teknolojiler
-        </a>
-
-        <a href="#about" data-i18n="nav.about">
-            Hakkımda
-        </a>
-
-        <a href="#experience" data-i18n="nav.experience">
-            Deneyim
-        </a>
-
-        <a href="#contact" data-i18n="nav.contact">
-            İletişim
-        </a>
-
-        <div class="mobile-language">
-
-            <button
-                class="language-button active"
-                data-language="tr"
-                type="button"
-            >
-                TR
-            </button>
-
-            <span>/</span>
-
-            <button
-                class="language-button"
-                data-language="en"
-                type="button"
-            >
-                EN
-            </button>
-
-        </div>
-
-    </nav>
-
-</header>
-
-
-<!-- =========================================================
-     HERO
-========================================================= -->
-
-<main>
-
-<section class="hero" id="home">
-
-    <div class="container hero-container">
-
-        <div class="hero-content reveal">
-
-            <div class="availability">
-
-                <span class="status-dot"></span>
-
-                <span data-i18n="hero.status">
-                    SEÇİLİ PROJELER İÇİN UYGUN
-                </span>
-
-            </div>
-
-
-            <h1>
-
-                <span data-i18n="hero.titleLine1">
-                    Yazılım
-                </span>
-
-                <span
-                    class="gradient-text"
-                    data-i18n="hero.titleLine2"
-                >
-                    sistemleri geliştiriyorum.
-                </span>
-
-            </h1>
-
-
-            <p
-                class="hero-description"
-                data-i18n="hero.description"
-            >
-                Otomasyon, iş uygulamaları ve gerçek problemlere pratik çözümler üreten sistemlere odaklanan yazılım geliştiriciyim.
-            </p>
-
-
-            <div class="hero-buttons">
-
-                <a
-                    href="#projects"
-                    class="button button-primary"
-                    data-i18n="hero.projectsButton"
-                >
-                    Projeleri Gör
-                </a>
-
-                <a
-                    href="#contact"
-                    class="button button-secondary"
-                    data-i18n="hero.contactButton"
-                >
-                    İletişime Geç
-                </a>
-
-            </div>
-
-
-            <div class="hero-stack">
-
-                <span>C#</span>
-                <span>.NET</span>
-                <span>JavaScript</span>
-                <span>SQL</span>
-                <span>Automation</span>
-                <span>Systems</span>
-
-            </div>
-
-        </div>
-
-
-        <!-- HERO VISUAL -->
-
-        <div class="hero-visual reveal reveal-delay">
-
-            <div class="system-card">
-
-                <div class="system-header">
-
-                    <div class="window-dots">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-
-                    <span class="system-title">
-                        salva.system
-                    </span>
-
-                </div>
-
-
-                <div class="system-body">
-
-                    <div class="code-line">
-                        <span class="code-number">01</span>
-                        <span>
-                            <i>const</i>
-                            <b>developer</b>
-                            = <strong>"SALVA"</strong>;
-                        </span>
-                    </div>
-
-                    <div class="code-line">
-                        <span class="code-number">02</span>
-                        <span>
-                            <i>const</i>
-                            <b>focus</b>
-                            = <strong>"automation"</strong>;
-                        </span>
-                    </div>
-
-                    <div class="code-line">
-                        <span class="code-number">03</span>
-                        <span>
-                            <i>const</i>
-                            <b>mindset</b>
-                            = <strong>"build"</strong>;
-                        </span>
-                    </div>
-
-                    <div class="code-line">
-                        <span class="code-number">04</span>
-                        <span>
-                            <i>const</i>
-                            <b>goal</b>
-                            = <strong>"simplify"</strong>;
-                        </span>
-                    </div>
-
-                    <div class="code-line">
-                        <span class="code-number">05</span>
-                        <span>
-                            <i>return</i>
-                            <b>solution</b>;
-                        </span>
-                    </div>
-
-                    <div class="code-cursor"></div>
-
-                </div>
-
-            </div>
-
-
-            <div class="floating-card floating-card-one">
-
-                <div class="floating-icon">
-                    &lt;/&gt;
-                </div>
-
-                <div>
-                    <small data-i18n="hero.floating1Label">
-                        UZMANLIK
-                    </small>
-
-                    <strong data-i18n="hero.floating1Value">
-                        Otomasyon
-                    </strong>
-                </div>
-
-            </div>
-
-
-            <div class="floating-card floating-card-two">
-
-                <div class="floating-icon">
-                    ✓
-                </div>
-
-                <div>
-                    <small data-i18n="hero.floating2Label">
-                        YAKLAŞIM
-                    </small>
-
-                    <strong data-i18n="hero.floating2Value">
-                        Gerçek Çözümler
-                    </strong>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="scroll-indicator">
-
-        <span></span>
-
-        <strong data-i18n="hero.scroll">
-            KEŞFETMEK İÇİN KAYDIR
-        </strong>
-
-        <span></span>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================================
-     STATS
-========================================================= -->
-
-<section class="stats-section">
-
-    <div class="container">
-
-        <div class="stats-grid reveal">
-
-            <div class="stat">
-
-                <strong>04+</strong>
-
-                <span data-i18n="stats.projects">
-                    Gerçek Proje
-                </span>
-
-                <p data-i18n="stats.projectsDesc">
-                    Gerçek operasyonel süreçler üzerine geliştirildi.
-                </p>
-
-            </div>
-
-
-            <div class="stat">
-
-                <strong>C#</strong>
-
-                <span data-i18n="stats.backend">
-                    Ana Dil
-                </span>
-
-                <p data-i18n="stats.backendDesc">
-                    Masaüstü uygulamaları, otomasyon ve sistemler.
-                </p>
-
-            </div>
-
-
-            <div class="stat">
-
-                <strong>24/7</strong>
-
-                <span data-i18n="stats.mindset">
-                    Problem Çözme
-                </span>
-
-                <p data-i18n="stats.mindsetDesc">
-                    Geliştir, test et, iyileştir ve tekrar et.
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================================
-     PROJECTS
-========================================================= -->
-
-<section
-    class="section projects-section"
-    id="projects"
->
-
-    <div class="container">
-
-        <div class="section-heading reveal">
-
-            <div>
-
-                <span
-                    class="eyebrow"
-                    data-i18n="projects.eyebrow"
-                >
-                    SEÇİLİ ÇALIŞMALAR
-                </span>
-
-                <h2>
-
-                    <span data-i18n="projects.title">
-                        Gerçek problemler
-                    </span>
-
-                    <span data-i18n="projects.titleMuted">
-                        için geliştirilen sistemler.
-                    </span>
-
-                </h2>
-
-            </div>
-
-            <p data-i18n="projects.description">
-                Gerçek iş akışlarını iyileştirmek için geliştirilmiş masaüstü uygulamaları, otomasyon sistemleri ve tarayıcı tabanlı araçlardan bir seçki.
-            </p>
-
-        </div>
-
-
-        <div class="projects-grid">
-
-
-            <!-- EFES -->
-
-            <article
-                class="project-card project-large reveal"
-                data-project="efes"
-            >
-
-                <div class="project-top">
-
-                    <span class="project-number">
-                        01
-                    </span>
-
-                    <span
-                        class="project-status"
-                        data-i18n="projects.status"
-                    >
-                        VAKA ÇALIŞMASI
-                    </span>
-
-                </div>
-
-
-                <div class="project-visual efes-visual">
-
-                    <div class="mini-window">
-
-                        <div class="mini-window-header">
-
-                            <span></span>
-                            <span></span>
-                            <span></span>
-
-                        </div>
-
-                        <div class="mini-window-body">
-
-                            <div class="mini-row">
-                                <span>INVOICE_001</span>
-                                <b>PROCESSING</b>
-                            </div>
-
-                            <div class="progress-bar">
-                                <span style="width:82%"></span>
-                            </div>
-
-                            <div class="mini-row">
-                                <span>PDF</span>
-                                <strong>VALID</strong>
-                            </div>
-
-                            <div class="mini-row">
-                                <span>DATA</span>
-                                <strong>READY</strong>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="project-content">
-
-                    <span class="project-category">
-                        DESKTOP AUTOMATION
-                    </span>
-
-                    <h3 data-i18n="project.efes.title">
-                        Efes Oto Fatura
-                    </h3>
-
-                    <p data-i18n="project.efes.subtitle">
-                        Fatura işleme ve tekrarlayan veri giriş süreçleri için masaüstü otomasyon sistemi.
-                    </p>
-
-                    <button
-                        class="project-link"
-                        type="button"
-                    >
-
-                        <span data-i18n="projects.viewCase">
-                            Vaka çalışmasını görüntüle
-                        </span>
-
-                        <span>↗</span>
-
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <!-- CLAIM -->
-
-            <article
-                class="project-card reveal"
-                data-project="claim"
-            >
-
-                <div class="project-top">
-
-                    <span class="project-number">
-                        02
-                    </span>
-
-                    <span class="project-status">
-                        CASE STUDY
-                    </span>
-
-                </div>
-
-
-                <div class="project-visual project-mini-ui">
-
-                    <div class="dashboard-mini">
-
-                        <div class="dashboard-mini-top">
-
-                            <span>
-                                INVENTORY
-                            </span>
-
-                            <span>
-                                LIVE
-                            </span>
-
-                        </div>
-
-                        <div class="dashboard-mini-chart">
-
-                            <span style="height:45%"></span>
-                            <span style="height:65%"></span>
-                            <span style="height:52%"></span>
-                            <span style="height:80%"></span>
-                            <span style="height:72%"></span>
-                            <span style="height:92%"></span>
-                            <span style="height:70%"></span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="project-content">
-
-                    <span class="project-category">
-                        BUSINESS SYSTEM
-                    </span>
-
-                    <h3 data-i18n="project.claim.title">
-                        Claim Depo
-                    </h3>
-
-                    <p data-i18n="project.claim.subtitle">
-                        Operasyonel süreçler üzerine geliştirilen dahili stok ve claim yönetim sistemi.
-                    </p>
-
-                    <button
-                        class="project-link"
-                        type="button"
-                    >
-
-                        <span data-i18n="projects.viewCase">
-                            Vaka çalışmasını görüntüle
-                        </span>
-
-                        <span>↗</span>
-
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <!-- SERVICE BOX -->
-
-            <article
-                class="project-card reveal"
-                data-project="servicebox"
-            >
-
-                <div class="project-top">
-
-                    <span class="project-number">
-                        03
-                    </span>
-
-                    <span class="project-status">
-                        CASE STUDY
-                    </span>
-
-                </div>
-
-
-                <div class="project-visual browser-mini">
-
-                    <div class="browser-bar">
-
-                        <span></span>
-
-                        servicebox.mpsa.com
-
-                    </div>
-
-                    <div class="browser-content">
-
-                        <div class="vin-row">
-
-                            <span>
-                                VIN
-                            </span>
-
-                            <b>
-                                VF7XXXXXXXXXXXX
-                            </b>
-
-                        </div>
-
-                        <div class="campaign-row">
-
-                            <span>
-                                CAMPAIGN
-                            </span>
-
-                            <strong>
-                                FOUND
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="project-content">
-
-                    <span class="project-category">
-                        BROWSER AUTOMATION
-                    </span>
-
-                    <h3 data-i18n="project.servicebox.title">
-                        Service Box Automation
-                    </h3>
-
-                    <p data-i18n="project.servicebox.subtitle">
-                        VIN numaralarını işleyip kampanya sonuçlarını Excel'e aktaran Chrome eklentisi.
-                    </p>
-
-                    <button
-                        class="project-link"
-                        type="button"
-                    >
-
-                        <span data-i18n="projects.viewCase">
-                            Vaka çalışmasını görüntüle
-                        </span>
-
-                        <span>↗</span>
-
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <!-- TURGUT -->
-
-            <article
-                class="project-card project-large reveal"
-                data-project="turgut"
-            >
-
-                <div class="project-top">
-
-                    <span class="project-number">
-                        04
-                    </span>
-
-                    <span class="project-status">
-                        CASE STUDY
-                    </span>
-
-                </div>
-
-
-                <div class="project-visual scanner-mini">
-
-                    <div class="scanner-line"></div>
-
-                    <div class="scanner-data">
-
-                        <span>
-                            BARCODE RECEIVED
-                        </span>
-
-                        <strong>
-                            P9820226380
-                        </strong>
-
-                        <small>
-                            TCP : 58628
-                        </small>
-
-                    </div>
-
-                </div>
-
-
-                <div class="project-content">
-
-                    <span class="project-category">
-                        INVENTORY / BARCODE
-                    </span>
-
-                    <h3 data-i18n="project.turgut.title">
-                        Turgut
-                    </h3>
-
-                    <p data-i18n="project.turgut.subtitle">
-                        Barkod tarama, TCP iletişimi ve SQLite entegrasyonlu stok sistemi.
-                    </p>
-
-                    <button
-                        class="project-link"
-                        type="button"
-                    >
-
-                        <span data-i18n="projects.viewCase">
-                            Vaka çalışmasını görüntüle
-                        </span>
-
-                        <span>↗</span>
-
-                    </button>
-
-                </div>
-
-            </article>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================================
-     ENGINEERING
-========================================================= -->
-
-<section
-    class="section engineering-section"
-    id="engineering"
->
-
-    <div class="container">
-
-        <div class="section-heading reveal">
-
-            <div>
-
-                <span
-                    class="eyebrow"
-                    data-i18n="engineering.eyebrow"
-                >
-                    MÜHENDİSLİK YAKLAŞIMI
-                </span>
-
-                <h2>
-
-                    <span data-i18n="engineering.title">
-                        Sadece kod
-                    </span>
-
-                    <span data-i18n="engineering.titleMuted">
-                        yazmıyorum.
-                    </span>
-
-                </h2>
-
-            </div>
-
-            <p data-i18n="engineering.description">
-                Mimari ve veri akışından hata kurtarmaya, sürdürülebilirlikten kullanıcı deneyimine kadar sistemin tamamını önemsiyorum.
-            </p>
-
-        </div>
-
-
-        <div class="engineering-grid">
-
-
-            <div class="engineering-card reveal">
-
-                <div class="engineering-icon">
-                    01
-                </div>
-
-                <h3 data-i18n="engineering.card1.title">
-                    Otomasyon
-                </h3>
-
-                <p data-i18n="engineering.card1.description">
-                    Tekrarlayan manuel süreçleri öngörülebilir yazılım akışlarına dönüştürmek.
-                </p>
-
-                <div class="engineering-tags">
-
-                    <span>UI AUTOMATION</span>
-                    <span>WORKFLOW</span>
-                    <span>PROCESSING</span>
-
-                </div>
-
-            </div>
-
-
-            <div class="engineering-card reveal">
-
-                <div class="engineering-icon">
-                    02
-                </div>
-
-                <h3 data-i18n="engineering.card2.title">
-                    Veri Sistemleri
-                </h3>
-
-                <p data-i18n="engineering.card2.description">
-                    Filtreleme, kalıcı veri, recovery ve güvenilir veritabanı yapıları oluşturmak.
-                </p>
-
-                <div class="engineering-tags">
-
-                    <span>SQL</span>
-                    <span>SQLITE</span>
-                    <span>MIGRATIONS</span>
-
-                </div>
-
-            </div>
-
-
-            <div class="engineering-card reveal">
-
-                <div class="engineering-icon">
-                    03
-                </div>
-
-                <h3 data-i18n="engineering.card3.title">
-                    Entegrasyon
-                </h3>
-
-                <p data-i18n="engineering.card3.description">
-                    Uygulamaları, tarayıcıları, tarayıcı cihazlarını, dosyaları ve farklı sistemleri birbirine bağlamak.
-                </p>
-
-                <div class="engineering-tags">
-
-                    <span>TCP</span>
-                    <span>EXCEL</span>
-                    <span>APIs</span>
-
-                </div>
-
-            </div>
-
-
-            <div class="engineering-feature reveal">
-
-                <div class="feature-code">
-
-                    <span data-i18n="engineering.featureLabel">
-                        PRENSİP
-                    </span>
-
-                    <code>
-
-                        <b data-i18n="engineering.feature1">
-                            anla
-                        </b>
-
-                        <span>→</span>
-
-                        <b data-i18n="engineering.feature2">
-                            tasarla
-                        </b>
-
-                        <span>→</span>
-
-                        <b data-i18n="engineering.feature3">
-                            otomatikleştir
-                        </b>
-
-                        <span>→</span>
-
-                        <b data-i18n="engineering.feature4">
-                            iyileştir
-                        </b>
-
-                    </code>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================================
-     STACK
-========================================================= -->
-
-<section
-    class="section"
-    id="stack"
->
-
-    <div class="container">
-
-        <div class="section-heading reveal">
-
-            <div>
-
-                <span
-                    class="eyebrow"
-                    data-i18n="stack.eyebrow"
-                >
-                    TEKNOLOJİ
-                </span>
-
-                <h2>
-
-                    <span data-i18n="stack.title">
-                        Kullandığım
-                    </span>
-
-                    <span data-i18n="stack.titleMuted">
-                        araçlar.
-                    </span>
-
-                </h2>
-
-            </div>
-
-            <p data-i18n="stack.description">
-                Kullanışlı ve sürdürülebilir yazılımlar geliştirmeye odaklanan pratik bir teknoloji stack'i.
-            </p>
-
-        </div>
-
-
-        <div class="stack-layout">
-
-
-            <div>
-
-                <span
-                    class="stack-label"
-                    data-i18n="stack.primary"
-                >
-                    ANA TEKNOLOJİLER
-                </span>
-
-                <div class="stack-primary">
-
-                    <div class="tech-row">
-
-                        <div>
-                            <strong>C# / .NET</strong>
-
-                            <span data-i18n="stack.dotnet">
-                                Masaüstü & backend
-                            </span>
-                        </div>
-
-                        <b>01</b>
-
-                    </div>
-
-
-                    <div class="tech-row">
-
-                        <div>
-                            <strong>SQL</strong>
-
-                            <span data-i18n="stack.sql">
-                                Veri & kalıcılık
-                            </span>
-                        </div>
-
-                        <b>02</b>
-
-                    </div>
-
-
-                    <div class="tech-row">
-
-                        <div>
-                            <strong>JavaScript</strong>
-
-                            <span data-i18n="stack.javascript">
-                                Web otomasyonu
-                            </span>
-                        </div>
-
-                        <b>03</b>
-
-                    </div>
-
-
-                    <div class="tech-row">
-
-                        <div>
-                            <strong>SQLite</strong>
-
-                            <span data-i18n="stack.sqlite">
-                                Yerel veri
-                            </span>
-                        </div>
-
-                        <b>04</b>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div>
-
-                <span
-                    class="stack-label"
-                    data-i18n="stack.other"
-                >
-                    DİĞER TEKNOLOJİLER
-                </span>
-
-                <div class="technology-cloud">
-
-                    <span>WinForms</span>
-                    <span>SQL Server</span>
-                    <span>Chrome Extensions</span>
-                    <span>Manifest V3</span>
-                    <span>Excel</span>
-                    <span>PDF Processing</span>
-                    <span>TCP</span>
-                    <span>UI Automation</span>
-                    <span>Zebra</span>
-                    <span>DataWedge</span>
-                    <span>Git</span>
-                    <span>HTML / CSS</span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================================
-     GITHUB
-========================================================= -->
-
-<section class="section github-section">
-
-    <div class="container">
-
-        <div class="github-panel reveal">
-
-
-            <div class="github-copy">
-
-                <span
-                    class="eyebrow"
-                    data-i18n="github.eyebrow"
-                >
-                    OPEN SOURCE / CODE
-                </span>
-
-                <h2>
-
-                    <span data-i18n="github.title">
-                        Koda
-                    </span>
-
-                    <span data-i18n="github.titleMuted">
-                        bak.
-                    </span>
-
-                </h2>
-
-                <p data-i18n="github.description">
-                    Projelerim, deneylerim ve geliştirme çalışmalarım GitHub'da bulunuyor. Kodları, mimariyi ve uygulama detaylarını inceleyebilirsin.
-                </p>
-
-                <a
-                    href="https://github.com/Salvadoo-tr"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="button button-primary"
-                >
-                    GitHub ↗
-                </a>
-
-            </div>
-
-
-            <div class="github-terminal">
-
-                <div class="terminal-header">
-
-                    <span>
-                        salva@dev:~
-                    </span>
-
-                </div>
-
-                <div class="terminal-body">
-
-                    <div>
-                        <span class="terminal-green">$</span>
-                        whoami
-                    </div>
-
-                    <div class="terminal-success">
-                        software developer
-                    </div>
-
-                    <div>
-                        <span class="terminal-green">$</span>
-                        cat focus.txt
-                    </div>
-
-                    <div class="terminal-muted">
-                        automation
-                    </div>
-
-                    <div class="terminal-muted">
-                        business systems
-                    </div>
-
-                    <div class="terminal-muted">
-                        practical software
-                    </div>
-
-                    <div>
-                        <span class="terminal-green">$</span>
-                        ./build
-                    </div>
-
-                    <div class="terminal-success">
-                        build completed successfully.
-                    </div>
-
-                    <br>
-
-                    <span class="terminal-green">
-                        $
-                    </span>
-
-                    <span class="terminal-cursor"></span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================================
-     ABOUT
-========================================================= -->
-
-<section
-    class="section"
-    id="about"
->
-
-    <div class="container">
-
-        <div class="about-grid">
-
-
-            <div class="about-heading reveal">
-
-                <span
-                    class="eyebrow"
-                    data-i18n="about.eyebrow"
-                >
-                    HAKKIMDA
-                </span>
-
-                <h2>
-
-                    <span data-i18n="about.title">
-                        Faydalı
-                    </span>
-
-                    <span data-i18n="about.titleMuted">
-                        şeyler geliştiriyorum.
-                    </span>
-
-                </h2>
-
-            </div>
-
-
-            <div class="about-content reveal reveal-delay">
-
-                <p
-                    class="about-lead"
-                    data-i18n="about.lead"
-                >
-                    Dağınık, tekrarlayan ve verimsiz iş akışlarını basit yazılımlara dönüştürmeyi seviyorum.
-                </p>
-
-                <p data-i18n="about.paragraph1">
-                    Geliştirme yaklaşımım oldukça pratik. Bir sistemi otomatikleştirmeye veya geliştirmeye karar vermeden önce sistemin gerçekte nasıl çalıştığını anlamaya odaklanıyorum.
-                </p>
-
-                <p data-i18n="about.paragraph2">
-                    İster masaüstü uygulaması, ister tarayıcı eklentisi, veritabanı sistemi veya donanım entegrasyonu olsun, amaç aynı: işi gerçekten kolaylaştıran bir şey geliştirmek.
-                </p>
-
-
-                <div class="about-principles">
-
-                    <div>
-
-                        <span>01</span>
-
-                        <strong data-i18n="about.principle1">
-                            Önce anla
-                        </strong>
-
-                    </div>
-
-                    <div>
-
-                        <span>02</span>
-
-                        <strong data-i18n="about.principle2">
-                            Pratik tut
-                        </strong>
-
-                    </div>
-
-                    <div>
-
-                        <span>03</span>
-
-                        <strong data-i18n="about.principle3">
-                            Sürekli geliştir
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================================
-     EXPERIENCE
-========================================================= -->
-
-<section
-    class="section"
-    id="experience"
->
-
-    <div class="container">
-
-        <div class="section-heading reveal">
-
-            <div>
-
-                <span
-                    class="eyebrow"
-                    data-i18n="experience.eyebrow"
-                >
-                    DENEYİM
-                </span>
-
-                <h2>
-
-                    <span data-i18n="experience.title">
-                        İşten
-                    </span>
-
-                    <span data-i18n="experience.titleMuted">
-                        yazılıma.
-                    </span>
-
-                </h2>
-
-            </div>
-
-            <p data-i18n="experience.description">
-                Gerçek iş ve operasyon problemlerini yazılımla çözmeye odaklanan bir deneyim.
-            </p>
-
-        </div>
-
-
-        <div class="timeline">
-
-
-            <div class="timeline-item reveal">
-
-                <div class="timeline-marker active"></div>
-
-                <div class="timeline-date">
-                    2026
-                </div>
-
-                <div class="timeline-content">
-
-                    <span
-                        class="timeline-type"
-                        data-i18n="experience.item1.type"
-                    >
-                        YAZILIM GELİŞTİRME
-                    </span>
-
-                    <h3 data-i18n="experience.item1.title">
-                        Otomasyon & İş Sistemleri
-                    </h3>
-
-                    <p data-i18n="experience.item1.description">
-                        Gerçek operasyonel ihtiyaçlar üzerine masaüstü uygulamaları, otomasyon akışları, stok sistemleri ve tarayıcı araçları geliştiriyorum.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="timeline-item reveal">
-
-                <div class="timeline-marker"></div>
-
-                <div class="timeline-date">
-                    2025
-                </div>
-
-                <div class="timeline-content">
-
-                    <span
-                        class="timeline-type"
-                        data-i18n="experience.item2.type"
-                    >
-                        GELİŞTİRME
-                    </span>
-
-                    <h3 data-i18n="experience.item2.title">
-                        C# / .NET Geliştirme
-                    </h3>
-
-                    <p data-i18n="experience.item2.description">
-                        Manuel işleri azaltmak için raporlama araçları, veri odaklı uygulamalar ve yazılım çözümleri geliştiriyorum.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="timeline-item reveal">
-
-                <div class="timeline-marker"></div>
-
-                <div class="timeline-date">
-                    NOW
-                </div>
-
-                <div class="timeline-content">
-
-                    <span
-                        class="timeline-type"
-                        data-i18n="experience.item3.type"
-                    >
-                        SÜREKLİ GELİŞTİRME
-                    </span>
-
-                    <h3 data-i18n="experience.item3.title">
-                        Geliştirerek Öğrenmek
-                    </h3>
-
-                    <p data-i18n="experience.item3.description">
-                        Yeni teknolojileri deneyerek öğrenmeye ve fikirleri çalışan yazılımlara dönüştürmeye devam ediyorum.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================================
-     CONTACT
-========================================================= -->
-
-<section
-    class="section"
-    id="contact"
->
-
-    <div class="container">
-
-        <div class="contact-card reveal">
-
-
-            <div class="contact-content">
-
-                <span
-                    class="eyebrow"
-                    data-i18n="contact.eyebrow"
-                >
-                    İLETİŞİM
-                </span>
-
-                <h2>
-
-                    <span data-i18n="contact.title">
-                        Çözülmeye
-                    </span>
-
-                    <span data-i18n="contact.titleMuted">
-                        değer bir problem mi var?
-                    </span>
-
-                </h2>
-
-                <p data-i18n="contact.description">
-                    Yazılımla çözülebilecek bir projen, iş akışın veya teknik problemin varsa benimle iletişime geçebilirsin.
-                </p>
-
-            </div>
-
-
-            <div class="contact-actions">
-
-
-                <a
-                    href="mailto:hello@salva.dev"
-                    class="contact-button"
-                >
-
-                    <span>
-                        Email
-                    </span>
-
-                    <strong>
-                        ↗
-                    </strong>
-
-                </a>
-
-
-                <a
-                    href="https://github.com/Salvadoo-tr"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="contact-button"
-                >
-
-                    <span>
-                        GitHub
-                    </span>
-
-                    <strong>
-                        ↗
-                    </strong>
-
-                </a>
-
-
-                <a
-                    href="https://www.linkedin.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="contact-button"
-                >
-
-                    <span>
-                        LinkedIn
-                    </span>
-
-                    <strong>
-                        ↗
-                    </strong>
-
-                </a>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-</main>
-
-
-<!-- =========================================================
-     FOOTER
-========================================================= -->
-
-<footer class="footer">
-
-    <div class="container footer-container">
-
-
-        <div class="footer-brand">
-
-            <div class="brand-mark">
-                S
-            </div>
-
-            <div>
-
-                <strong>
-                    SALVA
-                </strong>
-
-                <span data-i18n="footer.role">
-                    Yazılım Geliştirici
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <div class="footer-status">
-
-            <span class="status-dot"></span>
-
-            <span data-i18n="footer.status">
-                SİSTEM ÇALIŞIYOR
-            </span>
-
-        </div>
-
-
-        <div class="footer-right">
-
-            <span>
-                © <span id="year"></span> SALVA
-            </span>
-
-            <span>
-                <span data-i18n="footer.localTime">
-                    YEREL SAAT
-                </span>:
-                <span id="localTime">
-                    --:--:--
-                </span>
-            </span>
-
-        </div>
-
-    </div>
-
-</footer>
-
-
-<!-- =========================================================
-     PROJECT MODAL
-========================================================= -->
-
-<div
-    class="project-modal"
-    id="projectModal"
->
-
-    <div
-        class="modal-backdrop"
-        id="modalBackdrop"
-    ></div>
-
-
-    <div class="modal-container">
-
-        <button
-            class="modal-close"
-            id="modalClose"
-            type="button"
-            aria-label="Close"
-        >
-            ×
-        </button>
-
-
-        <div
-            class="modal-content"
-            id="modalContent"
-        ></div>
-
-    </div>
-
-</div>
-
-
-<script src="script.js"></script>
-
+  <main class="scroll-track" id="track">
+    <section class="stage" aria-label="SALVA veri akışı deneyimi">
+      <canvas id="world" aria-hidden="true"></canvas>
+      <div class="vignette"></div><div class="grain"></div>
+      <header class="topbar"><div class="logo">SALVA<span>SYSTEMS / 001</span></div><div class="top-meta"><span class="desktop-only">İNTERAKTİF DENEYİM</span><span class="live">SİMÜLASYON AKTİF</span></div></header>
+      <div class="top-rule"></div>
+      <button type="button" class="skip" id="skip">Akışı başlat</button>
+      <div class="content" aria-live="polite"><div class="copy" id="copy"><div class="chapter" id="chapter">01 / BAŞLANGIÇ</div><h1 id="title">Verinin<br>içine gir.</h1><p id="description">Bir otomasyonun görünmeyen yolculuğu. Sunucunun dışından başla; tek bir sinyalin nasıl <strong>işe dönüştüğünü</strong> izle.</p></div></div>
+      <div class="eyebrow">SCROLL TO EXPLORE — SALVA / 2026</div>
+      <div class="note" id="note"><div class="muted">// SYSTEM TRACE</div><div id="trace">SYSTEM READY<br>AWAITING INPUT_</div></div>
+      <footer class="bottom"><div class="hint"><span class="wheel"></span><span>Kaydır ve keşfet</span></div><nav class="nav" aria-label="Sahneler"><button type="button" class="active" data-scene="0" aria-label="Başlangıç sahnesine git"><b>01</b>BAŞLANGIÇ</button><button type="button" data-scene="1" aria-label="Bağlantı sahnesine git"><b>02</b>BAĞLANTI</button><button type="button" data-scene="2" aria-label="Veri akışı sahnesine git"><b>03</b>AKIŞ</button><button type="button" data-scene="3" aria-label="İşleme sahnesine git"><b>04</b>İŞLEME</button><button type="button" data-scene="4" aria-label="Sonuç sahnesine git"><b>05</b>SONUÇ</button></nav><div class="counter"><strong id="count">01</strong><span> / 05</span></div></footer>
+      <div class="progress"><i id="progress"></i></div>
+    </section>
+  </main>
+  <script>
+  (()=>{
+    'use strict';
+    const canvas=document.getElementById('world'),ctx=canvas.getContext('2d',{alpha:false});
+    const track=document.getElementById('track'),progressBar=document.getElementById('progress');
+    const chapter=document.getElementById('chapter'),title=document.getElementById('title'),desc=document.getElementById('description'),trace=document.getElementById('trace'),count=document.getElementById('count'),copy=document.getElementById('copy');
+    const nav=[...document.querySelectorAll('.nav button')],reduce=matchMedia('(prefers-reduced-motion: reduce)');
+    const beats=[
+      {chapter:'01 / BAŞLANGIÇ',title:'Verinin<br>içine gir.',desc:'Bir otomasyonun görünmeyen yolculuğu. Sunucunun dışından başla; tek bir sinyalin nasıl <strong>işe dönüştüğünü</strong> izle.',trace:'SYSTEM READY<br>AWAITING INPUT_'},
+      {chapter:'02 / BAĞLANTI',title:'Her şey bir<br>bağlantıyla başlar.',desc:'Dışarıdaki bir talep, fiziksel hat üzerinden sisteme girer. Kamera bu kez kablonun <strong>içine doğru</strong> ilerliyor.',trace:'PORT 08 CONNECTED<br>HANDSHAKE COMPLETE_'},
+      {chapter:'03 / VERİ AKIŞI',title:'Bilgi<br>yolculukta.',desc:'Paketler hat boyunca akıyor. Her biri doğrulanıyor, sıraya alınıyor ve doğru işlem noktasına taşınıyor.',trace:'PACKETS IN MOTION<br>LATENCY  12ms_'},
+      {chapter:'04 / OTOMASYON',title:'Tekrar eden işi<br>sistem yapar.',desc:'Veri okunur, alanlara eşlenir, kontrollerden geçer. Evrak bilgisi ilgili kayda <strong>otomatik aktarılır.</strong>',trace:'PARSING DOCUMENT<br>VALIDATING FIELDS_'},
+      {chapter:'05 / SONUÇ',title:'Girdi veriye.<br>Veri sonuca.',desc:'Bir talep, birden fazla adımı tetikledi. İnsan saatlerini alan süreç, izlenebilir bir akışa dönüştü. <strong>Bu, SALVA yaklaşımı.</strong>',trace:'WORKFLOW COMPLETE<br>STATUS  SUCCESS_'}
+    ];
+    let W=0,H=0,DPR=1,target=0,current=0,shown=-1,last=0,mouseX=0,mouseY=0;
+    const TAU=Math.PI*2,clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x)),mix=(a,b,t)=>a+(b-a)*t,smooth=t=>{t=clamp(t);return t*t*(3-2*t)};
+    const fract=x=>x-Math.floor(x),hash=n=>fract(Math.sin(n*127.1+78.233)*43758.5453);
+    function resize(){DPR=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=Math.round(W*DPR);canvas.height=Math.round(H*DPR);canvas.style.width=W+'px';canvas.style.height=H+'px';ctx.setTransform(DPR,0,0,DPR,0,0)}
+    function scrollTarget(){const max=Math.max(1,track.offsetHeight-innerHeight);target=clamp((scrollY-track.offsetTop)/max)}
+    function moveTo(i){const max=Math.max(1,track.offsetHeight-innerHeight);window.scrollTo({top:track.offsetTop+max*(i/4.5),behavior:reduce.matches?'instant':'smooth'})}
+    nav.forEach(b=>b.addEventListener('click',()=>moveTo(+b.dataset.scene)));
+    document.getElementById('skip').addEventListener('click',()=>moveTo(1));
+    window.addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown','PageDown'].includes(e.key)){e.preventDefault();moveTo(Math.min(4,Math.round(target*4.5)+1))}else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();moveTo(Math.max(0,Math.round(target*4.5)-1))}},{passive:false});
+    window.addEventListener('pointermove',e=>{mouseX=(e.clientX/W-.5)*2;mouseY=(e.clientY/H-.5)*2},{passive:true});
+    window.addEventListener('scroll',scrollTarget,{passive:true});window.addEventListener('resize',()=>{resize();scrollTarget()});resize();scrollTarget();
+    function line(x1,y1,x2,y2,color,width=1){ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke()}
+    function poly(points,fill,stroke,width=1){ctx.beginPath();ctx.moveTo(points[0][0],points[0][1]);for(let i=1;i<points.length;i++)ctx.lineTo(points[i][0],points[i][1]);ctx.closePath();if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke()}}
+    function rect(x,y,w,h,fill,stroke,width=1){if(fill){ctx.fillStyle=fill;ctx.fillRect(x,y,w,h)}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.strokeRect(x,y,w,h)}}
+    function circle(x,y,r,fill,stroke,width=1){ctx.beginPath();ctx.arc(x,y,Math.max(.1,r),0,TAU);if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke()}}
+    function glow(x,y,r,color,alpha=1){const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,color.replace('ALPHA',(.35*alpha).toFixed(3)));g.addColorStop(1,color.replace('ALPHA','0'));ctx.fillStyle=g;ctx.fillRect(x-r,y-r,r*2,r*2)}
+    function text(s,x,y,size=11,color='#9bb3bc',spacing=0){ctx.fillStyle=color;ctx.font=`${size}px ui-monospace,Consolas,monospace`;ctx.textAlign='left';if(!spacing){ctx.fillText(s,x,y);return}let xx=x;for(const ch of s){ctx.fillText(ch,xx,y);xx+=ctx.measureText(ch).width+spacing}}
+    function backdrop(t){const g=ctx.createRadialGradient(W*.72,H*.5,20,W*.6,H*.5,Math.max(W,H)*.85);g.addColorStop(0,t?'#0a2630':'#102530');g.addColorStop(.42,'#07141e');g.addColorStop(1,'#03070d');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);for(let i=0;i<70;i++){let x=hash(i*8+7)*W,y=hash(i*17+2)*H,r=.35+hash(i+17)*1.2;circle(x,y,r,`rgba(145,219,220,${.08+hash(i+32)*.2})`)} }
+    function grid(fade=1){ctx.save();ctx.globalAlpha=fade;const hz=H*.8;for(let j=0;j<16;j++){let yy=hz+(H-hz)*Math.pow(j/15,1.35);line(0,yy,W,yy,'rgba(72,173,182,.14)')}for(let i=-16;i<=16;i++){line(W*.63,hz,W*.63+i*W*.08,H,'rgba(72,173,182,.13)')}ctx.restore()}
+    function rack(t,zoom=0){
+      const mobile=W<800, cx=W*(mobile?.59:.67),cy=H*(mobile?.65:.53),scale=Math.min(W/1400,H/780)*(mobile?1.95:1.34);ctx.save();ctx.translate(cx+mouseX*7*(1-zoom),cy+mouseY*5*(1-zoom));
+      const z=1+zoom*5.6;ctx.scale(scale*z,scale*z);ctx.translate(-25*zoom,-10*zoom);
+      // Metal chassis: top, side and front panels.
+      glow(80,5,470,'rgba(64,224,224,ALPHA)',.7);
+      poly([[-247,-226],[149,-226],[223,-268],[-173,-268]],'#142b37','#486573',1.2);
+      poly([[149,-226],[223,-268],[223,248],[149,285]],'#07121c','#40606a',1.3);
+      poly([[-247,-226],[149,-226],[149,285],[-247,285]],'#08151f','#60808a',1.4);
+      poly([[-235,-211],[137,-211],[137,268],[-235,268]],'#0a1924','#284652');
+      for(let j=0;j<23;j++){
+        let y=-194+j*19.8;rect(-218,y,338,14,j%5===0?'#152b36':'#101f2a','#28404b',.65);
+        line(-205,y+3,-28,y+3,'rgba(153,200,204,.1)');line(-205,y+8,-62,y+8,'rgba(153,200,204,.08)');
+        if(j%4===0){circle(95,y+7,2.5,'#75eddd');glow(95,y+7,16,'rgba(80,248,228,ALPHA)',.45)}
+        else circle(95,y+7,1.4,'#44646b');
+        rect(-11,y+4,43,4,'#07141b','#38525a',.5);
+      }
+      rect(-226,-220,7,495,'#526d76');rect(128,-220,7,495,'#526d76');
+      for(let j=0;j<10;j++){circle(-222,-199+j*51,1.4,'#9fb5b7');circle(131,-199+j*51,1.4,'#9fb5b7')}
+      // Glowing cable port, tactile connector and flowing cable.
+      rect(-101,11,76,49,'#050d15','#6caaa9',2);rect(-94,17,62,37,'#0a2930','#84dfd1',1.5);
+      glow(-63,35,55,'rgba(45,255,220,ALPHA)',1.3);
+      rect(-85,26,44,16,'#173b40','#92eee1');for(let k=0;k<6;k++)rect(-81+k*7,29,3,7,'#b2ece3');
+      ctx.beginPath();ctx.moveTo(-62,35);ctx.bezierCurveTo(-160,118,-85,220,96,276);ctx.bezierCurveTo(290,335,294,390,437,443);ctx.strokeStyle='#04121b';ctx.lineWidth=31;ctx.stroke();
+      ctx.strokeStyle='#294f5b';ctx.lineWidth=25;ctx.stroke();ctx.strokeStyle='#75dace';ctx.lineWidth=7;ctx.shadowColor='#52e4d4';ctx.shadowBlur=18;ctx.stroke();ctx.shadowBlur=0;
+      ctx.beginPath();ctx.moveTo(-62,35);ctx.bezierCurveTo(-160,118,-85,220,96,276);ctx.bezierCurveTo(290,335,294,390,437,443);ctx.strokeStyle='rgba(235,255,249,.45)';ctx.lineWidth=1.2;ctx.stroke();
+      if(zoom<.3){text('SALVA / NODE 01',-210,-240,10,'#8cc2c3',1);text('08 : ACTIVE',-211,258,9,'#70dccf',.5)}
+      ctx.restore();
+      if(!mobile && zoom<.4){text('01  /  PHYSICAL LAYER',W*.67-135,H*.85,11,'#80adb3',1);line(W*.67-135,H*.85+13,W*.67+112,H*.85+13,'rgba(111,207,201,.42)')}
+    }
+    function tunnel(t,time){
+      const cx=W*.53+mouseX*12,cy=H*.52+mouseY*9,m=Math.max(W,H),depth=16;
+      const g=ctx.createRadialGradient(cx,cy,0,cx,cy,m*.8);g.addColorStop(0,'#092a31');g.addColorStop(.4,'#071a23');g.addColorStop(1,'#02070e');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+      glow(cx,cy,m*.35,'rgba(45,226,216,ALPHA)',.55);
+      // Receding cable conduit rings and conductors.
+      for(let j=depth;j>=0;j--){let d=(j/ depth+t*.17)%1,far=1-d,rx=30+Math.pow(far,1.65)*m*.71,ry=rx*.63,alpha=.08+far*.52;
+        ctx.save();ctx.translate(cx,cy);ctx.scale(1,.63);ctx.beginPath();ctx.ellipse(0,0,rx,rx,0,0,TAU);ctx.strokeStyle=`rgba(105,234,222,${alpha})`;ctx.lineWidth=far> .85?4:1.2;ctx.shadowColor='#5de8dc';ctx.shadowBlur=far*16;ctx.stroke();ctx.restore();
+        for(let k=0;k<8;k++){let a=k*TAU/8+.14;circle(cx+Math.cos(a)*rx,cy+Math.sin(a)*ry,far*2.6,`rgba(145,250,232,${far*.7})`)}
+      }
+      for(let k=0;k<12;k++){let a=k*TAU/12;line(cx+Math.cos(a)*45,cy+Math.sin(a)*29,cx+Math.cos(a)*m*.76,cy+Math.sin(a)*m*.47,'rgba(68,174,178,.14)',1.3)}
+      for(let i=0;i<84;i++){let p=fract(hash(i*2.41)+time*(.00009+hash(i+13)*.00017)+t*.31),a=hash(i+130)*TAU,r=24+Math.pow(p,2.35)*m*.69,x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r*.63;
+        let size=.8+p*3.2;circle(x,y,size,`rgba(${i%5===0?'245,171,105':'126,246,228'},${.23+p*.72})`);if(p>.65)line(x,y,x+Math.cos(a)*p*13,y+Math.sin(a)*p*8,'rgba(110,239,226,.22)',1)
+      }
+      ctx.save();ctx.textAlign='center';text('01  00  10  11     •     TRANSMITTING',cx-132,cy+7,11,'rgba(185,248,235,.65)',1);ctx.restore();
+    }
+    function hub(t,time){
+      const mobile=W<800,cx=W*(mobile?.57:.64),cy=H*(mobile?.66:.53),sz=Math.min(W,H)*(mobile?.43:.46);
+      backdrop(true);grid(.35);glow(cx,cy,sz*1.5,'rgba(47,231,216,ALPHA)',.38);
+      let ang=time*.00011;
+      for(let n=4;n>=1;n--){let r=sz*(n*.29);ctx.save();ctx.translate(cx,cy);ctx.rotate(ang*(n%2?-1:1));ctx.beginPath();ctx.ellipse(0,0,r,r*.55,0,0,TAU);ctx.strokeStyle=`rgba(93,216,212,${.08+n*.065})`;ctx.lineWidth=n===1?2:1;ctx.stroke();for(let j=0;j<8;j++){let a=j*TAU/8,cx1=Math.cos(a)*r,cy1=Math.sin(a)*r*.55;circle(cx1,cy1,n===1?2:1,'rgba(125,238,222,.65)')}ctx.restore()}
+      const nodes=[[-.91,-.63],[.76,-.74],[.95,.54],[-.82,.69]];
+      nodes.forEach(([nx,ny],i)=>{let x=cx+nx*sz,y=cy+ny*sz;line(cx,cy,x,y,'rgba(79,226,213,.43)',1.5);glow(x,y,33,'rgba(51,235,218,ALPHA)',.7);circle(x,y,11,'#12333c','#83ede0',1.5);circle(x,y,3,'#b5fff1');
+        let label=['READ','MAP','VERIFY','WRITE'][i],dx=nx<0?-88:18;text(label,x+dx,y-14,10,'#aad7d6',1);
+        let p=fract(time*.00025+i*.23),px=mix(cx,x,p),py=mix(cy,y,p);circle(px,py,3.5,'#baffee');glow(px,py,19,'rgba(90,250,216,ALPHA)',.9)
+      });
+      // Core processor rendered as a layered physical module.
+      let s=sz*.32;poly([[cx-s,cy-s*.56],[cx,cy-s*.96],[cx+s,cy-s*.56],[cx,cy-s*.17]],'#254953','#84c6c7',1.5);
+      poly([[cx-s,cy-s*.56],[cx,cy-s*.17],[cx,cy+s*.83],[cx-s,cy+s*.44]],'#102a35','#5daeb2',1.3);
+      poly([[cx,cy-s*.17],[cx+s,cy-s*.56],[cx+s,cy+s*.44],[cx,cy+s*.83]],'#0b202d','#4ca3ab',1.3);
+      poly([[cx-s*.57,cy-s*.48],[cx,cy-s*.71],[cx+s*.57,cy-s*.48],[cx,cy-s*.23]],'#102a31','#94f9e6',1);
+      glow(cx,cy-s*.49,s,'rgba(86,255,219,ALPHA)',1.1);
+      for(let j=0;j<5;j++){line(cx-s*.83,cy-s*.13+j*s*.12,cx-s*.36,cy+s*.09+j*s*.12,'rgba(115,237,221,.36)');line(cx+s*.36,cy+s*.09+j*s*.12,cx+s*.83,cy-s*.13+j*s*.12,'rgba(115,237,221,.36)')}
+      text('AUTOMATION CORE',cx-s*.71,cy+s*1.25,11,'#b4dedb',1.6);
+    }
+    function workflow(t,time){
+      const mobile=W<800,cx=W*(mobile?.53:.67),cy=H*(mobile?.67:.51),unit=Math.min(W/1100,H/750)*(mobile?1.6:1.2);
+      backdrop(true);grid(.5);glow(cx,cy,330*unit,'rgba(72,236,221,ALPHA)',.4);
+      ctx.save();ctx.translate(cx,cy);ctx.scale(unit,unit);
+      const nodes=[[-260,-120],[-55,-120],[150,-120],[-55,105]];
+      const labels=[['01','BELGE OKUNDU','PDF → DATA'],['02','ALANLAR EŞLENDİ','SOURCE → TARGET'],['03','KONTROL GEÇTİ','VALIDATION OK'],['04','KAYIT OLUŞTU','WRITE COMPLETE']];
+      // Deliberately framed schematic; data packets travel between each station.
+      [[0,1],[1,2],[1,3]].forEach(([a,b],idx)=>{const [x1,y1]=nodes[a],[x2,y2]=nodes[b];line(x1+52,y1+31,x2-52,y2+31,'rgba(83,238,215,.42)',2);let p=fract(time*.00033+idx*.34);circle(mix(x1+52,x2-52,p),mix(y1+31,y2+31,p),3.5,'#baffed')});
+      nodes.forEach(([x,y],i)=>{ctx.shadowColor='#59e8d7';ctx.shadowBlur=22;rect(x-65,y-35,130,95,'#0b202a','#5bc4bf',1.3);ctx.shadowBlur=0;rect(x-57,y-27,114,79,'rgba(18,48,57,.8)','rgba(120,211,207,.25)');text(labels[i][0],x-47,y-6,12,'#76e7d9');line(x-47,y+3,x+46,y+3,'rgba(147,213,213,.27)');text(labels[i][1],x-47,y+24,8.5,'#d7f5ed');text(labels[i][2],x-47,y+43,7,'#76b4b7');circle(x+46,y-8,3,'#91f6dc')});
+      // Data lines and records inside the source document.
+      for(let j=0;j<7;j++){let bx=-326+j*13;line(bx,-160,bx,-177-j%3*6,'rgba(117,222,216,.3)')}
+      ctx.restore();
+      if(!mobile){
+        // A receiving form makes the automated entry visible, not just implied by the nodes.
+        const fx=Math.min(W-275,cx+265*unit),fy=cy-133*unit,fw=205,fh=235;
+        line(cx+215*unit,cy+136*unit,fx,fy+fh*.7,'rgba(109,237,217,.48)',1.5);
+        rect(fx,fy,fw,fh,'rgba(7,25,34,.93)','#6abfbd',1);
+        rect(fx,fy,fw,32,'#17353f');text('RECORD / 0042',fx+13,fy+20,10,'#a8ebe1',.7);
+        const fields=[['FATURA NO','EFS-2026-0042'],['TARİH','29.09.2026'],['TUTAR','12.840,00 ₺']];
+        fields.forEach(([label,value],i)=>{let yy=fy+57+i*53;text(label,fx+14,yy,9,'#7199a1',.8);rect(fx+13,yy+9,fw-26,27,'#102c35','rgba(108,199,193,.42)',.7);
+          const visible=Math.max(0,Math.min(value.length,Math.floor((fract(time*.00012+i*.21))*value.length*2.2)));text(value.slice(0,visible),fx+22,yy+27,11,'#e1faf2')});
+        text('AUTO ENTRY  /  LIVE',fx+14,fy+fh-13,9,'#7de8d7',1);
+        text('INVOICE / 0042 → STRUCTURED DATA',W*.53,H*.84,11,'#70aeb2',1.3)
+      }
+    }
+    function finish(t,time){
+      const mobile=W<800,cx=W*(mobile?.55:.66),cy=H*(mobile?.67:.51),r=Math.min(W,H)*(mobile?.25:.28);
+      backdrop(true);glow(cx,cy,r*2.2,'rgba(57,246,214,ALPHA)',.85);
+      for(let j=0;j<5;j++){let rad=r*(.76+j*.25);ctx.beginPath();ctx.arc(cx,cy,rad,-Math.PI*.73,Math.PI*.73);ctx.strokeStyle=`rgba(108,230,215,${.38-j*.061})`;ctx.lineWidth=j===0?2:1;ctx.stroke()}
+      ctx.save();ctx.translate(cx,cy);ctx.rotate(Math.PI/4);rect(-r*.55,-r*.55,r*1.1,r*1.1,'#102b35','#72e0d4',2);rect(-r*.42,-r*.42,r*.84,r*.84,'#071b23','#487f83',1);ctx.rotate(-Math.PI/4);ctx.beginPath();ctx.moveTo(-r*.24,0);ctx.lineTo(-r*.04,r*.2);ctx.lineTo(r*.3,-r*.25);ctx.strokeStyle='#a7ffe7';ctx.lineWidth=7;ctx.lineCap='round';ctx.lineJoin='round';ctx.shadowColor='#6cf4ce';ctx.shadowBlur=28;ctx.stroke();ctx.restore();
+      for(let i=0;i<24;i++){let a=hash(i+211)*TAU,rr=r*(1.2+hash(i+5)*1.4),x=cx+Math.cos(a)*rr,y=cy+Math.sin(a)*rr,tw=.35+.65*Math.sin(time*.002+i)**2;circle(x,y,.7+hash(i)*1.7,`rgba(137,240,222,${tw*.65})`)}
+      text('PROCESS COMPLETE',cx-r*.54,cy+r*1.92,12,'#9fe7da',1.3);
+    }
+    function updateCopy(index){if(index===shown)return;shown=index;copy.classList.add('out');const apply=()=>{const b=beats[index];chapter.textContent=b.chapter;title.innerHTML=b.title;desc.innerHTML=b.desc;trace.innerHTML=b.trace;count.textContent=String(index+1).padStart(2,'0');nav.forEach((el,i)=>{el.classList.toggle('active',i===index);if(i===index)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current')});copy.classList.remove('out')};if(reduce.matches)apply();else setTimeout(()=>{if(shown===index)apply()},155)}
+    function frame(now){let dt=Math.min(48,now-last||16);last=now;current+=((target-current)*(reduce.matches?1:1-Math.pow(.80,dt/16)));if(Math.abs(current-target)<.0001)current=target;
+      let p=current*4.5,scene=Math.min(4,Math.floor(p+.28)),fade=(a,b)=>smooth((p-a)/(b-a));
+      ctx.setTransform(DPR,0,0,DPR,0,0);ctx.globalAlpha=1;backdrop(false);
+      if(p<1.4){ctx.globalAlpha=1-fade(1.04,1.4);grid(.55);rack(now,fade(.37,1.35));ctx.globalAlpha=1}
+      if(p>.98&&p<2.64){ctx.globalAlpha=fade(.98,1.36)*(1-fade(2.32,2.64));tunnel(p-1.2,now);ctx.globalAlpha=1}
+      if(p>2.3&&p<3.66){ctx.globalAlpha=fade(2.3,2.65)*(1-fade(3.3,3.66));hub(p-2.4,now);ctx.globalAlpha=1}
+      if(p>3.29&&p<4.25){ctx.globalAlpha=fade(3.29,3.65)*(1-fade(4.02,4.25));workflow(p-3.3,now);ctx.globalAlpha=1}
+      if(p>4.0){ctx.globalAlpha=fade(4.0,4.3);finish(p-4,now);ctx.globalAlpha=1}
+      // Faint technical reticle ties all visual chapters together.
+      ctx.strokeStyle='rgba(145,216,216,.24)';ctx.lineWidth=1;let x=W*.5,y=H*.5;line(x-13,y,x-5,y,'rgba(145,216,216,.23)');line(x+5,y,x+13,y,'rgba(145,216,216,.23)');line(x,y-13,x,y-5,'rgba(145,216,216,.23)');line(x,y+5,x,y+13,'rgba(145,216,216,.23)');
+      progressBar.style.width=(current*100).toFixed(2)+'%';updateCopy(scene);requestAnimationFrame(frame)
+    }
+    requestAnimationFrame(frame);
+  })();
+  </script>
 </body>
 </html>
